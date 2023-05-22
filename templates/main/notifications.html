@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Notification
+{% endblock title %}
+
+{% block content %}
+
+
+
+<section class="section-conten padding-y bg">
+     {% include 'includes/alerts.html' %}
+     <div class="container">
+          <div class="row mt-2">
+
+               {% include 'includes/dashboard_sidebar.html' %}
+               <main class="col-md-9">
+                    <article class="card">
+                         <header class="card-header">
+                              <strong class="d-inline-block mr-3">
+                                   Notifications
+                              </strong>
+
+                         </header>
+                         <div class="card-body">
+
+                              <div class="row ">
+                                   <div class="col-md-12">
+
+
+                                        {% if notifications %}
+                                        <ol>
+                                             {% for notification in notifications %}
+                                             {% comment %} {{notification.is_seen}} {% endcomment %}
+
+                                             {% if notification.is_seen %}
+                                             {% if notification.notification_type == 'message' %}
+                                             <li>
+
+                                                  <a
+                                                       href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
+                                                       <strong class="text-secondary">{{notification.created_by.get_full_name}} was sended you a message.</strong> 
+                                                       <br>
+
+                                                       <small class="text-secondary">{{notification.created_at|timesince}}</small>
+                                                  </a>
+                                             </li>
+                                             {% elif notification.notification_type == 'application' %}
+                                             <li>
+
+                                                  <a
+                                                       href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
+                                                       <strong class="text-secondary">{{notification.created_by.get_full_name}} Applied for your job.</strong>
+                                                       
+                                                       <br>
+                                                       <small class="text-secondary" >{{notification.created_at|timesince}}</small>
+                                                  </a>
+                                             </li>
+
+                                             {% endif %}
+                                             {% else %}
+                                             {% if notification.notification_type == 'message' %}
+                                             <li>
+
+                                                  <a
+                                                       href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
+                                                       <strong >{{notification.created_by.get_full_name}}</strong> sent
+                                                       you a message.
+                                                       <br>
+
+                                                       <small>{{notification.created_at|timesince}}</small>
+                                                  </a>
+                                             </li>
+                                             {% elif notification.notification_type == 'application' %}
+                                             <li>
+
+                                                  <a
+                                                       href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
+                                                       <strong>{{notification.created_by.get_full_name}}</strong>
+                                                       Applied for your job.
+                                                       <br>
+                                                       <small>{{notification.created_at|timesince}}</small>
+                                                  </a>
+                                             </li>
+
+                                             {% endif %}
+                                             {% endif %}
+                                             {% endfor %}
+
+                                        </ol>
+
+                                        {% else %}
+                                        Have no notfication...
+                                        {% endif %}
+
+
+                                   </div>
+
+                              </div> <!-- row.// -->
+                         </div> <!-- card-body .// -->
+
+                    </article> <!-- order-group.// -->
+               </main>
+          </div> <!-- row.// -->
+     </div>
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Delete job
+{% endblock title %}
+
+{% block content %}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y bg">
+     {% include 'includes/alerts.html' %}
+     <div class="container mt-2">
+          <div class="row">
+               {% include 'includes/dashboard_sidebar.html' %}
+               <main class="col-md-9">
+                    <article class="card">
+                         <header class="card-header">
+                              <strong class="d-inline-block mr-3">All Jobs
+                              </strong>
+                         </header>
+                         <div class="card-body">
+                                   <h2>Do you want to delete this job<div class="d-inline text-danger">{{application.job}}</div> application?</h2>
+                                   <br>
+                                   <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <button type='submit' class="btn btn-danger">
+                                             Delete
+                                        </button>
+                                   </form>
+                                   
+                         </div> <!-- card-body .// -->
+
+                    </article> <!-- order-group.// -->
+               </main>
+          </div> <!-- row.// -->
+     </div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}

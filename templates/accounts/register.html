@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+     <div class="columns">
+          <div class="column is-6 is-offset-3">
+               <h1 class="title">Signup</h1>
+               {% include 'includes/alerts.html' %}
+               <form action="{% url 'register' %}" class="mx-1 mx-md-4" method="POST">
+                    {% csrf_token %}
+                    <h5>Email:</h5>
+                    {{form.email}}
+                    <h5>Password:</h5>
+                    {{form.password}}
+                    <h5>Confirm password:</h5>
+                    {{form.confirm_password}}                    
+                    <button type="submit" class="btn btn-primary mt-3">
+                         Sign Up
+                    </button>
+                    {{ form.email.errors }}
+                    {{form.non_field_errors}}
+               </form>
+          </div>
+     </div>
+</div>
+{% endblock  %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+     <div class="row">
+          <div class="col-md-9">
+               <h1>
+                    <b>
+                         {{job.title}}
+                    </b>
+               </h1>
+               <h5>
+                   Category : {{job.category}}
+               </h5>
+               <h6>
+                    <i class="fa-solid fa-tag"></i>:
+                    
+                    {% for tag in job.tags.all %}
+                         {{tag}},
+                    {% endfor %}
+                         
+               </h6>
+               <div class="mt-4">
+                    {{job.description|safe}}
+               </div>
+               <div class="mt-4">
+                    <h1>
+                         <b>
+                              About {{job.company_name}}
+                         </b>
+                    </h1>
+                    <div class="mt-4">
+                         {{job.company_description|safe}}
+                    </div>
+               </div>
+
+          </div>
+          <div class="col">
+               
+               <div class="container card">
+                   <p>
+                      <b>Website:</b> <a href="{{job.website_url}}">{{job.website_url}}</a>
+                   </p>
+                   <p>
+                      <b>Vacancy:</b> {{job.vacancy}}
+                   </p>
+                   <p>
+                      <b>Location:</b> {{job.location}}
+                   </p>
+                   <p>
+                      <b>Job Type:</b> {{job.job_type}}
+                   </p>
+                   <p>
+                      <b>Salary:</b> ৳{{job.salary}} /month
+                   </p>
+                   <p>
+                      <b>Deadline:</b> {{job.deadline}}
+                   </p>
+               </div>
+               {% if request.user.userprofile.role == "jobseeker" %}
+                    
+               <a href="{% url 'createApplication' job.id %}">
+                    <div class="mt-4 btn btn-primary">
+                         Apply
+                    </div>
+               </a>
+               {% endif %}
+                    
+          </div>
+     </div>
+</div>
+{% endblock %}

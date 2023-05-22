@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">Job Portal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% comment %} <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url '' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li> {% endcomment %}
+
+      </ul>
+      <form action="{% url 'searchJobs' %}"  method="GET" class="d-flex" role="search">
+        <input class="form-control me-2" type="search" name="keyword" placeholder="Search Jobs" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      
+      <a href="{% url 'allJobs' %}">
+
+        <button class="m-2 btn btn-success" type="submit">
+          All jobs
+        </button>
+      </a>
+      <ul class="navbar-nav  mb-2 mb-lg-0">
+
+        {% if user.is_authenticated %}
+
+        {% if user.userprofile %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'notifications' %}">
+            <div class="btn btn-warning">Notification({{notifications_count.count}})</div>
+          </a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">
+            <div class="btn btn-secondary">Dashboard</div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">
+            <div class="btn btn-danger">Logout</div>
+          </a>
+        </li>
+        {% else %}
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'login' %}">
+            <div class="btn btn-success">Login</div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'register' %}">
+            <div class="btn btn-outline-success">Register</div>
+          </a>
+        </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>

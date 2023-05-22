@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+     <h2 class="title">Latest Jobs</h2>
+     {% for job in jobs %}
+     <div class="card mb-2">
+          <div class="card-body ">
+               <div class="row">
+                    <div class="col-md-1">
+                         <img src="{{job.image.url}}" height="100px" width="100px" alt={{job.title}}>
+                    </div>
+                    <div class="col">
+                         <div class="row">
+                              <div class="col-md-9">
+                                   <h5>
+                                        <b>
+                                             <a href="{% url 'jobDetail' job.slug job.id %}">
+                                                  {{job.title}}
+                                             </a>
+                                        </b>
+                                   </h5>
+                              </div>
+                              <div class="col">
+                                   <b>
+                                        {{job.modified_at|date:'d M, Y'}}
+                                   </b>
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="col-md-9">
+                                   <div class="d-inline">
+                                        <i class="fa-solid fa-building"> </i> {{job.company_name}}
+                                        <i class="fa-solid fa-cube"> </i> {{job.job_type}}
+                                        <i class="fa-solid fa-location-dot"></i> {{job.location}}
+                                   </div>
+                              </div>
+                              <div class="col">
+                                   <i class="fa-solid fa-tag"></i>:
+
+                                   {% for tag in job.tags.all %}
+                                   {{tag}},
+                                   {% endfor %}
+                              </div>
+                         </div>
+
+                    </div>
+               </div>
+          </div>
+     </div>
+     {% endfor %}
+
+</div>
+{% endblock content %}

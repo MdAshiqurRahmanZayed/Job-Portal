@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Create job
+{% endblock title %}
+
+{% block content %}
+
+
+
+<section class="section-conten padding-y bg">
+     {% include 'includes/alerts.html' %}
+     <div class="container">
+          <div class="row mt-2">
+
+               {% include 'includes/dashboard_sidebar.html' %}
+               <main class="col-md-9">
+                    <article class="card">
+                         <header class="card-header">
+                              <strong class="d-inline-block mr-3">
+
+                                   {% if '/create-job/' in request.path %}
+                                   Create
+                                   {% else %}
+                                   Edit
+                                   {% endif %}
+
+                                   Job</strong>
+
+                         </header>
+                         <div class="card-body">
+
+                              <div class="row ">
+                                   <div class="col-md-12">
+
+                                        {% comment %} <form action="{% url 'createUserProfile' %}" method="POST"
+                                             enctype="multipart/form-data">
+                                             {% csrf_token %}
+                                             {{profile_form.as_p}}
+                                             <input type="submit" value="Save" class=" mt-2 btn btn-primary">
+
+                                             <form> {% endcomment %}
+
+                                                  {% if form.errors %}
+
+                                                  {% for error in form.errors %}
+                                                  <ul>
+                                                       <li class="text-danger">
+                                                            {{error}}
+                                                       </li>
+                                                  </ul>
+                                                  {% endfor %}
+
+                                                  {% endif %}
+
+                                                  {% if '/create-job/' in request.path %}
+
+                                                  <form action="{% url 'createJob' %}" method="POST"
+                                                       enctype="multipart/form-data">
+                                                       {% else %}
+
+                                                       <form action="" method="POST" enctype="multipart/form-data">
+                                                            {% endif %}
+
+                                                            {% csrf_token %}
+                                                            <div class="row">
+
+                                                                 {{form.as_p}}
+                                                                 {{form.media}}
+                                                                 
+                                                            </div>
+                                                            <input type="submit" value="Save"
+                                                                 class=" mt-2 btn btn-primary">
+                                                       </form>
+                                   </div>
+
+                              </div> <!-- row.// -->
+                         </div> <!-- card-body .// -->
+
+                    </article> <!-- order-group.// -->
+               </main>
+          </div> <!-- row.// -->
+     </div>
+</section>
+<script>
+          
+</script>
+
+{% endblock %}

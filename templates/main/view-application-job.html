@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{application}} Application
+{% endblock title %}
+
+{% block content %}
+
+
+
+<section class="section-conten padding-y bg">
+     {% include 'includes/alerts.html' %}
+     <div class="container">
+          <div class="row mt-2">
+
+               {% include 'includes/dashboard_sidebar.html' %}
+               <main class="col-md-9">
+                    <article class="card">
+                         <header class="card-header">
+                              <strong class="d-inline-block mr-3">
+                                   Application:{{application.job}}
+                              </strong>
+
+                         </header>
+                         <div class="card-body">
+
+
+
+                              <h4>
+                                   <b>
+                                        Job:{{application.job}}
+                                   </b>
+                              </h4>
+                              <h6>Date Added:{{application.created_at|date}}</h6>
+                              <h4>
+                                   <b>
+                                        Content:
+                                   </b>
+                              </h4>
+                              {{application.content|safe}}
+                              <h4 class="mt-3">
+                                   <b>
+                                        Resume:
+                                   </b>
+                              </h4>
+                              <a href="{{application.resume.url}}">
+                                   <div class="btn btn-outline-primary">
+                                        Check Resume
+                                   </div>
+                              </a>
+
+                         </div>
+                         {% if  request.user.userprofile.role == "employer" %}
+
+                         {% else %}
+                         <a href="{% url 'deleteApplication' application.id %}">
+                              <div class="btn btn-danger m-3">
+                                   Delete Application
+                              </div>
+                         </a>
+                         {% endif %}
+
+                         <hr>
+                         <div class="container">
+
+                              {% for message in application.conversationmessages.all %}
+                              <div style="background: aliceblue;" class="card p-2 mb-3">
+                                   <b>
+
+                                        {% if message.created_by.role == "employer" %}
+                                        Employer
+                                        {% else %}
+                                        Job Seeker
+                                        {% endif %}
+
+                                        - {{message.created_at|timesince}}
+                                   </b>
+                                   <br>
+                                   {{message.content}}
+                              </div>
+
+                              {% empty %}
+                              <p>
+                                   <b>
+                                        No Conversion yet...
+                                   </b>
+                              </p>
+                              {% endfor %}
+                              <br>
+                              <form id='myform' method="POST">
+                                   {% csrf_token %}
+                                   <h5>Message</h5>
+                                   {{form.content}}
+                                   <input class="btn btn-primary my-2" type="submit" value="Send">
+                              </form>
+                         </div>
+
+                    </article> <!-- order-group.// -->
+               </main>
+          </div> <!-- row.// -->
+     </div>
+</section>
+
+<script>
+
+     function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+
+
+     let form = document.getElementById('myform')
+
+     form.addEventListener("submit", sendChat)
+
+     e.preventDefault()
+     function sendChat(e) {
+          let chatMessage = document.getElementById('id_content').value
+          console.log(chatMessage)
+          const data = {
+               content:chatMessage
+          }
+          let url = "{% url 'sendMessages' application.id %}"
+          console.log(url)
+
+          async function postJSON(data) {
+               try {
+                    const response = await fetch(url, {
+                         method: "POST", // or 'PUT'
+                         headers: {
+                              "Content-Type": "application/json",
+                              "X-CSRFToken":csrftoken,
+                         },
+                         body: JSON.stringify(data),
+                    });
+
+                    const result = await response.json();
+                    console.log("Success:", result);
+                    .then(response=>{
+                         response.json()
+                    })
+                    .then(data=>{
+                         console.log("Success:", result);
+                    })
+               } catch (error) {
+                    console.error("Error:", error);
+               }
+          }
+
+          
+          postJSON(data);
+
+
+     }
+</script>
+
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y bg">
+     {% include 'includes/alerts.html' %}
+     <div class="container mt-2">
+          <div class="row">
+               {% include 'includes/dashboard_sidebar.html' %}
+               <main class="col-md-9">
+                    <article class="card">
+                         <header class="card-header">
+                              <strong class="d-inline-block mr-3">All Jobs
+                              </strong>
+                         </header>
+                         <div class="card-body">
+                              <div class="row">
+                                   {{application_set.all}}
+                                   {% if jobs %}
+
+                                   {% for job in jobs %}
+                                   <div class="card mb-2">
+                                        <div class="card-body ">
+                                             <div class="row">
+                                                  <div class="col-md-1">
+                                                       <img src="{{job.image.url}}" height="100px" width="100px"
+                                                            alt={{job.title}}>
+                                                  </div>
+                                                  <div class="col">
+                                                       <div class="row">
+                                                            <div class="col-md-9">
+                                                                 <h5>
+                                                                      <b>
+                                                                           <a href="{% url 'updateJob' job.id %}">
+                                                                                {{job.title}}
+                                                                           </a>
+                                                                      </b>
+                                                                 </h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                 <b>
+                                                                      {{job.modified_at|date:'d M, Y'}}
+                                                                 </b>
+                                                            </div>
+                                                       </div>
+                                                       <div class="row">
+                                                            <div class="col-md-9">
+                                                                 <div class="d-inline">
+                                                                      <i class="fa-solid fa-building"> </i>
+                                                                      {{job.company_name}}
+                                                                      <i class="fa-solid fa-cube"> </i> {{job.job_type}}
+                                                                      <i class="fa-solid fa-location-dot"></i>
+                                                                      {{job.location}}
+                                                                 </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                 <i class="fa-solid fa-tag"></i>:
+
+                                                                 {% for tag in job.tags.all %}
+                                                                 {{tag}},
+                                                                 {% endfor %}
+                                                            </div>
+                                                       </div>
+
+                                                  </div>
+                                             </div>
+                                             <div class="mt-3">
+                                                  <div class="row">
+                                                       <div class="col-md-9">
+                                                            <a href="{% url 'updateJob' job.id %}">
+                                                                 <div class="btn btn-primary">
+                                                                      Edit
+                                                                 </div>
+                                                            </a>
+                                                            <a href="{% url 'allApplicant' job.id %}">
+                                                                 <div class="btn btn-success">
+                                                                      Show Applicant
+                                                                 </div>
+                                                            </a>
+                                                            <br>
+                                                            <a href="{% url 'deleteJob' job.id %}">
+                                                                 <div class="mt-2 btn btn-danger">
+                                                                      Delete
+                                                                 </div>
+                                                            </a>
+                                                       </div>
+                                                       <div class="col-md-3 mt-3">
+                                                            Total Applicant:{{job.application_set.all.count}}
+                                                       </div>
+                                                  </div>
+                                             </div>
+
+                                        </div>
+                                   </div>
+                                   {% endfor %}
+                                   {% else %}
+                                   <h1>You do not create any jobs.</h1>
+                                   {% endif %}
+
+
+                              </div> <!-- row.// -->
+                         </div> <!-- card-body .// -->
+
+                    </article> <!-- order-group.// -->
+               </main>
+          </div> <!-- row.// -->
+     </div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}

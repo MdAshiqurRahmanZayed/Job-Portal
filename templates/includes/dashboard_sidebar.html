@@ -1,0 +1,44 @@
+<aside class="col-md-3">
+  <!--   SIDEBAR   -->
+  <ul class="list-group">
+    <a class="list-group-item {% if '/accounts/dashboard/' == request.path %}active{% endif %}"
+      href="{% url 'dashboard' %}">
+      Dashboard
+    </a>
+    {% if user.userprofile %}
+    <a class="list-group-item {% if '/notifications/' in request.path   %} active{% endif %}"
+      href="{% url 'notifications' %}"> Notification({{notifications_count.count}})</a>
+        {% if request.user.userprofile.role == "employer" %}
+
+        <a class="list-group-item {% if '/my-created-job/' in request.path or '/update-job/' in request.path or '/all-applicant/' in request.path or '/view-application/' in request.path %} active{% endif %}"
+          href="{% url 'myCreatedJobs' %}"> My Created Jobs </a>
+        <a class="list-group-item {% if '/create-job/' in request.path %}active{% endif %}"
+          href="{% url 'createJob' %}"> Create job </a>
+          {% elif request.user.userprofile.role == "jobseeker" %}
+          <a class="list-group-item {% if '/create-application-for-job/' in request.path or '/all-application/' in request.path or '/view-application/' in request.path or '/delete-application/' in request.path  %}active{% endif %}"
+            href="{% url 'allApplication' %}"> All application for jobs </a>
+            {% if request.user.userprofile.UserEducation %}
+            <a class="list-group-item {% if '/update-education/' in request.path  %}active{% endif %}"
+              href="{% url 'updateEducation' %}"> Update Education </a>
+            {% else %}
+              
+            <a class="list-group-item {% if '/create-education/' in request.path  %}active{% endif %}"
+              href="{% url 'createEducation' %}"> Create Education </a>
+            {% endif %}
+              
+
+        {% endif %}
+
+    <a class="list-group-item {% if '/update-user-profile/' in request.path %}active{% endif %}" href="{% url 'updateUserPeofile' %}">Update Profile</a>
+    {% else %}
+    <a class="list-group-item {% if '/create-user-profile/' in request.path %}active{% endif %}"
+      href="{% url 'createUserProfile' %}"> Create Profile </a>
+    {% endif %}
+    <a class="list-group-item {% if '/change-password/' in request.path %}active{% endif %}"
+      href="{% url 'change_password' %}"> Change Password </a>
+  </ul>
+  <br>
+  <a class="btn btn-danger btn-block mb-3" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span
+      class="text">Logout</span> </a>
+  <!--   SIDEBAR .//END   -->
+</aside>
