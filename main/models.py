@@ -46,8 +46,10 @@ class Job(models.Model):
     description = RichTextField()
     company_name = models.CharField(max_length=300)
     company_description = models.TextField(null=True,blank=True)
+    company_email = models.EmailField( max_length=254,null=False,blank=False)
     vacancy = models.IntegerField(null=True,blank=True)
-    image   = models.ImageField( null=True,blank=True, upload_to = "jobs/image",default="default.jpg") 
+    image = models.ImageField(
+        null=True, blank=True, upload_to="jobs/image", default="images/default/default.jpg")
     tags = TaggableManager()
     location = models.CharField(max_length=300,default="Worldwide")
     job_type = models.CharField(choices=JOB_TYPE, max_length=10)
@@ -121,4 +123,25 @@ class Notification(models.Model):
     class Meta:
         ordering = ['-created_at']
         
+class Contact(models.Model):
+    name    = models.CharField( max_length=50)
+    email   = models.EmailField( max_length=254)
+    message = models.TextField()
+    
+    created_at = models.DateTimeField(auto_now_add = True) 
+    modified_at = models.DateTimeField(auto_now = True)
+    
+    def __str__(self):
+        return  f'{self.name} - {self.email}'
+    
+class Review(models.Model):
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    description = models.CharField(max_length=200)
+    
+    created_at = models.DateTimeField(auto_now_add = True) 
+    modified_at = models.DateTimeField(auto_now = True)
+    show = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f'{self.user.user}'
     

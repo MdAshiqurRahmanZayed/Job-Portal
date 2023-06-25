@@ -1,53 +1,250 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
-     <h2 class="title">Latest Jobs</h2>
-     {% for job in jobs %}
-     <div class="card mb-2">
-          <div class="card-body ">
-               <div class="row">
+{% load static %}
+<section class="hero-section">
+    <div class="container">
+        <h2 class="subtitle">Find your dream job</h2>
+        <p>Discover the best job opportunities tailored for you.</p>
+    </div>
+</section>
+
+<section class="section how-it-works-section">
+    <div class="container">
+        <h2 class="title">How It Works</h2>
+        <div class="row ">
+            <div class="conatiner step  col-md-4">
+                <div class=" container image d-flex justify-content-center">
+                    <div class="step-icon">
+                        <img src="{% static 'images/create-profile.jpg' %}" alt="Step 1">
+                    </div>
+                </div>
+                <div class="step-details">
+                    <h2>Create your profile</h2>
+                </div>
+            </div>
+            <div class="conatiner step col-md-4">
+                <div class=" container step-icon-search-job-image d-flex justify-content-center">
+                    <div class=" step-icon-search-job">
+                        <img src="{% static 'images/search-job.jpg' %}" alt="Step 2">
+                    </div>
+                </div>
+                <div class="step-details">
+                    <h2>Browse job listings</h2>
+                </div>
+            </div>
+            <div class="conatiner step col-md-4">
+                <div class=" container image d-flex justify-content-center">
+                    <div class="step-icon ">
+                        <img src="{% static 'images/apply.png' %}" alt="Step 1">
+                    </div>
+                </div>
+                <div class="step-details">
+                    <h2>Apply and get hired</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section top-categories">
+    <div class="row m-2 top-categories-rows ">
+        <h1 class="text-center mb-3">Browse From Top Categories</h1>
+        <h4 class="text-secondary text-center p-2 mb-2">A job portal is a powerful platform that connects job
+            seekers <br> and employers, facilitating the process of finding and hiring talent.<br> It provides a
+            centralized hub where job seekers can explore a wide range of job <br> opportunities and employers can
+            advertise their vacancies.</h4>
+
+        <div class="col-md-3 m-3 card card-content-main ">
+            <div class="card-content ">
+                <div class="cat-icons">
+                    <img src="{% static 'images/top-cat1.svg' %}" alt="">
+                </div>
+                <h3 class="card-title">Design & creatives</h3>
+                <p class="card-description"> Develop a unique and memorable logo that represents your job portal's
+                    identity</p>
+            </div>
+        </div>
+        <div class="col-md-3 m-3 card card-content-main">
+            <div class="card-content">
+                <div class="cat-icons">
+                    <img src="{% static 'images/top-cat2.svg' %}" alt="">
+                </div>
+                <h3 class="card-title">Finance</h3>
+                <p class="card-description">A job portal focused on the finance industry offers a platform where finance
+                    professionals and employers in the finance sector can connect and interact</p>
+            </div>
+        </div>
+        <div class="col-md-3 m-3 card card-content-main">
+            <div class="card-content">
+                <div class="cat-icons">
+                    <img src="{% static 'images/top-cat3.svg' %}" alt="">
+                </div>
+                <h3 class="card-title">Marketing</h3>
+                <p class="card-description">A job portal focused on the finance industry offers a platform where finance
+                    professionals and employers in the finance sector can connect and interact</p>
+            </div>
+        </div>
+        <div class="col-md-3 m-3 card card-content-main">
+            <div class="card-content">
+                <div class="cat-icons">
+                    <img src="{% static 'images/top-cat4.svg' %}" alt="">
+                </div>
+                <h3 class="card-title">Health/Medical</h3>
+                <p class="card-description">A job portal focused on the Health/Medical industry is a platform that
+                    connects healthcare professionals with job opportunities in the field.</p>
+            </div>
+        </div>
+        <div class="col-md-3 m-3 card card-content-main">
+            <div class="card-content">
+                <div class="cat-icons">
+                    <img src="{% static 'images/top-cat5.svg' %}" alt="">
+                </div>
+                <h3 class="card-title">Corporate</h3>
+                <p class="card-description">A corporate job portal is an online platform specifically designed to
+                    connect job seekers with corporate organizations.</p>
+            </div>
+        </div>
+        <div class="col-md-3 m-3 card card-content-main">
+            <div class="card-content">
+                <div class="cat-icons">
+                    <img src="{% static 'images/top-cat6.svg' %}" alt="">
+                </div>
+                <h3 class="card-title">Copywriting</h3>
+                <p class="card-description">Find your dream job and unlock new career opportunities with our
+                    comprehensive job portal. We connect talented professionals like you with leading businesses across
+                    various industries. </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<section class="section find-talent">
+    <div class="row">
+        <div class="col-md-6 container">
+            <div style="position: relative;" class="container">
+                <img class="how-it-works-img" src="{% static 'images/about.png' %}" alt="">
+            </div>
+
+        </div>
+        <div class="col-md-6 container">
+            <div class="container">
+
+                <h1>We Build Lasting <br> Relationships <br>Between Candidates <br>& Businesses</h1>
+                <h5>Our platform serves as a bridge connecting talented candidates with reputable businesses,
+                    fostering meaningful and long-term partnerships.</h5>
+                <h5>job seekers can explore a wide range of career opportunities across various industries and
+                    locations. They can create personalized profiles, highlight their skills and experience, and
+                    browse through job listings that match their interests and qualifications.</h5>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section class="testimonials container mt-5">
+    <h1 class="testimonials mt-5">Our Review</h1>
+    <div class="container">
+        <!-- ... Your HTML and CSS code ... -->
+
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Carousel indicators -->
+            <ul class="carousel-indicators">
+                {% for index in testimonials %}
+                <li data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}"
+                    {% if forloop.first %}class="active" {% endif %}>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Wrapper for carousel items -->
+            <div class="carousel-inner">
+                {% for testimonial in testimonials %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    {% comment %} {{{{ testimonial.user.user.userprofile.profile_picture.url }}}} {% endcomment %}
+                    <div class="img-box"><img src="{{ testimonial.user.user.userprofile.profile_picture.url }}" alt="">
+                    </div>
+                    <p class="testimonial">{{ testimonial.description }}</p>
+                    <p class="overview"><b>{{ testimonial.user.user.userprofile.get_full_name }}</b>
+                        {{ testimonial.user.user.userprofile.occupation }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Carousel controls -->
+            <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                <i class="fa fa-angle-left"></i>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </div>
+
+        <!-- ... Rest of your HTML code ... -->
+
+    </div>
+</section>
+<section class="section companies-section">
+    <div class="container">
+        <h2 class="title">Latest Jobs</h2>
+        {% for job in jobs %}
+        <div class="card mb-2">
+            <div class="card-body ">
+                <div class="row">
                     <div class="col-md-1">
-                         <img src="{{job.image.url}}" height="100px" width="100px" alt={{job.title}}>
+                        <img src="{{job.image.url}}" height="100px" width="100px" alt={{job.title}}>
                     </div>
                     <div class="col">
-                         <div class="row">
-                              <div class="col-md-9">
-                                   <h5>
-                                        <b>
-                                             <a href="{% url 'jobDetail' job.slug job.id %}">
-                                                  {{job.title}}
-                                             </a>
-                                        </b>
-                                   </h5>
-                              </div>
-                              <div class="col">
-                                   <b>
-                                        {{job.modified_at|date:'d M, Y'}}
-                                   </b>
-                              </div>
-                         </div>
-                         <div class="row">
-                              <div class="col-md-9">
-                                   <div class="d-inline">
-                                        <i class="fa-solid fa-building"> </i> {{job.company_name}}
-                                        <i class="fa-solid fa-cube"> </i> {{job.job_type}}
-                                        <i class="fa-solid fa-location-dot"></i> {{job.location}}
-                                   </div>
-                              </div>
-                              <div class="col">
-                                   <i class="fa-solid fa-tag"></i>:
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5>
+                                    <b>
+                                        <a href="{% url 'jobDetail' job.slug job.id %}">
+                                            {{job.title}}
+                                        </a>
+                                    </b>
+                                </h5>
+                            </div>
+                            <div class="col">
+                                <b>
+                                    {{job.modified_at|date:'d M, Y'}}
+                                </b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="d-inline">
+                                    <i class="fa-solid fa-building"> </i> {{job.company_name}}
+                                    <i class="fa-solid fa-cube"> </i> {{job.job_type}}
+                                    <i class="fa-solid fa-location-dot"></i> {{job.location}}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <i class="fa-solid fa-tag"></i>:
 
-                                   {% for tag in job.tags.all %}
-                                   {{tag}},
-                                   {% endfor %}
-                              </div>
-                         </div>
+                                {% for tag in job.tags.all %}
+                                {{tag}},
+                                {% endfor %}
+                            </div>
+                        </div>
 
                     </div>
-               </div>
-          </div>
-     </div>
-     {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
-</div>
+
+<section class="section contact-us-section">
+    <div class="container d-flex justify-content-center">
+        <a href="{% url 'contactUs' %}">
+
+            <button class='custome-button'>Contact Us</button>
+
+        </a>
+
+    </div>
+</section>
+
 {% endblock content %}

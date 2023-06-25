@@ -15,10 +15,13 @@
                     <i class="fa-solid fa-tag"></i>:
                     
                     {% for tag in job.tags.all %}
-                         {{tag}},
+                    {{tag}},
                     {% endfor %}
-                         
+                    
                </h6>
+               <h5>
+                   Created by : <a href="{% url 'showUserProfile' job.user.id %}">{{job.user.get_full_name}}</a> 
+               </h5>
                <div class="mt-4">
                     {{job.description|safe}}
                </div>
@@ -39,6 +42,9 @@
                <div class="container card">
                    <p>
                       <b>Website:</b> <a href="{{job.website_url}}">{{job.website_url}}</a>
+                   </p>
+                   <p>
+                      <b>Email:</b> {{job.company_email}}</a>
                    </p>
                    <p>
                       <b>Vacancy:</b> {{job.vacancy}}

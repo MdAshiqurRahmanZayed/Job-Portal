@@ -1,9 +1,14 @@
 from django.contrib import admin
 from django.urls import path,include
 from .views import *
+from rest_framework import routers
+router = routers.DefaultRouter()
+router.register("", apiConversion, 'post')
 
 urlpatterns = [
     path('',home,name='home'),
+    path('api/conversion/', include(router.urls)),
+
     path('all-jobs/',allJobs,name='allJobs'),
     path('search/', searchJobs, name="searchJobs"),
     path('job-detail/<str:slug>/<int:pk>/',jobDetail,name='jobDetail'),
@@ -23,6 +28,10 @@ urlpatterns = [
     #notification
     path('notifications/', notifications, name='notifications'),
     path('send-messages/<int:pk>/', sendMessages, name='sendMessages'),
-    
+    path('api/chat/<int:application_id>', ChatMessageAPIView.as_view(), name='chat-api'),
+    path('api/chat/', ChatMessageAPIView.as_view(), name='chat'),
+    path('contact-us/', contactUs, name='contactUs'),
+    path('review/', Review_website, name='Review_website'),
+
 
 ]

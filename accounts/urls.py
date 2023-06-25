@@ -6,11 +6,14 @@ urlpatterns = [
     path('login/',login,name='login'),
     path('logout/',logout,name='logout'),
     path('change-password/', change_password, name='change_password'),
-    path('create-user-profile/', createUserProfile, name='createUserProfile'),
-    path('update-user-profile/', updateUserPeofile, name='updateUserPeofile'),
     
     path('dashboard/',dashboard,name='dashboard'),
     
+    #profile
+        
+    path('profile/<int:id>', showUserProfile, name='showUserProfile'),
+    path('create-user-profile/', createUserProfile, name='createUserProfile'),
+    path('update-user-profile/', updateUserPeofile, name='updateUserPeofile'),
     
     
     

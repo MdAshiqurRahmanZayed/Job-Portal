@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Review Website
+{% endblock title %}
+
+{% block content %}
+
+
+
+<section class="section-conten padding-y bg">
+     {% include 'includes/alerts.html' %}
+     <div class="container">
+          <div class="row mt-2">
+
+               {% include 'includes/dashboard_sidebar.html' %}
+               <main class="col-md-9">
+                    <article class="card">
+                         <header class="card-header">
+                              <strong class="d-inline-block mr-3">
+                                   Review website
+                              </strong>
+
+                         </header>
+                         <div class="card-body">
+
+                              <div class="row ">
+                                   <div class="col-md-12">
+                                        <form action="" method = "POST">
+                                             {% csrf_token %}
+                                             <label for="exampleFormControlTextarea1" class="form-label">
+                                                  <h2>
+                                                       Review our website
+                                                  </h2>
+                                             </label>
+                                             <textarea name='description' class="form-control" rows="5" >{{data.description}}</textarea>
+                                             <button class="btn btn-primary mt-2">Submit</button>
+                                        </form>
+
+
+                                   </div>
+
+                              </div> <!-- row.// -->
+                         </div> <!-- card-body .// -->
+
+                    </article> <!-- order-group.// -->
+               </main>
+          </div> <!-- row.// -->
+     </div>
+</section>
+<script>
+
+</script>
+
+{% endblock %}

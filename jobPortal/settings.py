@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'taggit',
     'mptt',
+    'rest_framework',
     
 ]
 

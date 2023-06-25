@@ -8,6 +8,8 @@
     {% if user.userprofile %}
     <a class="list-group-item {% if '/notifications/' in request.path   %} active{% endif %}"
       href="{% url 'notifications' %}"> Notification({{notifications_count.count}})</a>
+    <a class="list-group-item {% if '/review/' in request.path   %} active{% endif %}"
+      href="{% url 'Review_website' %}"> Review</a>
         {% if request.user.userprofile.role == "employer" %}
 
         <a class="list-group-item {% if '/my-created-job/' in request.path or '/update-job/' in request.path or '/all-applicant/' in request.path or '/view-application/' in request.path %} active{% endif %}"

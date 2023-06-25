@@ -136,6 +136,7 @@ def createUserProfile(request):
 
 def updateUserPeofile(request):
      userProfile = get_object_or_404(UserProfile,user = request.user)
+     phone_numbers = userProfile.phone_number.split(',')
      
      if request.method == "POST":
           try:
@@ -152,10 +153,16 @@ def updateUserPeofile(request):
           profile_form = updateProfile(instance = userProfile)
      context ={
           'profile_form':profile_form,
+          'phone_numbers': phone_numbers,
      }
      return render(request,'accounts/create_profile.html',context)
      
-     
+def showUserProfile(request,id):
+     userprofile = UserProfile.objects.get(id=id)
+     context = {
+         'userprofile': userprofile
+     }
+     return render(request,'accounts/profile.html',context)
      
      
      

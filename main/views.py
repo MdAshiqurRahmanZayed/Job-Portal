@@ -1,3 +1,7 @@
+from rest_framework.views import APIView
+from .serializers import ChatMessageSerializer
+# from .models import ChatMessage
+from rest_framework.response import Response
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -8,14 +12,16 @@ from django.http import JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from mptt.templatetags.mptt_tags import tree_info
 from django.db.models import Q
+from rest_framework import viewsets, views
 
 # Create your views here.
 def home(request):
-     
-     jobs = Job.objects.filter(is_published=True).order_by('-id')[:5]
+     testimonials = Review.objects.filter(show = True) 
+     jobs = Job.objects.filter(is_published=True).order_by('-id')[:3]
           
      context = {
-          "jobs":jobs
+          "jobs":jobs,
+          "testimonials": testimonials,
      }
      return render(request,'home.html',context)
 
@@ -195,7 +201,9 @@ def viewApplication(request,pk):
           application = get_object_or_404(Application,job__user = request.user.userprofile , id=pk)
      else:
           application = get_object_or_404(Application,user = request.user.userprofile , id=pk)
-          
+     # messages = ConversationMessages.objects.all()
+     # serializer = ChatMessageSerializer(messages, many=True)
+     # return Response(serializer.data)     
      if request.method == "POST":
           form = ConversationMessagesForm(request.POST or None)
           if form.is_valid():
@@ -203,7 +211,7 @@ def viewApplication(request,pk):
                form.created_by = request.user.userprofile
                form.application = application
                form.save()
-               print(application.user)
+               # print(application.user)
                if request.user.userprofile.role == "employer":
                     create_notification(request, application.user, 'message', extra_id=application.id)
                else:
@@ -269,6 +277,60 @@ def notifications(request):
 
     return render(request, 'main/notifications.html')
 
-def sendMessages(request,pk):
-     print("scfds")
-     return JsonResponse('it is working',safe=False)
+
+def sendMessages(request, pk):
+    print("scfds")
+    return JsonResponse('it is working', safe=False)
+
+
+class ChatMessageAPIView(APIView):
+    def get(self, request, application_id):
+        messages = ConversationMessages.objects.filter(application__id = application_id )
+        serializer = ChatMessageSerializer(messages, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, application_id):
+        serializer = ChatMessageSerializer(data=request.data,application__id = application_id)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+   
+
+class apiConversion(viewsets.ModelViewSet):
+    queryset = ConversationMessages.objects.all().order_by('-id')
+    serializer_class = ChatMessageSerializer
+
+
+def contactUs(request):
+     if request.method=="POST":
+          name = request.POST['name']
+          email = request.POST['email']
+          message = request.POST['message']
+          contact_us = Contact.objects.create(name=name,email=email,message=message)
+          contact_us.save()
+          return redirect('home')
+          
+           
+     return render(request,'main/contact-us.html')
+     
+#Riview
+def Review_website(request):
+     try:
+         data = Review.objects.get(user=request.user.userprofile)
+     except:
+          data = ''
+     if request.method == "POST":
+          if data:
+               description = request.POST['description']
+               Review.objects.update(description= description)
+               
+          else:
+               description = request.POST['description']
+               data = Review.objects.create(description = description,user= request.user.userprofile)
+          return redirect('Review_website')
+     context = {
+          'data':data
+     }
+     return render(request,'main/review.html',context)

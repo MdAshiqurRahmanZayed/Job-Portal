@@ -1,7 +1,8 @@
 import email
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager 
-
+from taggit.managers import TaggableManager,TaggedItem
+from taggit.models import TaggedItemBase,TagBase,Tag,ItemBase
 # Create your models here.
 class MyAccountManager(BaseUserManager):
      def create_user(self,username,email,password=None):
@@ -72,7 +73,7 @@ class Account(AbstractBaseUser):
    
    
 # User profile
-JOB_TYPE = (
+GENDER_TYPE = (
     ('M', "Male"),
     ('F', "Female"),
 )
@@ -102,13 +103,17 @@ class UserProfile(models.Model):
     nid_image       = models.ImageField(blank=False,null=False, upload_to='images/nid')
     birth_date      = models.DateField( auto_now=False, auto_now_add=False)
     website         = models.CharField(max_length=70,blank=True,null=True)
-    linkedin        = models.CharField(blank=True,null=True, max_length=50)
+    linkedin        = models.CharField(blank=False,null=False, max_length=50)
     about           = models.TextField()
     phone_number    = models.CharField(max_length=50,blank=False,null=False)
-    profile_picture = models.ImageField(blank=True,null=True, upload_to='images/profile',default='images/man.png')
+    profile_picture = models.ImageField(
+        blank=True, null=True, upload_to='images/profile', default='images/default/man.png')
+    background_profile_picture = models.ImageField(
+        blank=True, null=True, upload_to='images/default/background-profile')
     present_address  = models.CharField(blank=False,null=False, max_length=100)
     permanent_address  = models.CharField(blank=False,null=False, max_length=100)
-    gender = models.CharField(blank=False,null=False, choices=JOB_TYPE, max_length=1)
+    gender = models.CharField(blank=False, null=False,
+                              choices=GENDER_TYPE, max_length=1)
     marital_status = models.CharField(blank=False,null=False, max_length=20 ,choices=MARITAL_STATUS)
     
     role = models.CharField(choices=ROLE,  max_length=10)

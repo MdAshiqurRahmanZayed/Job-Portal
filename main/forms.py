@@ -13,7 +13,8 @@ class jobForms(forms.models.ModelForm):
 
      class Meta:
           model = Job
-          fields = ['title', 'category','description','company_name','company_description','vacancy','image',"tags",'location','job_type','salary','website_url','deadline','is_published','is_closed']
+          fields = ['title', 'category', 'description', 'company_name', 'company_description', 'company_email', 'vacancy',
+                    'image', "tags", 'location', 'job_type', 'salary', 'website_url', 'deadline', 'is_published', 'is_closed']
      
      
      def __init__(self, *args, **kwargs):

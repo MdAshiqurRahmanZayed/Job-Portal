@@ -1,3 +1,5 @@
+from django import forms
+from .models import UserProfile
 from django import forms 
 from .models import Account,UserProfile,Education
 
@@ -48,19 +50,24 @@ class createProfile(forms.models.ModelForm):
      def __init__(self, *args, **kwargs):
           super(createProfile, self).__init__(*args, **kwargs)
           for field in self.fields:
-               self.fields[field].widget.attrs['class'] = 'form-control'
-               
+              self.fields[field].widget.attrs['class'] = 'form-control'
+
+
+
 class updateProfile(forms.models.ModelForm):
+
      class Meta:
           model = UserProfile
-          fields = ['first_name', 'last_name','father_name','mother_name','religion','nationality','occupation','nid_no','nid_image','birth_date','website','linkedin','about','phone_number','profile_picture','present_address','permanent_address','gender','marital_status']
+          fields = ['first_name', 'last_name', 'father_name', 'mother_name', 'religion', 'nationality', 'occupation', 'nid_no', 'nid_image', 'birth_date', 'website',
+                    'linkedin', 'about', 'phone_number', 'profile_picture', 'background_profile_picture', 'present_address', 'permanent_address', 'gender', 'marital_status']
           
      
      def __init__(self, *args, **kwargs):
           super(updateProfile, self).__init__(*args, **kwargs)
+
           for field in self.fields:
                self.fields[field].widget.attrs['class'] = 'form-control'
-       
+
        
 class dateInput(forms.DateInput):
      input_type = "date"
