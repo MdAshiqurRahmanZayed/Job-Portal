@@ -24,10 +24,21 @@
                                    <div class="card mb-2">
                                         <div class="card-body ">
                                              <div class="row">
+                                                  
+                                                  {% if job.image %}
+                                                       
                                                   <div class="col-md-1">
                                                        <img src="{{job.image.url}}" height="100px" width="100px"
                                                             alt={{job.title}}>
                                                   </div>
+                                                  {% else %}
+                                                  <div class="col-md-1">
+                                                       <img src="{% static 'images/default.jpg' %}" height="100px" width="100px"
+                                                            alt={{job.title}}>
+                                                  </div>
+
+                                                  {% endif %}
+                                                       
                                                   <div class="col">
                                                        <div class="row">
                                                             <div class="col-md-9">

@@ -202,10 +202,10 @@ footer {
      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
      transform: scale(1.1);
 }
-.top-categories {
+/* .top-categories {
 
 
-}
+} */
  .custome-button {
       --b: 3px;
       /* border thickness */

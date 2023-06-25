@@ -47,9 +47,9 @@ class Job(models.Model):
     company_name = models.CharField(max_length=300)
     company_description = models.TextField(null=True,blank=True)
     company_email = models.EmailField( max_length=254,null=False,blank=False)
-    vacancy = models.IntegerField(null=True,blank=True)
-    image = models.ImageField(
+    company_image = models.ImageField(
         null=True, blank=True, upload_to="jobs/image", default="images/default/default.jpg")
+    vacancy = models.IntegerField(null=True,blank=True)
     tags = TaggableManager()
     location = models.CharField(max_length=300,default="Worldwide")
     job_type = models.CharField(choices=JOB_TYPE, max_length=10)
