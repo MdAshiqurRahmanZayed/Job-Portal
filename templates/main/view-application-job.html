@@ -24,6 +24,9 @@
 
                          </header>
                          <div class="card-body" id="reload">
+                              <div class="chat-messages">
+
+                              </div>
 
 
 
@@ -33,16 +36,18 @@
                                    </b>
                               </h4>
                               <h5>Date Added:{{application.created_at|date}}</h5>
-                              <h5>Created by: <a href="{% url 'showUserProfile' application.user.id %}">{{application.user.get_full_name}}</a> </h5>
+                              <h5>Created by: <a
+                                        href="{% url 'showUserProfile' application.user.id %}">{{application.user.get_full_name}}</a>
+                              </h5>
                               <h4>
                                    <b>
                                         Content:
                                    </b>
                               </h4>
                               {{application.content|safe}}
-                              
-                               
-                               
+
+
+
                               <h4 class="mt-3">
                                    <b>
                                         Resume:
@@ -68,7 +73,9 @@
                          <hr>
                          <div class="container" id="chat-body">
 
-                              {% for message in application.conversationmessages.all %}
+
+
+                              {% comment %} {% for message in application.conversationmessages.all %}
                               <div style="background: aliceblue;" id="chat-box-sent" class="card p-2 mb-3">
                                    <b>
                                         {% if message.created_by.role == "employer" %}
@@ -80,7 +87,10 @@
                                         - {{message.created_at|timesince}}
                                    </b>
                                    <br>
-                                   {{message.content}}
+                                   <div class="chat">
+
+                                        {{message.content}}
+                                   </div>
                               </div>
 
                               {% empty %}
@@ -89,16 +99,25 @@
                                         No Conversion yet...
                                    </b>
                               </p>
-                              {% endfor %}
-                              <div id="chat-messages">
+                              {% endfor %} {% endcomment %}
+                              
+                              
+                              <div id="chat-messages" style="background: #e5eaee;;"  class="card p-2 mb-3">
                                    <!-- Existing chat messages will be displayed here -->
+                                   <div id="single-chat">
+
+                                   </div>
+                              
                               </div>
+                                   
                               <br>
                               <form id='myform' method="POST">
                                    {% csrf_token %}
                                    <h5>Message</h5>
                                    {{form.content}}
-                                   <input class="btn btn-primary my-2" type="submit" value="Send">
+                                   <button class="btn btn-primary my-2" type="submit">Send</button>
+                                   {% comment %} <input class="btn btn-primary my-2" type="submit" value="Send"> {% endcomment %}
+                                  
                               </form>
                          </div>
 
@@ -106,9 +125,110 @@
                </main>
           </div> <!-- row.// -->
      </div>
-     
-    
+
+
 </section>
+
+<script>
+$(document).ready(function() {
+    // Function to send the form data and update chat messages
+    function sendMessage() {
+        // Get the form data
+        var formData = $('#myform').serialize();
+
+        // Send the form data via AJAX
+        $.ajax({
+            type: 'POST',
+            url: $('#myform').attr('action'),
+            data: formData,
+            success: function(response) {
+                // Clear the form input field
+                $('#id_content').val('');
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+
+    // Intercept the form submission event
+    $('#myform').submit(function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
+        // Send the form data and update chat messages
+        sendMessage();
+    });
+    function fetchMessages() {
+    const id = {{application.id}};
+    let fetchRes = fetch("http://127.0.0.1:8000/api/chat-messages/" + id + "/");
+    fetchRes
+        .then(res => res.json())
+        .then(data => {
+            const chatMessages = data;
+            const chatMessagesContainer = document.getElementById("single-chat");
+            
+            // Clear the chat messages container
+            chatMessagesContainer.innerHTML = "";
+            
+            // Iterate over the chat messages and append them to the container
+            chatMessages.forEach(message => {
+                const messageElement = document.createElement("div");
+                messageElement.className = "card p-2 mb-3";
+                messageElement.style.background = "aliceblue";
+                const createdBy = message.created_by;
+                let role;  // Define the role variable outside the if statement
+
+               if (createdBy !== {{ application.user.id }}) {
+               role = 'Employer';
+               } else {
+               role = 'Job Seeker';
+               }
+
+
+                const createdAt = moment(message.created_at).fromNow();
+               messageElement.innerHTML = `
+                    <b>${role} - ${createdAt}</b><br>
+                    <div class="chat">${message.content}</div>
+                `;
+               // messageElement.textContent = message.content;
+                chatMessagesContainer.appendChild(messageElement);
+            });
+        })
+        .catch(error => {
+            console.log("Error:", error);
+        });
+}
+
+// Call the fetchMessages function
+fetchMessages();
+
+// Optionally, you can use setInterval to periodically fetch and update the chat messages
+setInterval(fetchMessages, 1000);  // Fetch every 5 seconds (adjust as needed)
+
+	// API for get requests 
+    //   function fetchMessag(){
+       //   const id = {{application.id}}
+          //  let fetchRes = fetch(
+          //  "http://127.0.0.1:8000/api/chat-messages/"+id+'/');
+            // fetchRes is the promise to resolve
+            // it by using.then() method
+        //    fetchRes.then(res =>
+           //      res.json()).then(d => {
+              //      const chatMessages = d ;
+                    
+                 //     console.log(chatMessages)
+                      
+             //    })
+       //}
+
+    // Periodically fetch and update chat messages
+    //setInterval(fetchMessag, 5000);  // Adjust the interval as needed (in milliseconds)
+});
+
+
+</script>
 
 
 {% comment %} <script>
@@ -152,21 +272,21 @@
                          },
                          body: JSON.stringify(data),
                     });
-                   
+
                     const result = await response.json();
-                     if ('{{request.user.userprofile.id}}'==result.created_by){
-                         user="Employer"
-                    }
-                    else{
-                         user="Job Seeker"
+                    if ('{{request.user.userprofile.id}}' == result.created_by) {
+                         user = "Employer"
+                    } else {
+                         user = "Job Seeker"
                     }
                     console.log('{{request.user.userprofile.id}}')
-                         // Example usage
+                    // Example usage
                     var myDate = moment(result.created_at);
                     var timeAgo = myDate.fromNow();
                     console.log(timeAgo);
                     $('#chat-messages').append(
-                         '<div style="background: aliceblue;" id="chat-box-sent" class="card p-2 mb-3"> <b> '+ user + ' - '+timeAgo + '</b> <br> '+result.content+ '</div>'
+                         '<div style="background: aliceblue;" id="chat-box-sent" class="card p-2 mb-3"> <b> ' +
+                         user + ' - ' + timeAgo + '</b> <br> ' + result.content + '</div>'
                     );
                     document.getElementById("id_content").value = ""
                     console.log("Success:", result);
@@ -182,13 +302,12 @@
      }
      console.log('{{application.id}}')
      // Function to reload the page
-function reloadPage(event) {
-event.preventDefault()
-  location.reload();
-}
+     function reloadPage(event) {
+          event.preventDefault()
+          location.reload();
+     }
 
-// Set the interval to refresh every 1 second (1000 milliseconds)
-setInterval(reloadPage, 1000);
-
+     // Set the interval to refresh every 1 second (1000 milliseconds)
+     setInterval(reloadPage, 1000);
 </script> {% endcomment %}
 {% endblock %}

@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import Account,UserProfile
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
-from taggit.managers import TaggableManager
+# from taggit.managers import TaggableManager
 import string
 from django.utils.crypto import get_random_string
 
@@ -50,7 +50,6 @@ class Job(models.Model):
     company_image = models.ImageField(
         null=True, blank=True, upload_to="jobs/image", default="images/default/default.jpg")
     vacancy = models.IntegerField(null=True,blank=True)
-    tags = TaggableManager()
     location = models.CharField(max_length=300,default="Worldwide")
     job_type = models.CharField(choices=JOB_TYPE, max_length=10)
     salary = models.CharField(max_length=30, blank=True)
@@ -136,7 +135,7 @@ class Contact(models.Model):
     
 class Review(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=400)
     
     created_at = models.DateTimeField(auto_now_add = True) 
     modified_at = models.DateTimeField(auto_now = True)

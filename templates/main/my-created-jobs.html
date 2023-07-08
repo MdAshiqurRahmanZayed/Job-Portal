@@ -24,21 +24,21 @@
                                    <div class="card mb-2">
                                         <div class="card-body ">
                                              <div class="row">
-                                                  
+
                                                   {% if job.image %}
-                                                       
+
                                                   <div class="col-md-1">
                                                        <img src="{{job.image.url}}" height="100px" width="100px"
                                                             alt={{job.title}}>
                                                   </div>
                                                   {% else %}
                                                   <div class="col-md-1">
-                                                       <img src="{% static 'images/default.jpg' %}" height="100px" width="100px"
-                                                            alt={{job.title}}>
+                                                       <img src="{% static 'images/default.jpg' %}" height="100px"
+                                                            width="100px" alt={{job.title}}>
                                                   </div>
 
                                                   {% endif %}
-                                                       
+
                                                   <div class="col">
                                                        <div class="row">
                                                             <div class="col-md-9">
@@ -67,11 +67,11 @@
                                                                  </div>
                                                             </div>
                                                             <div class="col">
-                                                                 <i class="fa-solid fa-tag"></i>:
-
-                                                                 {% for tag in job.tags.all %}
-                                                                 {{tag}},
-                                                                 {% endfor %}
+                                                                 {% comment %} <i class="fa-solid fa-tag"></i>:
+                                                                 {% endcomment %}
+                                                                 <i class="fa fa-list-alt" aria-hidden="true"></i>:
+                                                                 <a
+                                                                      href="{% url 'categoriesJobs' job.category.slug %}">{{job.category}}</a>
                                                             </div>
                                                        </div>
 

@@ -1,107 +1,163 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
 
 <div class="container d-flex justify-content-center p-4">
      <div class="col-md-8">
           <!-- Column -->
-          <div class="card">
-               {% if userprofile.background_profile_picture %}
-                    
-               <img class="card-img-top" src="{{userprofile.background_profile_picture.url}}" alt="Card image cap">
-               {% else %}
-               <img class="card-img-top" src="{% static 'images/profile_background.jpg' %}" alt="Card image cap">
-               {% endif %}
-                    
-               {% comment %} <img class="card-img-top" src="https://i.imgur.com/K7A78We.jpg" alt="Card image cap"> {% endcomment %}
-               <div class="card-body little-profile">
-                    <div class="pro-img">
-                         <img src="{{userprofile.profile_picture.url}}" alt="user">
-                    </div>
-                    <h3 class="m-b-0"><b>{{userprofile.get_full_name}}</b> </h3>
-                    <p>{{userprofile.occupation}}</p>
-                    <div class="row ">
-                         <div class="col-md-6 p-2">
-                              <h5>
-                                   <b>Name:</b>
-                                   <div class='d-inline'>
-                                        {{userprofile.get_full_name}}
-                                   </div>
-                              </h5>
-                         </div>
-                         <div class="col-md-6 p-2">
-                              <h5>
-                                   <b>Linkedin:</b>
-                                   <div class='d-inline'>
-                                        {{userprofile.linkedin}}
-                                   </div>
-                              </h5>
-                         </div>
-                    </div>
+          <div class="card rounded-4">
+               <div class="container">
 
-                    <div class="row ">
-                         <div class="col-md-12">
-                              <h5>
-                                   <b>About:</b>
-                                   <div class=''>
-                                        {{userprofile.about}}
-                                   </div>
-                              </h5>
+
+                    {% if userprofile.background_profile_picture %}
+
+                    <img class="card-img-top" src="{{userprofile.background_profile_picture.url}}" alt="Card image cap">
+                    {% else %}
+                    <img class="card-img-top" src="{% static 'images/profile_background.jpg' %}" alt="Card image cap">
+                    {% endif %}
+
+                    {% comment %} <img class="card-img-top" src="https://i.imgur.com/K7A78We.jpg" alt="Card image cap">
+                    {% endcomment %}
+                    <div class="card-body little-profile">
+                         <div class="pro-img">
+                              <img class="pro-img-img" src="{{userprofile.profile_picture.url}}" alt="user">
                          </div>
-                    </div>
-                    <div class="row ">
-                         <div class="col-md-6 p-2">
-                              <h5>
-                                   <b>Present address:</b>
-                                   <div class='d-inline'>
-                                        {{userprofile.present_address}}
-                                   </div>
-                              </h5>
+                         <h3 class="m-b-0"><b>{{userprofile.get_full_name}}</b> </h3>
+                         <p>{{userprofile.occupation}}</p>
+                         <div class="row ">
+                              <div class="col-md-6 p-2">
+                                   <h5>
+                                        <b>Name:</b>
+                                        <div class='d-inline'>
+                                             {{userprofile.get_full_name}}
+                                        </div>
+                                   </h5>
+                              </div>
+                              <div class="col-md-6 p-2">
+                                   <h5>
+                                        <b>Linkedin:</b>
+                                        <div class='d-inline'>
+                                             {{userprofile.linkedin}}
+                                        </div>
+                                   </h5>
+                              </div>
                          </div>
-                         <div class="col-md-6 p-2">
-                              <h5>
-                                   <b>Permanent address:</b>
-                                   <div class='d-inline'>
-                                        {{userprofile.permanent_address}}
-                                   </div>
-                              </h5>
+
+                         <div class="row ">
+                              <div class="col-md-12">
+                                   <h5>
+                                        <b>About:</b>
+                                        <div class=''>
+                                             {{userprofile.about}}
+                                        </div>
+                                   </h5>
+                              </div>
                          </div>
-                    </div>
-                    <div class="row ">
-                         <div class="col-md-6 p-2">
-                              <h5>
-                                   <b>Gender:</b>
-                                   <div class='d-inline'>
-                                        {{userprofile.get_gender_display}}
-                                   </div>
-                              </h5>
+                         <div class="row ">
+                              <div class="col-md-6 p-2">
+                                   <h5>
+                                        <b>Present address:</b>
+                                        <div class='d-inline'>
+                                             {{userprofile.present_address}}
+                                        </div>
+                                   </h5>
+                              </div>
+                              <div class="col-md-6 p-2">
+                                   <h5>
+                                        <b>Permanent address:</b>
+                                        <div class='d-inline'>
+                                             {{userprofile.permanent_address}}
+                                        </div>
+                                   </h5>
+                              </div>
                          </div>
-                         <div class="col-md-6 p-2">
-                              <h5>
-                                   <b>Marital status:</b>
-                                   <div class='d-inline'>
-                                        {{userprofile.marital_status}}
-                                   </div>
-                              </h5>
+                         <div class="row ">
+                              <div class="col-md-6 p-2">
+                                   <h5>
+                                        <b>Gender:</b>
+                                        <div class='d-inline'>
+                                             {{userprofile.get_gender_display}}
+                                        </div>
+                                   </h5>
+                              </div>
+                              <div class="col-md-6 p-2">
+                                   <h5>
+                                        <b>Marital status:</b>
+                                        <div class='d-inline'>
+                                             {{userprofile.marital_status}}
+                                        </div>
+                                   </h5>
+                              </div>
                          </div>
-                    </div>
-                    <div class="row ">
-                         <div class="col-md-6 p-2">
-                              <h5>
-                                   <b>Religion:</b>
-                                   <div class='d-inline'>
-                                        {{userprofile.religion}}
-                                   </div>
-                              </h5>
+                         <div class="row ">
+                              <div class="col-md-6 p-2">
+                                   <h5>
+                                        <b>Religion:</b>
+                                        <div class='d-inline'>
+                                             {{userprofile.religion}}
+                                        </div>
+                                   </h5>
+                              </div>
+                              <div class="col-md-6 p-2">
+                                   <h5>
+                                        <b>Nationality:</b>
+                                        <div class='d-inline'>
+                                             {{userprofile.nationality}}
+                                        </div>
+                                   </h5>
+                              </div>
                          </div>
-                         <div class="col-md-6 p-2">
-                              <h5>
-                                   <b>Nationality:</b>
-                                   <div class='d-inline'>
-                                        {{userprofile.nationality}}
+
+                         <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#content" aria-expanded="false" aria-controls="content">
+                              Education
+                         </button>
+
+                         <div id="content" class="collapse">
+                              <div class="row">
+                                   {% for field, value in education_fields.items %}
+                                   {% if field != 'id' and field != 'user_id' and field != '_state' and value and  field != 'created_at' and  field != 'modified_at'%}
+
+                                   <div class="col-md-6">
+                                        <h3>{{ field|replace_underscore|title }}</h3>
+
+                                        {% if field == 'ssc_certificate' and value != None %}
+                                        <a target='_blank' href="{{ MEDIA_URL }}{{ value }}">See SSC Certificate</a>
+                                        {% elif field == 'hsc_certificate'   %}
+
+                                        <a target='_blank' href="{{ MEDIA_URL }}{{ value }}">See HSC Certificate</a>
+                                        
+
+                                        {% elif field == 'bsc_certificate' and value != None  %}
+                                        
+                                        <a target='_blank' href="{{ MEDIA_URL }}{{ value }}">See BSC Certificate</a>
+                                        
+                                             
+                                        {% elif field == 'msc_certificate' and value != None %}
+                                        
+                                        <a target='_blank' href="{{ MEDIA_URL }}{{ value }}">See MSC Certificate</a>
+                                        
+                                        {% else %}
+                                        <p>{{ value }}</p>
+                                        {% endif %}
+
+
+
+
+
                                    </div>
-                              </h5>
+
+                                   {% endif %}
+                                   {% endfor %}
+                              </div>
+
+
+
+
+
                          </div>
+
                     </div>
                </div>
           </div>

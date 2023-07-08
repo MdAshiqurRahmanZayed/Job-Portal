@@ -8,8 +8,9 @@ from django.core.mail import EmailMessage
 from django.contrib import messages,auth
 from django.contrib.auth.decorators  import login_required
 from main.models import Job,Application
-
+from django.core import serializers
 from .forms import *
+from django.conf import settings
 # Create your views here.
 
 def register(request):
@@ -26,6 +27,7 @@ def register(request):
                          
                          user = Account.objects.create_user(email=email, username=username, password=password)
                          user.save()
+                         
                          return redirect('login')
                          
           except:
@@ -89,8 +91,17 @@ def change_password(request):
 
 @login_required(login_url = 'login')
 def dashboard(request):
-     if UserProfile.objects.filter(user__id = request.user.id).exists():
-          userprofile          = UserProfile.objects.get(user = request.user)
+     # try:
+     #      # UserProfile.objects.get(user__id=request.user.id):
+     #      print('das')
+     #      userprofile          = UserProfile.objects.filter(user=request.user).exists()
+     #      createdJob           = Job.objects.filter(user = userprofile).count()
+     #      createdApplicantion  = Application.objects.filter(user = request.user.userprofile).count()
+     #      totalApplicant       = Application.objects.filter( job__user = request.user.userprofile).count()
+     # except:
+
+     if UserProfile.objects.filter(user=request.user).exists() == True:
+          userprofile          = UserProfile.objects.get(user=request.user)
           createdJob           = Job.objects.filter(user = userprofile).count()
           createdApplicantion  = Application.objects.filter(user = request.user.userprofile).count()
           totalApplicant       = Application.objects.filter( job__user = request.user.userprofile).count()
@@ -99,6 +110,7 @@ def dashboard(request):
           createdJob = "0"
           totalApplicant = "0"
           createdApplicantion = "0"
+               
           
      context = {
           'userprofile':userprofile,
@@ -107,7 +119,30 @@ def dashboard(request):
           'totalApplicant':totalApplicant,
      } 
      
+     
+     
      return render(request,'accounts/dashboard.html',context)
+# @login_required(login_url = 'login')
+# def dashboard(request):
+#      if UserProfile.objects.filter(user__id = request.user.id).exists():
+#           userprofile          = UserProfile.objects.get(user = request.user)
+#           createdJob           = Job.objects.filter(user = userprofile).count()
+#           createdApplicantion  = Application.objects.filter(user = request.user.userprofile).count()
+#           totalApplicant       = Application.objects.filter( job__user = request.user.userprofile).count()
+#      else:
+#           userprofile = "Please Complete Your Profile"
+#           createdJob = "0"
+#           totalApplicant = "0"
+#           createdApplicantion = "0"
+          
+#      context = {
+#           'userprofile':userprofile,
+#           'createdJob':createdJob,
+#           'createdApplicantion':createdApplicantion,
+#           'totalApplicant':totalApplicant,
+#      } 
+     
+#      return render(request,'accounts/dashboard.html',context)
 
 
 
@@ -159,9 +194,13 @@ def updateUserPeofile(request):
      
 def showUserProfile(request,id):
      userprofile = UserProfile.objects.get(id=id)
+     educations   = Education.objects.get(user=userprofile)
+     
      context = {
-         'userprofile': userprofile
-     }
+         'userprofile': userprofile,
+         'education_fields': educations.__dict__,
+         'MEDIA_URL': settings.MEDIA_URL,  # Include MEDIA_URL in the context
+         }
      return render(request,'accounts/profile.html',context)
      
      

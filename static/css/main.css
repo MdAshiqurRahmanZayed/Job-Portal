@@ -7,9 +7,12 @@ a{
 body {
      font-family: Arial, sans-serif;
      margin: 0;
-     padding: 0;
+     padding: 0;     
+     background-color: #D2D79F;
 }
-
+.nav-img{
+     height: 50px;
+}
 .container {
      max-width: 1200px;
      margin: 0 auto;
@@ -26,7 +29,44 @@ header {
 h1 {
      margin: 0;
 }
+.title{
+     text-align: center;
+}
 
+/* navbar */
+.navbar{
+     padding: 0px;
+}
+.container-fluid{
+     background: #ECE8DD;
+}
+
+.dropdown-menu {
+     display: none;
+}
+
+.dropdown:hover .dropdown-menu {
+     display: block;
+}
+
+.dropdown-menu .dropdown-item {
+     display: none;
+}
+
+.dropdown:hover .dropdown-menu .dropdown-item {
+     display: block;
+}
+/* main */
+
+.word {
+     margin: auto;
+     color: #18978F;
+     font: 700 normal 3.5em 'tahoma';
+     text-shadow: 5px 2px #222324, 2px 4px #222324, 3px 5px #222324;
+}
+.subtitle{
+     color: black;
+}
 /* Hero Section Styles */
 .hero-section {
      background-image: url("https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80");
@@ -43,7 +83,7 @@ h1 {
 }
 
  .how-it-works-img {
-      height: 600px;
+      height: 400px;
       position: absolute;
       right: 0;
       top: 0;
@@ -83,7 +123,7 @@ h1 {
      width: 350px;
      height: 350px;
      overflow: hidden;
-     transition: all 2s ease-in-out;
+     transition: all 1.6s ease-in-out;
 }
 .step-icon:hover img {
      transform: scale(1.2);
@@ -99,7 +139,7 @@ h1 {
      width: 450px;
      height: 350px;
      overflow: hidden;
-     transition: all 2s ease-in-out;
+     transition: all 1.6s ease-in-out;
 }
 
 .step-icon-search-job:hover img {
@@ -196,7 +236,7 @@ footer {
 }
 
 .card-content-main {
-     transition: transform 0.5s ease-in-out;
+     transition: all 1.6s ease-in-out;
 }
 .card-content-main:hover {
      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -355,7 +395,7 @@ h2::after {
 }
 
 .carousel .carousel-item {
-     color: #999;
+     color: #000000;
      font-size: 14px;
      text-align: center;
      overflow: hidden;
@@ -475,11 +515,13 @@ h2::after {
      margin-top: -80px;
      margin-bottom: 20px
 }
+.pro-img-img {
+     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
 
 .little-profile .pro-img img {
      width: 128px;
      height: 128px;
-     -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
      border-radius: 100%
 }

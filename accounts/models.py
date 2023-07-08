@@ -158,7 +158,7 @@ class Education(models.Model):
     ssc_board = models.CharField(choices=BOARD, max_length=50,null=True,blank=True)
     ssc_institution = models.CharField( max_length=50,null=True,blank=True)
     ssc_cgpa = models.FloatField(null=True,blank=True)
-    ssc_certificate = models.FileField( upload_to=f'applicant/certificate/', max_length=100,null=True,blank=True)
+    ssc_certificate = models.FileField( upload_to='applicant/certificate/', max_length=100,null=True,blank=True)
     
     #hsc/Equivalent
     hsc_group = models.CharField(choices=GROUP, max_length=10,null=True,blank=True)
@@ -166,7 +166,7 @@ class Education(models.Model):
     hsc_board = models.CharField(choices=BOARD, max_length=50,null=True,blank=True)
     hsc_cgpa = models.FloatField(null=True,blank=True)
     hsc_institution = models.CharField( max_length=50,null=True,blank=True)
-    hsc_certificate = models.FileField( upload_to=f'applicant/certificate/', max_length=100,null=True,blank=True)
+    hsc_certificate = models.FileField( upload_to='applicant/certificate/', max_length=100,null=True,blank=True)
     
     #bsc/Equivalent
     bsc_session = models.CharField( max_length=20,null=True,blank=True)
@@ -174,7 +174,7 @@ class Education(models.Model):
     bsc_graduation_year = models.DateField( auto_now=False, auto_now_add=False,null=True,blank=True)
     bsc_subject = models.CharField( max_length=50,null=True,blank=True)
     bsc_cgpa = models.FloatField(null=True,blank=True)
-    bsc_certificate = models.FileField( upload_to=f'applicant/certificate/', max_length=100,null=True,blank=True)
+    bsc_certificate = models.FileField( upload_to='applicant/certificate/', max_length=100,null=True,blank=True)
     
     
     
@@ -184,7 +184,7 @@ class Education(models.Model):
     msc_graduation_year = models.DateField( auto_now=False, auto_now_add=False,null=True,blank=True)
     msc_subject = models.CharField( max_length=50,null=True,blank=True)
     msc_cgpa = models.FloatField(null=True,blank=True)
-    msc_certificate = models.FileField( upload_to=f'applicant/certificate/', max_length=100,null=True,blank=True)
+    msc_certificate = models.FileField( upload_to='applicant/certificate/', max_length=100,null=True,blank=True)
 
     
     created_at = models.DateTimeField(auto_now_add = True) 
@@ -193,4 +193,4 @@ class Education(models.Model):
  
     
     def __str__(self):
-        return self.user
+        return self.user.user.username

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'taggit',
     'mptt',
     'rest_framework',
+    'user_visit',
     
 ]
 
@@ -59,6 +60,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    
+    #3rd party
+    'user_visit.middleware.UserVisitMiddleware',
 ]
 
 ROOT_URLCONF = "jobPortal.urls"
@@ -75,7 +79,11 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "main.context_processors.notifications",
+                "main.context_processors.categories",
             ],
+        'libraries': {
+            'custom_filters': 'main.custom_filters',
+        },
         },
     },
 ]

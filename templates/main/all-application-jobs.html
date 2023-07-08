@@ -23,15 +23,15 @@ All Application
                               </strong>
                          </header>
                          <div class="card-body">
-                              
+
                               {% if applications %}
-                                   
+
                               {% for application in applications %}
                               <div class="card mb-2">
                                    <div class="card-body ">
                                         <div class="row">
                                              <div class="col-md-1">
-                                                  <img src="{{application.job.image.url}}" height="100px" width="100px"
+                                                  <img src="{{application.job.company_image.url}}" height="100px" width="100px"
                                                        alt={{job.title}}>
                                              </div>
                                              <div class="col">
@@ -39,7 +39,8 @@ All Application
                                                        <div class="col-md-9">
                                                             <h5>
                                                                  <b>
-                                                                      <a href="{% url 'jobDetail' application.job.slug application.job.id %}">
+                                                                      <a
+                                                                           href="{% url 'jobDetail' application.job.slug application.job.id %}">
                                                                            {{application.job.title}}
                                                                       </a>
                                                                  </b>
@@ -63,11 +64,11 @@ All Application
                                                             </div>
                                                        </div>
                                                        <div class="col">
-                                                            <i class="fa-solid fa-tag"></i>:
-
-                                                            {% for tag in application.job.tags.all %}
-                                                            {{tag}},
-                                                            {% endfor %}
+                                                            {% comment %} <i class="fa-solid fa-tag"></i>:
+                                                            {% endcomment %}
+                                                            <i class="fa fa-list-alt" aria-hidden="true"></i>:
+                                                            <a
+                                                                 href="{% url 'categoriesJobs' application.job.category.slug %}">{{application.job.category}}</a>
                                                        </div>
                                                   </div>
                                                   <a href="{% url 'viewApplication' application.id %}">
@@ -84,7 +85,7 @@ All Application
                               {% else %}
                               <h1>You do not apply any job.</h1>
                               {% endif %}
-                                   
+
                          </div> <!-- card-body .// -->
 
                     </article> <!-- order-group.// -->

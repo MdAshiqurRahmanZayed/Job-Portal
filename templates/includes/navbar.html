@@ -1,25 +1,45 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'home' %}"><h3><b>Job Portal</b></h3> </a>
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img class="nav-img" src="{% static 'images/title.png' %}" alt="title-image">
+    </a>
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {% comment %} <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url '' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li> {% endcomment %}
+       <ul class="navbar-nav">
+
+      <li class="nav-item">
+        <div class="dropdown">
+          <a class="nav-link" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu">
+
+            {% for category in categories %}
+
+            <li>
+              <a class="dropdown-item" href="{% url 'categoriesJobs' category.slug %}">{{category}}</a>
+            </li>
+            {% endfor %}
+
+
+          </ul>
+        </div>
+      </li>
+    </ul>
 
       </ul>
-      <form action="{% url 'searchJobs' %}"  method="GET" class="d-flex" role="search">
+      <form action="{% url 'searchJobs' %}" method="GET" class="d-flex" role="search">
         <input class="form-control me-2" type="search" name="keyword" placeholder="Search Jobs" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      
+
       <a href="{% url 'allJobs' %}">
 
         <button class="m-2 btn btn-success" type="submit">

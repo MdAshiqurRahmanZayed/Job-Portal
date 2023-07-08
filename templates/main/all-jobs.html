@@ -1,13 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-     <h2 class="title">Latest Jobs</h2>
+     
+     {% if 'search' in request.path %}
+     <h2>
+          Serach keyword: <b>{{keyword}}</b><br>
+          Total: {{jobs_count}} 
+     
+     </h2>     
+     {% else %}
+
+          <h2 class="title">Latest Jobs</h2>
+     {% endif %}
+          
      {% for job in jobs %}
      <div class="card mb-2">
-          <div class="card-body ">
-               <div class="row">
+          <div style="padding: 5px;" class="card-body ">
+               <div class="row m-0">
                     <div class="col-md-1">
-                         <img src="{{job.image.url}}" height="100px" width="100px" alt={{job.title}}>
+                         <img src="{{job.company_image.url}}" height="100px" width="100px" alt={{job.title}}>
                     </div>
                     <div class="col">
                          <div class="row">
@@ -35,11 +46,9 @@
                                    </div>
                               </div>
                               <div class="col">
-                                   <i class="fa-solid fa-tag"></i>:
-
-                                   {% for tag in job.tags.all %}
-                                   {{tag}},
-                                   {% endfor %}
+                                   {% comment %} <i class="fa-solid fa-tag"></i>: {% endcomment %}
+                                   <i class="fa fa-list-alt" aria-hidden="true"></i>:
+                                   <a href="{% url 'categoriesJobs' job.category.slug %}">{{job.category}}</a>
                               </div>
                          </div>
 
@@ -50,55 +59,55 @@
      {% endfor %}
 </div>
 <div class=" mt-3 p-1 container">
-               <nav aria-label="Page navigation example">
+     <nav aria-label="Page navigation example">
 
-                    <ul class="pagination justify-content-center">
-                         {% if jobs.has_previous %}
-                         <li class="page-item ">
-                              <a class="page-link" href="?page=1">First</a>
-                         </li>
-                         <li class="page-item ">
+          <ul class="pagination justify-content-center">
+               {% if jobs.has_previous %}
+               <li class="page-item ">
+                    <a class="page-link" href="?page=1">First</a>
+               </li>
+               <li class="page-item ">
 
-                              <a class="page-link" href="?page={{ jobs.previous_page_number }}">previous</a>
-                         </li>
-                         <li class="page-item ">
+                    <a class="page-link" href="?page={{ jobs.previous_page_number }}">previous</a>
+               </li>
+               <li class="page-item ">
 
-                              <a class="page-link" href="?page={{jobs.number|add:"-1"}}">{{jobs.number|add:"-1"}}</a>
-                         </li>
+                    <a class="page-link" href="?page={{jobs.number|add:"-1"}}">{{jobs.number|add:"-1"}}</a>
+               </li>
 
-                         {% endif %}
-                         <span class="current">
-                              <li class="page-item"><a class="page-link" href="">{{ jobs.number }}</a></li>
-                         </span>
-
-
-                         {% comment %} {% for i  in jobs.paginator.page_range  %}
-
-                         {% if jobs.number == i %}
-
-                         <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
-                         {% else %}
-                         <li class="page-item "><a class="page-link" href="?page={{i}}">{{i}}</a></li>
-
-                         {% endif %}
-
-                         {% endfor %} {% endcomment %}
-
-                         {% if jobs.has_next %}
-                         <li class="page-item ">
-
-                              <a class="page-link" href="?page={{jobs.number|add:"1"}}">{{jobs.number|add:"1"}}</a>
-                         </li>
-                         <li class="page-item ">
-                              <a class="page-link" href="?page={{ jobs.next_page_number }}">next</a>
-                         </li>
-                         <li class="page-item ">
-                              <a class="page-link" href="?page={{ jobs.paginator.num_pages }}">Last</a>
-                         </li>
+               {% endif %}
+               <span class="current">
+                    <li class="page-item"><a class="page-link" href="">{{ jobs.number }}</a></li>
+               </span>
 
 
-                         {% endif %}
-                    </ul>
-               </nav>
-          </div>
+               {% comment %} {% for i  in jobs.paginator.page_range  %}
+
+               {% if jobs.number == i %}
+
+               <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+               {% else %}
+               <li class="page-item "><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+
+               {% endif %}
+
+               {% endfor %} {% endcomment %}
+
+               {% if jobs.has_next %}
+               <li class="page-item ">
+
+                    <a class="page-link" href="?page={{jobs.number|add:"1"}}">{{jobs.number|add:"1"}}</a>
+               </li>
+               <li class="page-item ">
+                    <a class="page-link" href="?page={{ jobs.next_page_number }}">next</a>
+               </li>
+               <li class="page-item ">
+                    <a class="page-link" href="?page={{ jobs.paginator.num_pages }}">Last</a>
+               </li>
+
+
+               {% endif %}
+          </ul>
+     </nav>
+</div>
 {% endblock content %}

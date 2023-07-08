@@ -10,6 +10,7 @@ urlpatterns = [
     path('api/conversion/', include(router.urls)),
 
     path('all-jobs/',allJobs,name='allJobs'),
+    path('category-jobs/<str:slug>/',categoriesJobs,name='categoriesJobs'),
     path('search/', searchJobs, name="searchJobs"),
     path('job-detail/<str:slug>/<int:pk>/',jobDetail,name='jobDetail'),
     path('my-created-job/',myCreatedJobs,name='myCreatedJobs'),
@@ -28,7 +29,8 @@ urlpatterns = [
     #notification
     path('notifications/', notifications, name='notifications'),
     path('send-messages/<int:pk>/', sendMessages, name='sendMessages'),
-    path('api/chat/<int:application_id>', ChatMessageAPIView.as_view(), name='chat-api'),
+    path('api/chat-messages/<int:application_id>/',
+         ChatMessageAPIView.as_view(), name='chat-api'),
     path('api/chat/', ChatMessageAPIView.as_view(), name='chat'),
     path('contact-us/', contactUs, name='contactUs'),
     path('review/', Review_website, name='Review_website'),

@@ -9,12 +9,12 @@ class dateInput(forms.DateInput):
 class jobForms(forms.models.ModelForm):
      deadline = forms.DateField(widget=dateInput)
      is_published = forms.BooleanField()
-     tags = forms.ModelMultipleChoiceField(label='Tags', queryset=Tag.objects.order_by('name'),widget=forms.SelectMultiple)
+     # tags = forms.ModelMultipleChoiceField(label='Tags', queryset=Tag.objects.order_by('name'),widget=forms.SelectMultiple)
 
      class Meta:
           model = Job
           fields = ['title', 'category', 'description', 'company_name', 'company_description', 'company_email', 'vacancy',
-                    'company_image', "tags", 'location', 'job_type', 'salary', 'website_url', 'deadline', 'is_published', 'is_closed']
+                    'company_image', 'location', 'job_type', 'salary', 'website_url', 'deadline', 'is_published', 'is_closed']
      
      
      def __init__(self, *args, **kwargs):

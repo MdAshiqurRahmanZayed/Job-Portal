@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import ChatMessageSerializer
 # from .models import ChatMessage
@@ -17,8 +18,7 @@ from rest_framework import viewsets, views
 # Create your views here.
 def home(request):
      testimonials = Review.objects.filter(show = True) 
-     jobs = Job.objects.filter(is_published=True).order_by('-id')[:3]
-          
+     jobs         = Job.objects.filter(is_published=True).order_by('-id')[:3]
      context = {
           "jobs":jobs,
           "testimonials": testimonials,
@@ -30,7 +30,7 @@ def allJobs(request):
     jobs = Job.objects.filter(is_published=True).order_by('-id')
     jobs_count = Job.objects.filter(is_published=True).count()
 #     top_jobs = Job.objects.filter(top_course=True)
-    categories = Category.objects.all()
+#     categories = Category.objects.all()
 
     #pagination
     paginator = Paginator(jobs, 5)
@@ -41,10 +41,34 @@ def allJobs(request):
         "jobs": pagedJobs,
         "jobs_count": jobs_count,
      #    "top_jobs": top_jobs,
-        "categories": categories,
-        'tree_info': tree_info(categories),
+     #    "categories": categories,
+     #    'tree_info': tree_info(categories),
     }
     return render(request, 'main/all-jobs.html', context)
+
+
+def categoriesJobs(request,slug):
+    category = Category.objects.get(slug=slug)
+    jobs = Job.objects.filter(
+        is_published=True, category=category).order_by('-id')
+    jobs_count = jobs.count()
+#     top_jobs = Job.objects.filter(top_course=True)
+#     categories = Category.objects.all()
+
+    #pagination
+    paginator = Paginator(jobs, 5)
+    page = request.GET.get('page')
+    pagedJobs = paginator.get_page(page)
+
+    context = {
+        "jobs": pagedJobs,
+        "jobs_count": jobs_count,
+        "category": category,
+     #    "top_jobs": top_jobs,
+     #    "categories": categories,
+     #    'tree_info': tree_info(categories),
+    }
+    return render(request, 'main/category-jobs.html', context)
 
 
 def searchJobs(request):
@@ -52,7 +76,7 @@ def searchJobs(request):
           keyword = request.GET['keyword']
 
     if keyword:
-               jobs = Job.objects.order_by('-created_at').filter(Q(title__icontains=keyword) | Q(description__icontains=keyword))
+               jobs = Job.objects.order_by('-created_at').filter(Q(title__icontains=keyword) | Q(description__icontains=keyword) )
                jobs_count = jobs.count()
     context = {
           "jobs": jobs,
@@ -203,7 +227,8 @@ def viewApplication(request,pk):
           application = get_object_or_404(Application,user = request.user.userprofile , id=pk)
      # messages = ConversationMessages.objects.all()
      # serializer = ChatMessageSerializer(messages, many=True)
-     # return Response(serializer.data)     
+     # return Response(serializer.data)
+     conversion_message = ConversationMessages.objects.filter(application=application).count()     
      if request.method == "POST":
           form = ConversationMessagesForm(request.POST or None)
           if form.is_valid():
@@ -225,17 +250,20 @@ def viewApplication(request,pk):
      context = {
           'application':application,
           'form':form,
+          'conversion_message': conversion_message,
      }
      return render(request,'main/view-application-job.html',context)
 
 
 @login_required(login_url = 'login')
 def deleteApplication(request,pk):
-     application = get_object_or_404(Application,user = request.user.userprofile , id=pk)
-     
+     application   = get_object_or_404(Application,user = request.user.userprofile , id=pk)
+     Notification.objects.filter(extra_id=application.id).delete()
      if request.user.userprofile == application.user:
           if request.method == "POST":
+               
                application.delete()
+               
                messages.success(request, 'Your Application is deleted.')
                return redirect('allApplication')
      else:
@@ -266,10 +294,14 @@ def notifications(request):
     notification_id = request.GET.get('notification', 0)
     extra_id = request.GET.get('extra_id', 0)
     
+    
     if goto != '':
         notification = Notification.objects.get(id=notification_id)
         notification.is_seen = True
         notification.save()
+        related_notifications = Notification.objects.filter(
+            to_user=request.user.userprofile)
+        related_notifications.update(is_seen=True)
         if notification.notification_type == 'message':
             return redirect('viewApplication', notification.extra_id)
         elif notification.notification_type == 'application':
@@ -287,6 +319,8 @@ class ChatMessageAPIView(APIView):
     def get(self, request, application_id):
         messages = ConversationMessages.objects.filter(application__id = application_id )
         serializer = ChatMessageSerializer(messages, many=True)
+        related_notifications = Notification.objects.filter(to_user=request.user.userprofile)
+        related_notifications.update(is_seen =  True)
         return Response(serializer.data)
 
     def post(self, request, application_id):
@@ -334,3 +368,11 @@ def Review_website(request):
           'data':data
      }
      return render(request,'main/review.html',context)
+
+
+def chat_messages(request):
+    # Retrieve the chat messages (adjust this logic based on your data structure)
+    chat_messages = ["Message 1", "Message 2", "Message 3"]
+
+    # Render the chat messages using the chat_messages.html template
+    return render(request, 'chat_messages.html', {'chat_messages': chat_messages})
