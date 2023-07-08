@@ -238,9 +238,11 @@ def viewApplication(request,pk):
                form.save()
                # print(application.user)
                if request.user.userprofile.role == "employer":
-                    create_notification(request, application.user, 'message', extra_id=application.id)
+                   create_notification(
+                       request, application.user, 'message', application=application, extra_id=application.id)
                else:
-                    create_notification(request, application.job.user, 'message', extra_id=application.id)
+                   create_notification(request, application.job.user, 'message',
+                                       application=application, extra_id=application.id)
                # create_notification(request, application.created_by, 'message', extra_id=application.id)
                # messages.success(request, 'Your Applications is not completed.Please try again')
                return redirect('viewApplication',pk)
@@ -299,8 +301,9 @@ def notifications(request):
         notification = Notification.objects.get(id=notification_id)
         notification.is_seen = True
         notification.save()
+        
         related_notifications = Notification.objects.filter(
-            to_user=request.user.userprofile)
+            to_user=request.user.userprofile,application__id = extra_id)
         related_notifications.update(is_seen=True)
         if notification.notification_type == 'message':
             return redirect('viewApplication', notification.extra_id)
@@ -319,8 +322,9 @@ class ChatMessageAPIView(APIView):
     def get(self, request, application_id):
         messages = ConversationMessages.objects.filter(application__id = application_id )
         serializer = ChatMessageSerializer(messages, many=True)
-        related_notifications = Notification.objects.filter(to_user=request.user.userprofile)
-        related_notifications.update(is_seen =  True)
+        related_notifications = Notification.objects.filter(
+            to_user=request.user.userprofile, application__id=application_id)
+        related_notifications.update(is_seen=True)
         return Response(serializer.data)
 
     def post(self, request, application_id):

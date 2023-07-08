@@ -40,7 +40,7 @@ Notification
 
                                                   <a
                                                        href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
-                                                       <strong class="text-secondary">{{notification.created_by.get_full_name}} was sended you a message.</strong> 
+                                                       <strong class="text-secondary">Job:{{notification.application}} <br> {{notification.created_by.get_full_name}} was sended you a message.</strong> 
                                                        <br>
 
                                                        <small class="text-secondary">{{notification.created_at|timesince}}</small>
@@ -51,7 +51,7 @@ Notification
 
                                                   <a
                                                        href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
-                                                       <strong class="text-secondary">{{notification.created_by.get_full_name}} Applied for your job.</strong>
+                                                       <strong class="text-secondary">Job:{{notification.application}} <br> {{notification.created_by.get_full_name}} Applied for your job.</strong>
                                                        
                                                        <br>
                                                        <small class="text-secondary" >{{notification.created_at|timesince}}</small>
@@ -65,7 +65,7 @@ Notification
 
                                                   <a
                                                        href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
-                                                       <strong >{{notification.created_by.get_full_name}}</strong> sent
+                                                       <strong >Job:{{notification.application}} <br> {{notification.created_by.get_full_name}}</strong> sent
                                                        you a message.
                                                        <br>
 
@@ -77,7 +77,7 @@ Notification
 
                                                   <a
                                                        href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
-                                                       <strong>{{notification.created_by.get_full_name}}</strong>
+                                                       <strong>Job:{{notification.application}} <br> {{notification.created_by.get_full_name}}</strong>
                                                        Applied for your job.
                                                        <br>
                                                        <small>{{notification.created_at|timesince}}</small>

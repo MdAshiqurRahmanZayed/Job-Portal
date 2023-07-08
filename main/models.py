@@ -86,7 +86,7 @@ class Application(models.Model):
     modified_at = models.DateTimeField(auto_now = True)     
     
     def __str__(self):
-        return f'Job:{self.job} Applicant:{self.user}'
+        return self.job.title
     
 
 
@@ -111,6 +111,7 @@ NOTIFICATION_CHOICES = (
 )
 
 class Notification(models.Model):
+    application       = models.ForeignKey(Application,  on_delete=models.CASCADE)
     to_user           = models.ForeignKey(UserProfile,related_name="notifications", on_delete=models.CASCADE)
     notification_type = models.CharField(choices=NOTIFICATION_CHOICES, max_length=20)
     is_seen           = models.BooleanField(default=False)
