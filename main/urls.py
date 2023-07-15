@@ -28,6 +28,10 @@ urlpatterns = [
     
     #notification
     path('notifications/', notifications, name='notifications'),
+    path('notifications-count/', notifications_count,
+         name='notifications_count'),
+    path('notifications-count-other/<int:id>/', notifications_count_other,
+         name='notifications_count_other'),
     path('send-messages/<int:pk>/', sendMessages, name='sendMessages'),
     path('api/chat-messages/<int:application_id>/',
          ChatMessageAPIView.as_view(), name='chat-api'),

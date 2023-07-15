@@ -52,3 +52,48 @@ var wordflick = function () {
 $(document).ready(function () {
      wordflick();
 });
+
+
+
+// Function to update the notifications count
+function updateNotificationsCount() {
+     fetch('/notifications-count/')
+          .then(response => response.json())
+          .then(data => {
+               // Update the notifications count element with the received data
+               document.getElementById('notifications-count').textContent = data.count;
+          })
+          .catch(error => console.log('Error:', error));
+}
+
+// Update notifications count initially
+
+// Schedule periodic updates every 10 seconds (adjust as needed)
+setInterval(updateNotificationsCount, 2000);
+function updateNotificationsCountOther(id) {
+     fetch('/notifications-count-other/' + id + '/')
+          .then(response => response.json())
+          .then(data => {
+               // Update the notifications count element with the received data
+               document.getElementById('notifications-count').textContent = data.count;
+          })
+          .catch(error => console.log('Error:', error));
+}
+
+// Update notifications count initially
+const url = window.location.href;
+const keyword = 'view-application';
+
+if (url.indexOf(keyword)  !== -1) {
+     const parts = url.split('/');
+     const number = parts[parts.length - 2];
+     // console.log(number);
+     setInterval(updateNotificationsCountOther(number), 2000);
+}
+else{
+updateNotificationsCount();
+
+}
+
+// Schedule periodic updates every 10 seconds (adjust as needed)
+// Fetch every 5 seconds (adjust as needed)

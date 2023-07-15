@@ -109,10 +109,16 @@
                               </div>
                          </div>
 
+
+                         {% if education_fields %}
+
+
                          <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                               data-bs-target="#content" aria-expanded="false" aria-controls="content">
                               Education
                          </button>
+                         {% endif %}
+
 
                          <div id="content" class="collapse">
                               <div class="row">
@@ -127,17 +133,17 @@
                                         {% elif field == 'hsc_certificate'   %}
 
                                         <a target='_blank' href="{{ MEDIA_URL }}{{ value }}">See HSC Certificate</a>
-                                        
+
 
                                         {% elif field == 'bsc_certificate' and value != None  %}
-                                        
+
                                         <a target='_blank' href="{{ MEDIA_URL }}{{ value }}">See BSC Certificate</a>
-                                        
-                                             
+
+
                                         {% elif field == 'msc_certificate' and value != None %}
-                                        
+
                                         <a target='_blank' href="{{ MEDIA_URL }}{{ value }}">See MSC Certificate</a>
-                                        
+
                                         {% else %}
                                         <p>{{ value }}</p>
                                         {% endif %}

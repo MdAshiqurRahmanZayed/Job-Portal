@@ -194,13 +194,23 @@ def updateUserPeofile(request):
      
 def showUserProfile(request,id):
      userprofile = UserProfile.objects.get(id=id)
-     educations   = Education.objects.get(user=userprofile)
-     
-     context = {
+     print(request.user.userprofile.role)
+     if userprofile.role == 'jobseeker':
+          educations   = Education.objects.get(user=userprofile)
+          context = {
          'userprofile': userprofile,
          'education_fields': educations.__dict__,
          'MEDIA_URL': settings.MEDIA_URL,  # Include MEDIA_URL in the context
          }
+     else:
+          educations   =None
+          context = {
+         'userprofile': userprofile,
+     #     'education_fields': educations.__dict__,
+         'MEDIA_URL': settings.MEDIA_URL,  # Include MEDIA_URL in the context
+         }
+          
+     
      return render(request,'accounts/profile.html',context)
      
      

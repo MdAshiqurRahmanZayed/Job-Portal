@@ -11,14 +11,7 @@
                <h5>
                    Category : {{job.category}}
                </h5>
-               <h6>
-                    <i class="fa-solid fa-tag"></i>:
-                    
-                    {% for tag in job.tags.all %}
-                    {{tag}},
-                    {% endfor %}
-                    
-               </h6>
+               
                <h5>
                    Created by : <a href="{% url 'showUserProfile' job.user.id %}">{{job.user.get_full_name}}</a> 
                </h5>

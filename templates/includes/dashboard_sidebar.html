@@ -7,7 +7,12 @@
     </a>
     {% if user.userprofile %}
     <a class="list-group-item {% if '/notifications/' in request.path   %} active{% endif %}"
-      href="{% url 'notifications' %}"> Notification({{notifications_count.count}})</a>
+      href="{% url 'notifications' %}"> Notification(
+              
+        {{notifications_count.count}}
+              
+                
+              )</a>
     <a class="list-group-item {% if '/review/' in request.path   %} active{% endif %}"
       href="{% url 'Review_website' %}"> Review</a>
         {% if request.user.userprofile.role == "employer" %}

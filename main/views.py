@@ -313,6 +313,23 @@ def notifications(request):
     return render(request, 'main/notifications.html')
 
 
+def notifications_count(request):
+    if request.user.is_authenticated:
+        count = request.user.userprofile.notifications.filter(
+            is_seen=False).count()
+        return JsonResponse({'count': count})
+    else:
+        return JsonResponse({'count': 0})
+   
+def notifications_count_other(request,id):
+    if request.user.is_authenticated:
+        count = request.user.userprofile.notifications.exclude(id=id,
+            is_seen=False).count()
+        return JsonResponse({'count': count})
+    else:
+        return JsonResponse({'count': 0})
+   
+   
 def sendMessages(request, pk):
     print("scfds")
     return JsonResponse('it is working', safe=False)
