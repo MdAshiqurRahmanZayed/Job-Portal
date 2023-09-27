@@ -9,6 +9,10 @@ urlpatterns = [
     
     path('dashboard/',dashboard,name='dashboard'),
     
+    #Activate by email
+    path('activate/<uidb64>/<token>/',activate,name="activate"),
+
+    
     #profile
         
     path('profile/<int:id>', showUserProfile, name='showUserProfile'),
