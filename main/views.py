@@ -76,7 +76,7 @@ def searchJobs(request):
           keyword = request.GET['keyword']
 
     if keyword:
-               jobs = Job.objects.order_by('-created_at').filter(Q(title__icontains=keyword) | Q(description__icontains=keyword) )
+               jobs = Job.objects.order_by('-created_at').filter(Q(title__icontains=keyword) | Q(description__icontains=keyword) | Q(location__icontains=keyword) | Q(company_name__icontains=keyword) | Q(job_type__icontains=keyword) | Q(category__name__icontains=keyword))
                jobs_count = jobs.count()
     context = {
           "jobs": jobs,
@@ -315,8 +315,11 @@ def notifications(request):
 
 def notifications_count(request):
     if request.user.is_authenticated:
-        count = request.user.userprofile.notifications.filter(
-            is_seen=False).count()
+        try:
+               count = request.user.userprofile.notifications.filter(
+                    is_seen=False).count()
+        except:
+               count = 0
         return JsonResponse({'count': count})
     else:
         return JsonResponse({'count': 0})
@@ -397,3 +400,21 @@ def chat_messages(request):
 
     # Render the chat messages using the chat_messages.html template
     return render(request, 'chat_messages.html', {'chat_messages': chat_messages})
+
+
+#About Page
+def About_page(request):
+    nstu = 'About NSTU'
+    vc = 'Vice Chancellor'
+    about_member = teamMember.objects.all
+    # about_nstu = About.objects.get()
+    about_nstu = AboutPage.objects.get(title=nstu)
+    about_vc = AboutPage.objects.get(title=vc)
+    context={
+        'about_member':about_member,
+        'about_nstu':about_nstu,
+        'about_vc':about_vc
+    }
+    
+    
+    return render(request,'main/about.html',context)

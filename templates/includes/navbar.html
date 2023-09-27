@@ -5,36 +5,46 @@
     <a class="navbar-brand" href="{% url 'home' %}">
       <img class="nav-img" src="{% static 'images/title.png' %}" alt="title-image">
     </a>
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <a href="{% url 'about' %}">
+        <li>
+          <h3>
+            About
+          </h3>
+          </li>
+        </a> 
+      </ul>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-       <ul class="navbar-nav">
+        <ul class="navbar-nav">
 
-      <li class="nav-item">
-        <div class="dropdown">
-          <a class="nav-link" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Categories
-          </a>
-          <ul class="dropdown-menu">
+          <li class="nav-item">
+            <div class="dropdown">
+              <a class="nav-link" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Categories
+              </a>
+              <ul class="dropdown-menu">
 
-            {% for category in categories %}
+                {% for category in categories %}
 
-            <li>
-              <a class="dropdown-item" href="{% url 'categoriesJobs' category.slug %}">{{category}}</a>
-            </li>
-            {% endfor %}
+                <li>
+                  <a class="dropdown-item" href="{% url 'categoriesJobs' category.slug %}">{{category}}</a>
+                </li>
+                {% endfor %}
 
 
-          </ul>
-        </div>
-      </li>
-    </ul>
+              </ul>
+            </div>
+          </li>
 
+        </ul>
       </ul>
+      
       <form action="{% url 'searchJobs' %}" method="GET" class="d-flex" role="search">
         <input class="form-control me-2" type="search" name="keyword" placeholder="Search Jobs" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -54,13 +64,13 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'notifications' %}">
             <div class="btn btn-warning">Notification(
-              
+
               <div class="d-inline-flex" id="notifications-count"></div>
               {% comment %} {% if 'view-application' in request.path %}
               {{notifications_count.count}}
               {% else %}
               {% endif %} {% endcomment %}
-                
+
               )</div>
           </a>
         </li>

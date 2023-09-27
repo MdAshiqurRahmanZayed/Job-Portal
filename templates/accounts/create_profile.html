@@ -76,11 +76,12 @@
                                                                  </div>
                                                             </div>
 
-                                                            <div class="row p-1">
+                                                            {% comment %} <div class="row p-1">
                                                                  <div class="col-md-6">
                                                                       <h5>Phone Number:</h5>
                                                                       {{profile_form.phone_number}}
-                                                                      <p>If you want to give multiple Phone Numbers,You can add with comma(',') .</p>
+                                                                      <p>If you want to give multiple Phone Numbers,You
+                                                                           can add with comma(',') .</p>
                                                                  </div>
                                                                  <div class="col-md-6">
                                                                       <div class="form-group">
@@ -97,7 +98,7 @@
                                                                       </div>
 
                                                                  </div>
-                                                            </div>
+                                                            </div> {% endcomment %}
                                                             <div class="row p-1">
 
                                                                  <div class="col-md-6">
@@ -203,12 +204,63 @@
                                    </div>
 
                               </div> <!-- row.// -->
+
+                              {% comment %} {{profile_form.as_p}} {% endcomment %}
+                              {% if 'update-user-profile' in request.path %}
+                                   
+                              <div class="container">
+
+                                   <h2>
+                                        <b>
+                                             Mobile Number
+                                        </b>
+                                   </h2>
+
+                                   {% if mobile_numbers %}
+
+                                   <ol>
+                                        {% for num in mobile_numbers %}
+                                        <h4>
+                                             <li>
+                                                  {{num.mobile_number}} <a href="">
+                                                       <br>
+                                                       <a href="{% url 'updateMobileNumber' num.id %}">
+                                                            <div class="btn btn-secondary m-2">Edit</div></a>
+                                                       </a> 
+                                                       <a href="{% url 'deleteMobileNumber' num.id %}">
+
+                                                            <div class="btn btn-danger m-2">Delete</div></a>
+                                                       </a>
+                                                       
+                                             </li>
+                                        </h4>
+                                        {% endfor %}
+                                   </ol>
+
+                                   {% else %}
+                                   <h4>
+                                        You have no mobile number.
+                                   </h4>
+                                   <br>
+                                   {% endif %}
+
+
+                                   <a href="{% url 'createMobileNumber' %}">
+                                        <div class="btn btn-info">Add</div>
+                                   </a>
+
+
+
+                              </div>
+                              {% endif %}
+                                   
                          </div> <!-- card-body .// -->
 
                     </article> <!-- order-group.// -->
                </main>
           </div> <!-- row.// -->
      </div>
+
 
 
 </section>

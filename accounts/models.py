@@ -105,7 +105,7 @@ class UserProfile(models.Model):
     website         = models.CharField(max_length=70,blank=True,null=True)
     linkedin        = models.CharField(blank=False,null=False, max_length=50)
     about           = models.TextField()
-    phone_number    = models.CharField(max_length=50,blank=False,null=False)
+    phone_number    = models.CharField(max_length=50,blank=True,null=True)
     profile_picture = models.ImageField(
         blank=True, null=True, upload_to='images/profile', default='images/default/man.png')
     background_profile_picture = models.ImageField(
@@ -127,6 +127,15 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+class mobileNumber(models.Model):
+    userprofile   = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    mobile_number = models.IntegerField(unique=True)
+
+    created_at = models.DateTimeField(auto_now_add = True) 
+    modified_at = models.DateTimeField(auto_now = True) 
+    
+    def __str__(self):
+        return self.userprofile.user.email
 
 #Education    
 GROUP = (
@@ -194,3 +203,6 @@ class Education(models.Model):
     
     def __str__(self):
         return self.user.user.username
+    
+    
+    

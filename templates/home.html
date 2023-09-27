@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+
 <section class="hero-section">
     <div class="container">
         <h2 class="subtitle">
@@ -189,15 +190,61 @@
 
     </div>
 </section>
+
+<section class="benefit container mt-5">
+    <div class="row m-4">
+        <div class="col-md-8 d-flex justify-content-center align-items-center">
+            <h3>
+                The website can leverage advanced algorithms to provide personalized job recommendations to job seekers
+                based on their qualifications and interests. This feature ensures that job seekers are presented with
+                relevant opportunities, increasing their chances of finding the right job. Similarly, employers can
+                receive applications from candidates whose profiles closely match their job requirements, streamlining
+                the candidate selection process. </h3>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <img src="{% static 'images/benefit-01.jpg' %}" class="img-fluid rounded "
+                style="max-width: 100%; height: 500px;">
+        </div>
+    </div>
+    <div class="row m-4">
+        <div class="col-md-4 d-flex justify-content-start">
+            <img src="{% static 'images/benefit-02.jpg' %}" class="img-fluid rounded "
+                style="max-width: 100%; height: 500px;">
+        </div>
+        <div class="col-md-8 d-flex justify-content-center align-items-center">
+            <h3>
+                By using an online platform, both job seekers and employers can save time and effort in the recruitment
+                process. Employers can post job listings and review applications conveniently, while job seekers can
+                search for positions that match their skills and preferences with ease. This efficiency benefits both
+                parties, as it accelerates the job matching process and reduces unnecessary delays. </h3>
+        </div>
+    </div>
+    <div class="row m-4">
+        <div class="col-md-8 d-flex justify-content-center align-items-center left-container">
+            <h3 class="container d-flex justify-content-center">
+                With a dedicated website, employers can extend their reach to a larger pool of potential candidates. Job
+                seekers from various regions can access the platform, allowing employers to find talent beyond their
+                local area. Similarly, job seekers can explore opportunities from diverse locations and industries,
+                opening up new career possibilities that they might not have considered otherwise. </h3>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end right-container">
+            <img src="{% static 'images/benefit-03.jpg' %}" class="img-fluid rounded "
+                style="max-width: 100%; height: 500px;">
+        </div>
+    </div>
+</section>
+
+
+
 <section class="section companies-section">
     <div class="container">
         <h2 class="title">Latest Jobs</h2>
         {% for job in jobs %}
         <div class="card mb-2">
-            <div style="padding: 5px;" class="card-body ">
+            <div  class="card-body ">
                 <div class="row">
                     <div class="col-md-1">
-                        <img src="{{job.company_image.url}}" height="100px" width="100px" alt={{job.title}}>
+                        <img src="{{job.company_image.url}}" style="height: 60px;" alt={{job.title}}>
                     </div>
                     <div class="col">
                         <div class="row">
@@ -219,15 +266,24 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="d-inline">
-                                    <i class="fa-solid fa-building"> </i> {{job.company_name}}
-                                    <i class="fa-solid fa-cube"> </i> {{job.job_type}}
-                                    <i class="fa-solid fa-location-dot"></i> {{job.location}}
-                                </div>
+                                        <i class="fa-solid fa-building"></i> 
+                                        <a href="http://127.0.0.1:8000/search/?keyword={{job.company_name}}">
+                                             {{job.company_name}}
+                                        </a>
+                                        <i class="fa-solid fa-cube"> </i> 
+                                        <a href="http://127.0.0.1:8000/search/?keyword={{job.job_type}}">
+                                             {{job.job_type}}
+                                        </a>
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <a href="http://127.0.0.1:8000/search/?keyword={{job.location}}">
+                                             {{job.location}}
+                                        </a>
+                                   </div>
                             </div>
                             <div class="col">
                                 {% comment %} <i class="fa-solid fa-tag"></i>: {% endcomment %}
                                 <i class="fa fa-list-alt" aria-hidden="true"></i>:
-                                   <a href="{% url 'categoriesJobs' job.category.slug %}">{{job.category}}</a>
+                                <a href="{% url 'categoriesJobs' job.category.slug %}">{{job.category}}</a>
 
                             </div>
                         </div>
@@ -251,5 +307,6 @@
 
     </div>
 </section>
+
 
 {% endblock content %}

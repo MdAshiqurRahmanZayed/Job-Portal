@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+     <style>
+          .cards {
+               width: 100%;
+               display: flex;
+               flex-wrap: wrap;
+               justify-content: space-around;
+          }
+
+          .card {
+               margin: 40px;
+               position: relative;
+               max-width: 350px;
+               max-height: 460px;
+               box-shadow: 0 40px 60px -6px black;
+          }
+
+          .card-title {
+               display: block;
+               text-align: center;
+               color: #fff;
+               background-color: #6184a8;
+               padding: 2%;
+               border-top-right-radius: 4px;
+               border-top-left-radius: 4px;
+          }
+
+          .card img {
+               width: 100%;
+               height: 100%;
+               object-fit: cover;
+               display: block;
+               position: relative;
+          }
+
+          .card-desc {
+               display: block;
+               font-size: 1.2rem;
+               position: absolute;
+               height: 0;
+               top: 0;
+               opacity: 0;
+               padding: 18px 8%;
+               background-color: white;
+               overflow-y: scroll;
+               transition: 0.8s ease;
+          }
+
+          .card:hover .card-desc {
+               opacity: 1;
+               height: 100%;
+          }
+
+          h1 {
+               font-size: 2.8rem;
+               color: #fff;
+               margin: 40px 0 20px 0;
+               text-align: center;
+          }
+     </style>
+
+
+     <div class="container mt-3">
+
+          <div class="row mb-5">
+
+               <div class="d-md-flex post-entry-2 half">
+                    <a href="" style="" class="me-4 thumbnail">
+                         <img style="border-radius:40px;box-shadow:20px 20px 10px #434343;backdrop-filter:blur(8px);height:300px;width:3500px"
+                              src="{{about_nstu.image.url}}" alt="" class="img-fluid">
+                    </a>
+                    <div class="ps-md-5 mt-4 mt-md-0">
+
+                         <h3 class="mb-4 ">{{about_nstu.name}}</h3>
+
+                         <p>{{about_nstu.about}}</p>
+                    </div>
+               </div>
+              
+               <div style="" class="d-md-flex post-entry-2 half mt-6">
+                    <div class="ps-md-5 mt-6 mt-md-0">
+                         <h3>{{about_vc.title}}</h3>
+
+                         <h3 class="mb-4 ">{{about_vc.name}}</h3>
+
+                         <p>{{about_vc.about}}</p>
+                    </div>
+                    <a href="" style="padding-left:50px" class="me-4 thumbnail">
+                         <img style="border-radius:10px;box-shadow:20px 20px 10px #434343;backdrop-filter:blur(8px);height:400px;width:3000px"
+                              src="{{about_vc.image.url}}" alt="" class="img-fluid">
+                    </a>
+               </div>
+
+          </div>
+          <h2 style="text-align:center;font-size:xx-large;">
+               <b id="contributor"> Contributor </b>
+          </h2>
+
+          <div class="cards">
+               {% for about_member  in  about_member %}
+               <div class="card">
+                    <h5 class="card-title">{{about_member.name}}
+                         <br>
+                         <b>{{about_member.title}}</b>
+                    </h5>
+                    <img src="{{about_member.image.url}}" alt="">
+                    <p class="card-desc">{{about_member.about}}</p>
+               </div>
+               {% endfor %}
+
+          </div>
+
+     </div>
+
+
+
+
+{% endblock %}

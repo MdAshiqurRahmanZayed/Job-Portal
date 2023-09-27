@@ -38,6 +38,7 @@ urlpatterns = [
     path('api/chat/', ChatMessageAPIView.as_view(), name='chat'),
     path('contact-us/', contactUs, name='contactUs'),
     path('review/', Review_website, name='Review_website'),
-
+    #About page
+    path('about/', About_page, name='about'),
 
 ]

@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserProfile
+from .models import UserProfile,mobileNumber
 from django import forms 
 from .models import Account,UserProfile,Education
 
@@ -43,7 +43,8 @@ class DateInput(forms.DateInput):
 class createProfile(forms.models.ModelForm):
      class Meta:
           model = UserProfile
-          fields = ['first_name', 'last_name','father_name','mother_name','religion','nationality','occupation','nid_no','nid_image','birth_date','website','linkedin','about','phone_number','profile_picture','present_address','permanent_address','gender','marital_status','role']
+          fields = ['first_name', 'last_name', 'father_name', 'mother_name', 'religion', 'nationality', 'occupation', 'nid_no', 'nid_image', 'birth_date', 'website',
+                    'linkedin', 'about', 'phone_number', 'profile_picture', 'background_profile_picture', 'present_address', 'permanent_address', 'gender', 'marital_status', 'role']
 
           
      birth_date = forms.DateField(widget=DateInput)
@@ -90,6 +91,15 @@ class educationForm(forms.models.ModelForm):
                self.fields[field].widget.attrs['class'] = 'form-control'
                
                
-               
-                       
+class mobileNumberForm(forms.models.ModelForm):
      
+     
+     class Meta:     
+          model = mobileNumber
+          fields = ['mobile_number']
+          
+     def __init__(self, *args, **kwargs):
+          super(mobileNumberForm, self).__init__(*args, **kwargs)
+          self.fields['mobile_number'].widget.attrs['placeholder'] = '+8801500000000'
+          for field in self.fields:
+               self.fields[field].widget.attrs['class'] = 'form-control'

@@ -11,6 +11,7 @@ from main.models import Job,Application
 from django.core import serializers
 from .forms import *
 from django.conf import settings
+from accounts.models import *
 # Create your views here.
 
 def register(request):
@@ -145,20 +146,20 @@ def dashboard(request):
 #      return render(request,'accounts/dashboard.html',context)
 
 
-
+@login_required(login_url='login')
 def createUserProfile(request):
      if UserProfile.objects.filter(user__email = request.user.email).exists():
           messages.warning(request,"Already created Profile")
           return redirect('dashboard')
      else:
-          
           if request.method == "POST":
                profile_form = createProfile(request.POST,request.FILES)
                user = request.user
                if profile_form.is_valid():
                     
                     profile =  profile_form.save( commit=False)
-                    profile.user = user
+                    profile.user = user 
+                    print(profile)
                     profile.save()  
                     messages.success(request, 'Your profile has been created successfully.')
                     return redirect('updateUserPeofile')
@@ -169,9 +170,13 @@ def createUserProfile(request):
           }
      return render(request,'accounts/create_profile.html',context)
 
+
+@login_required(login_url='login')
 def updateUserPeofile(request):
      userProfile = get_object_or_404(UserProfile,user = request.user)
-     phone_numbers = userProfile.phone_number.split(',')
+     # phone_numbers = userProfile.phone_number.split(',')
+     
+     mobile_numbers = mobileNumber.objects.filter(userprofile = request.user.userprofile)
      
      if request.method == "POST":
           try:
@@ -188,12 +193,14 @@ def updateUserPeofile(request):
           profile_form = updateProfile(instance = userProfile)
      context ={
           'profile_form':profile_form,
-          'phone_numbers': phone_numbers,
+          # 'phone_numbers': phone_numbers,
+          'mobile_numbers': mobile_numbers,
      }
      return render(request,'accounts/create_profile.html',context)
      
 def showUserProfile(request,id):
      userprofile = UserProfile.objects.get(id=id)
+     
      print(request.user.userprofile.role)
      if userprofile.role == 'jobseeker':
           educations   = Education.objects.get(user=userprofile)
@@ -217,7 +224,7 @@ def showUserProfile(request,id):
      
      
 #Education
-
+@login_required(login_url='login')
 def createEducation(request):
      if request.user.userprofile.role == "employer":
           messages.warning(request, 'You are not allowed.')
@@ -238,8 +245,6 @@ def createEducation(request):
                     messages.warning(request, 'Your Education has been not Created.')
                     return redirect('dashboard')
      else:
-          
-          
           form = educationForm()  
                
      context = {
@@ -274,3 +279,67 @@ def updateEducation(request):
      }
      return render(request,'main/create-education.html',context)
  
+ 
+@login_required(login_url='login')
+def createMobileNumber(request):
+
+     if request.method == "POST":
+          try:
+               form = mobileNumberForm(request.POST)  
+               print(form)
+               if form.is_valid():
+                    form = form.save(commit=False)
+                    form.userprofile = request.user.userprofile
+                    form.save()
+                    messages.success(request, 'Your Mobile Number has been Created successfully.')
+                    return redirect('updateUserPeofile')
+          except:
+                    messages.warning(request, 'Your Mobile Number has not been Created.')
+                    return redirect('createMobileNumber')
+     else:
+         form = mobileNumberForm()
+               
+     context = {
+          "form":form
+     }
+     
+     return render(request,'accounts/create-mobile-number.html',context)
+
+@login_required(login_url='login')
+def updateMobileNumber(request,pk):
+     mobile_number = mobileNumber.objects.get(id=pk)
+     if request.method == "POST":
+          try:
+               form = mobileNumberForm(request.POST,instance=mobile_number)  
+               print(form)
+               if form.is_valid():
+                    form = form.save(commit=False)
+                    form.save()
+                    messages.success(request, 'Your Mobile Number has been Updated successfully.')
+                    return redirect('updateUserPeofile')
+          except:
+                    messages.warning(request, 'Your Mobile Number has not been Updated.')
+                    return redirect('updateUserPeofile')
+     else:
+         form = mobileNumberForm(instance=mobile_number)
+               
+     context = {
+          "form":form
+     }
+     
+     return render(request,'accounts/create-mobile-number.html',context)
+
+
+@login_required(login_url='login')
+def deleteMobileNumber(request,pk):
+     mobile_number = mobileNumber.objects.get(id=pk)
+     try:
+               mobile_number.delete()
+               messages.success(request, 'Your Mobile Number has been Deleted successfully.')
+               return redirect('updateUserPeofile')
+     except:
+               messages.warning(request, 'Your Mobile Number has not been Deleted.')
+               return redirect('updateUserPeofile')
+               
+     
+     

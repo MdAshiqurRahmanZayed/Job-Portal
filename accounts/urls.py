@@ -15,9 +15,16 @@ urlpatterns = [
     path('create-user-profile/', createUserProfile, name='createUserProfile'),
     path('update-user-profile/', updateUserPeofile, name='updateUserPeofile'),
     
+    #mobile number
+    path('create-mobile-number/', createMobileNumber, name='createMobileNumber'),
+    path('update-mobile-number/<int:pk>/', updateMobileNumber, name='updateMobileNumber'),
+    path('delete-mobile-number/<int:pk>/', deleteMobileNumber, name='deleteMobileNumber'),
+    
     
     
     #Education
     path('create-education/',createEducation,name='createEducation'),
     path('update-education/',updateEducation,name='updateEducation'),
+    
+    
 ]
