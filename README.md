@@ -20,13 +20,14 @@ Then install the dependencies:
 ```sh
 (env)$ pip install -r requirements.txt
 ```
-we have to migrate.
+Create info.py in the jobPortal folder just like info-demo.py and fill in the equivalent answer(email,password).<br>
+We have to migrate.
 ```sh
 $ python manage.py makemigrations 
 $ python manage.py migrate 
 $ python manage.py createsuperuser
 ```
-Create info.py in the jobPortal folder just like info-demo.py and fill in the equivalent answer(email,password).<br>
+
 ```sh
 (env)$ python manage.py runserver
 ```
