@@ -14,15 +14,12 @@
                          <header class="card-header">
                               <strong class="d-inline-block mr-3">
                                    
-                                   {% if request.user.role %}
+                                        {% if request.user.userprofile.role == "employer"%}
+                                        Logged in as Employer:
+                                        {% elif request.user.userprofile.role == "jobseeker"%}
+                                        Logged in as Job Seeker:
                                         
-                                        {% if request.user.role == "employer"%}
-                                        Logged in as Employer
-                                        {% else %}
-                                        Logged in as Job Seeker
                                         {% endif %}
-                                        :
-                                   {% endif %}
                                         
                               </strong>
 
@@ -59,7 +56,7 @@
                                              </div>
                                         </div>
                                    </div>
-                                   {% else %}
+                                   {% elif request.user.userprofile.role == "jobseeker" %}
 
                                    <div class="col-md-12 mb-3">
                                         <div class="card" style="text-align:center">

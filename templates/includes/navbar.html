@@ -10,17 +10,11 @@
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <a href="{% url 'about' %}">
-        <li>
-          <h3>
-            About
-          </h3>
-          </li>
-        </a> 
-      </ul>
+  
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
         <ul class="navbar-nav">
 
           <li class="nav-item">
@@ -36,6 +30,9 @@
                   <a class="dropdown-item" href="{% url 'categoriesJobs' category.slug %}">{{category}}</a>
                 </li>
                 {% endfor %}
+                <li>
+                  <a class="dropdown-item" href="{% url 'allJobs'  %}"><b>All Jobs</b> </a>
+                </li>
 
 
               </ul>
@@ -44,7 +41,7 @@
 
         </ul>
       </ul>
-      
+
       <form action="{% url 'searchJobs' %}" method="GET" class="d-flex" role="search">
         <input class="form-control me-2" type="search" name="keyword" placeholder="Search Jobs" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -56,6 +53,13 @@
           All jobs
         </button>
       </a>
+        <ul class="navbar-nav  mb-2 mb-lg-0">
+     <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'about' %}">
+            <div class="btn btn-info">About</div>
+          </a>
+        </li>
+    </ul>
       <ul class="navbar-nav  mb-2 mb-lg-0">
 
         {% if user.is_authenticated %}
