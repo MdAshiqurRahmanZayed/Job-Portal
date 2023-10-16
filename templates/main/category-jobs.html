@@ -18,7 +18,7 @@
                               <div class="col-md-9">
                                    <h5>
                                         <b>
-                                             <a href="{% url 'jobDetail' job.slug job.id %}">
+                                             <a hx-boost="true" href="{% url 'jobDetail' job.slug job.id %}">
                                                   {{job.title}}
                                              </a>
                                         </b>
@@ -33,15 +33,24 @@
                          <div class="row">
                               <div class="col-md-9">
                                    <div class="d-inline">
-                                        <i class="fa-solid fa-building"> </i> {{job.company_name}}
-                                        <i class="fa-solid fa-cube"> </i> {{job.job_type}}
-                                        <i class="fa-solid fa-location-dot"></i> {{job.location}}
+                                        <i class="fa-solid fa-building"></i> 
+                                        <a hx-boost="true" href="http://127.0.0.1:8000/search/?keyword={{job.company_name}}">
+                                             {{job.company_name}}
+                                        </a>
+                                        <i class="fa-solid fa-cube"> </i> 
+                                        <a hx-boost="true" href="http://127.0.0.1:8000/search/?keyword={{job.job_type}}">
+                                             {{job.job_type}}
+                                        </a>
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <a hx-boost="true" href="http://127.0.0.1:8000/search/?keyword={{job.location}}">
+                                             {{job.location}}
+                                        </a>
                                    </div>
                               </div>
-                              <div class="col">
+                             <div class="col">
                                    {% comment %} <i class="fa-solid fa-tag"></i>: {% endcomment %}
                                    <i class="fa fa-list-alt" aria-hidden="true"></i>:
-                                   <a href="{% url 'categoriesJobs' job.category.slug %}">{{job.category}}</a>
+                                   <a hx-boost="true" href="{% url 'categoriesJobs' job.category.slug %}">{{job.category}}</a>
                               </div>
                          </div>
 

@@ -1,12 +1,16 @@
 {% if messages %}
 {% for message in messages %}
 <div id="message" class="container py-0 my-0">
-     <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
-          {% comment %} <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button> {% endcomment %}
+     <div {% if message.tags %} class="alert alert-{{ message.tags }}  alert-dismissible fade show" {% endif %} role="alert">
           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error: {% endif %}
           
           {{ message }}
+          {% comment %} <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button> {% endcomment %}
+           
+               {% comment %} <strong>Holy guacamole!</strong> You should check in on some of those fields below. {% endcomment %}
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
      </div>
 </div>
+
 {% endfor %}
 {% endif %}

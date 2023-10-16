@@ -7,6 +7,9 @@ from django.core import serializers
 from .forms import *
 from django.conf import settings
 from accounts.models import *
+from django_htmx.http import HttpResponseClientRedirect
+from django.urls import reverse
+
 
 # Verification email
 from django.contrib.sites.shortcuts import get_current_site
@@ -124,6 +127,8 @@ def login(request):
                auth.login(request,user)
                messages.success(request, 'You are successfully logged in.')
                return redirect('dashboard')
+               # return HttpResponseClientRedirect(reverse("dashboard"))
+
           else:
                messages.warning(request, 'Bad cradentials.')
                return redirect('login')

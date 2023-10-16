@@ -14,24 +14,24 @@
 
                          <div class="form-outline flex-fill mb-0">
                               <label class="form-label" for="form3Example3c">Enter Your Email:</label>
-                              <input type="email" class="form-control mb-1" name="email">
+                              <input type="email" class="form-control mb-1" name="email" placeholder="Email">
                          </div>
                     </div>
                     <div class="d-flex flex-row align-items-center mb-4">
 
                          <div class="form-outline flex-fill mb-0">
                               <label class="form-label" for="form3Example4c">Password:</label>
-                              <input type="password" class="form-control mb-1" name="password">
+                              <input type="password" class="form-control mb-1" placeholder="Password" name="password">
 
                          </div>
                     </div>
-                    <button class="btn btn-primary btn-lg">Sign in</button>
-                    <br>
-                    <h3>
-
-                         <a href="{% url 'register' %}">Create a account</a>
-                    </h3>
+                    <button  class="btn btn-primary btn-lg">Sign in</button>
                </form>
+               <br>
+               <h3>
+
+                    <a hx-boost="true" href="{% url 'register' %}">Create a account</a>
+               </h3>
 
           </div>
      </div>

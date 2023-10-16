@@ -23,11 +23,12 @@ Review Website
                               </strong>
 
                          </header>
+                         
                          <div class="card-body">
-
                               <div class="row ">
                                    <div class="col-md-12">
-                                        <form action="" method = "POST">
+                                        <form hx-post= "{% url 'Review_website' %}" hx-target="body" >
+                                        {% comment %} <form action = "{% url 'Review_website' %}" method="POST"> {% endcomment %}
                                              {% csrf_token %}
                                              <label for="exampleFormControlTextarea1" class="form-label">
                                                   <h2>

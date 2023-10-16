@@ -38,7 +38,7 @@ Notification
                                              {% if notification.notification_type == 'message' %}
                                              <li>
 
-                                                  <a
+                                                  <a hx-boost="true"
                                                        href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
                                                        <strong class="text-secondary">Job:{{notification.application}} <br> {{notification.created_by.get_full_name}} was sended you a message.</strong> 
                                                        <br>
@@ -49,7 +49,7 @@ Notification
                                              {% elif notification.notification_type == 'application' %}
                                              <li>
 
-                                                  <a
+                                                  <a hx-boost="true"
                                                        href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
                                                        <strong class="text-secondary">Job:{{notification.application}} <br> {{notification.created_by.get_full_name}} Applied for your job.</strong>
                                                        
@@ -63,7 +63,7 @@ Notification
                                              {% if notification.notification_type == 'message' %}
                                              <li>
 
-                                                  <a
+                                                  <a hx-boost="true"
                                                        href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
                                                        <strong >Job:{{notification.application}} <br> {{notification.created_by.get_full_name}}</strong> sent
                                                        you a message.
@@ -75,7 +75,7 @@ Notification
                                              {% elif notification.notification_type == 'application' %}
                                              <li>
 
-                                                  <a
+                                                  <a hx-boost="true"
                                                        href="{% url 'notifications' %}?goto=viewApplication&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
                                                        <strong>Job:{{notification.application}} <br> {{notification.created_by.get_full_name}}</strong>
                                                        Applied for your job.

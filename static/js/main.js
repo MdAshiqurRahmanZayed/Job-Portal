@@ -1,6 +1,7 @@
 setTimeout(function () {
      $('#message').fadeOut('slow')
-}, 4000)
+}, 5000);
+
 var words = [
  'Extensive Job Opportunities',
  'Time and Effort Savings',
@@ -97,3 +98,6 @@ updateNotificationsCount();
 
 // Schedule periodic updates every 10 seconds (adjust as needed)
 // Fetch every 5 seconds (adjust as needed)
+document.body.addEventListener('htmx:configRequest', (event) => {
+     event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+});

@@ -35,7 +35,7 @@ All Applicant
                                    {% for appliocant in job.application_set.all %}
                                    <h4>
                                         <li>
-                                             <a href="{% url 'viewApplication' appliocant.id %}">
+                                             <a hx-boost="true" href="{% url 'viewApplication' appliocant.id %}">
                                                   {{appliocant.user.get_full_name}}
                                              </a>
                                         </li>

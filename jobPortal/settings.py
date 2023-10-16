@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'mptt',
     'rest_framework',
     'user_visit',
+    'django_htmx',
     
 ]
 

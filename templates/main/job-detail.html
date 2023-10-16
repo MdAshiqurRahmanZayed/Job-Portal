@@ -13,7 +13,7 @@
                </h5>
                
                <h5>
-                   Created by : <a href="{% url 'showUserProfile' job.user.id %}">{{job.user.get_full_name}}</a> 
+                   Created by : <a hx-boost="true" href="{% url 'showUserProfile' job.user.id %}">{{job.user.get_full_name}}</a> 
                </h5>
                <div class="mt-4">
                     {{job.description|safe}}
@@ -37,7 +37,7 @@
                       <b>Website:</b> <a href="{{job.website_url}}">{{job.website_url}}</a>
                    </p>
                    <p>
-                      <b>Email:</b> {{job.company_email}}</a>
+                      <b>Email:</b> {{job.company_email}}
                    </p>
                    <p>
                       <b>Vacancy:</b> {{job.vacancy}}
@@ -57,7 +57,7 @@
                </div>
                {% if request.user.userprofile.role == "jobseeker" %}
                     
-               <a href="{% url 'createApplication' job.id %}">
+               <a hx-boost="true" href="{% url 'createApplication' job.id %}">
                     <div class="mt-4 btn btn-primary">
                          Apply
                     </div>

@@ -14,7 +14,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from mptt.templatetags.mptt_tags import tree_info
 from django.db.models import Q
 from rest_framework import viewsets, views
-
+from django_htmx.http import HttpResponseClientRedirect
 # Create your views here.
 def home(request):
      testimonials = Review.objects.filter(show = True) 
@@ -374,6 +374,9 @@ def contactUs(request):
      return render(request,'main/contact-us.html')
      
 #Riview
+
+
+@login_required(login_url='login')
 def Review_website(request):
      try:
          data = Review.objects.get(user=request.user.userprofile)
@@ -383,11 +386,14 @@ def Review_website(request):
           if data:
                description = request.POST['description']
                Review.objects.update(description= description)
+               messages.warning(request, 'Review updated.')
+               return redirect('Review_website')
                
           else:
                description = request.POST['description']
                data = Review.objects.create(description = description,user= request.user.userprofile)
-          return redirect('Review_website')
+               messages.warning(request, 'Review created.')
+               return redirect('Review_website')
      context = {
           'data':data
      }

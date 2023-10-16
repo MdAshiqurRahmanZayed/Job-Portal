@@ -25,7 +25,7 @@
                               <div class="col-md-9">
                                    <h5>
                                         <b>
-                                             <a href="{% url 'jobDetail' job.slug job.id %}">
+                                             <a hx-boost="true" href="{% url 'jobDetail' job.slug job.id %}">
                                                   {{job.title}}
                                              </a>
                                         </b>
@@ -41,15 +41,15 @@
                               <div class="col-md-9">
                                    <div class="d-inline">
                                         <i class="fa-solid fa-building"></i> 
-                                        <a href="http://127.0.0.1:8000/search/?keyword={{job.company_name}}">
+                                        <a hx-boost="true" href="http://127.0.0.1:8000/search/?keyword={{job.company_name}}">
                                              {{job.company_name}}
                                         </a>
                                         <i class="fa-solid fa-cube"> </i> 
-                                        <a href="http://127.0.0.1:8000/search/?keyword={{job.job_type}}">
+                                        <a hx-boost="true" href="http://127.0.0.1:8000/search/?keyword={{job.job_type}}">
                                              {{job.job_type}}
                                         </a>
                                         <i class="fa-solid fa-location-dot"></i>
-                                        <a href="http://127.0.0.1:8000/search/?keyword={{job.location}}">
+                                        <a hx-boost="true" href="http://127.0.0.1:8000/search/?keyword={{job.location}}">
                                              {{job.location}}
                                         </a>
                                    </div>
@@ -57,7 +57,7 @@
                               <div class="col">
                                    {% comment %} <i class="fa-solid fa-tag"></i>: {% endcomment %}
                                    <i class="fa fa-list-alt" aria-hidden="true"></i>:
-                                   <a href="{% url 'categoriesJobs' job.category.slug %}">{{job.category}}</a>
+                                   <a hx-boost="true" href="{% url 'categoriesJobs' job.category.slug %}">{{job.category}}</a>
                               </div>
                          </div>
 
@@ -73,20 +73,20 @@
           <ul class="pagination justify-content-center">
                {% if jobs.has_previous %}
                <li class="page-item ">
-                    <a class="page-link" href="?page=1">First</a>
+                    <a hx-boost="true"  class="page-link" href="?page=1">First</a>
                </li>
                <li class="page-item ">
 
-                    <a class="page-link" href="?page={{ jobs.previous_page_number }}">previous</a>
+                    <a hx-boost="true" class="page-link" href="?page={{ jobs.previous_page_number }}">previous</a>
                </li>
                <li class="page-item ">
 
-                    <a class="page-link" href="?page={{jobs.number|add:"-1"}}">{{jobs.number|add:"-1"}}</a>
+                    <a hx-boost="true" class="page-link" href="?page={{jobs.number|add:"-1"}}">{{jobs.number|add:"-1"}}</a>
                </li>
 
                {% endif %}
                <span class="current">
-                    <li class="page-item"><a class="page-link" href="">{{ jobs.number }}</a></li>
+                    <li class="page-item"><a hx-boost="true" class="page-link" href="">{{ jobs.number }}</a></li>
                </span>
 
 
@@ -105,13 +105,13 @@
                {% if jobs.has_next %}
                <li class="page-item ">
 
-                    <a class="page-link" href="?page={{jobs.number|add:"1"}}">{{jobs.number|add:"1"}}</a>
+                    <a hx-boost="true" class="page-link" href="?page={{jobs.number|add:"1"}}">{{jobs.number|add:"1"}}</a>
                </li>
                <li class="page-item ">
-                    <a class="page-link" href="?page={{ jobs.next_page_number }}">next</a>
+                    <a hx-boost="true" class="page-link" href="?page={{ jobs.next_page_number }}">next</a>
                </li>
                <li class="page-item ">
-                    <a class="page-link" href="?page={{ jobs.paginator.num_pages }}">Last</a>
+                    <a hx-boost="true" class="page-link" href="?page={{ jobs.paginator.num_pages }}">Last</a>
                </li>
 
 

@@ -36,8 +36,7 @@
                                    </b>
                               </h4>
                               <h5>Date Added:{{application.created_at|date}}</h5>
-                              <h5>Created by: <a
-                                        href="{% url 'showUserProfile' application.user.id %}">{{application.user.get_full_name}}</a>
+                              <h5>Created by: <a hx-boost="true" href="{% url 'showUserProfile' application.user.id %}">{{application.user.get_full_name}}</a>
                               </h5>
                               <h4>
                                    <b>
