@@ -1,5 +1,5 @@
 # Job-Portal
-
+<b>Live: http://mdzayed.pythonanywhere.com/ </b><br>
 An online job portal is to provide a platform where job seekers can search for job openings, and where employers can post job vacancies and find qualified candidates. The goal is to create a centralized and efficient system that simplifies the job search and hiring process for both job seekers and employers. The project should offer features such as job search filters, user profiles, job application tracking, and job posting management. Overall, the aim is to create a user-friendly, accessible, and reliable job portal that helps to bridge the gap between job seekers and employers.
 <br>
 <b>NB:</b><br>
