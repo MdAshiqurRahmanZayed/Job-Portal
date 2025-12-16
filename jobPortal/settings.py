@@ -155,8 +155,6 @@ if USE_S3:
 
     DEFAULT_FILE_STORAGE = "jobPortal.storage_backends.MediaStorage"
 
-    AWS_DEFAULT_ACL = "public-read"
-    AWS_S3_FILE_OVERWRITE = False
     AWS_QUERYSTRING_AUTH = False
 
 else:
