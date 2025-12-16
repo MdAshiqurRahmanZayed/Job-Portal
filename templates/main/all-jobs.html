@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-     
+
      {% if 'search' in request.path %}
      <h2>
           Serach keyword: <b>{{keyword}}</b><br>
-          Total: {{jobs_count}} 
-     
-     </h2>     
+          Total: {{jobs_count}}
+
+     </h2>
      {% else %}
 
           <h2 class="title">Latest Jobs</h2>
      {% endif %}
-          
+
      {% for job in jobs %}
      <div class="card mb-2">
           <div  class="card-body display-flex justify-content-center ">
@@ -40,11 +40,11 @@
                          <div class="row">
                               <div class="col-md-9">
                                    <div class="d-inline">
-                                        <i class="fa-solid fa-building"></i> 
+                                        <i class="fa-solid fa-building"></i>
                                         <a hx-boost="true" href="http://127.0.0.1:8000/search/?keyword={{job.company_name}}">
                                              {{job.company_name}}
                                         </a>
-                                        <i class="fa-solid fa-cube"> </i> 
+                                        <i class="fa-solid fa-cube"> </i>
                                         <a hx-boost="true" href="http://127.0.0.1:8000/search/?keyword={{job.job_type}}">
                                              {{job.job_type}}
                                         </a>

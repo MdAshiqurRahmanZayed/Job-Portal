@@ -5,4 +5,4 @@ register = template.Library()
 
 @register.filter
 def replace_underscore(value):
-    return value.replace('_', ' ')
+    return value.replace("_", " ")

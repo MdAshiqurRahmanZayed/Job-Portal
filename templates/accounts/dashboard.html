@@ -13,14 +13,14 @@
                     <article class="card">
                          <header class="card-header">
                               <strong class="d-inline-block mr-3">
-                                   
+
                                         {% if request.user.userprofile.role == "employer"%}
                                         Logged in as Employer:
                                         {% elif request.user.userprofile.role == "jobseeker"%}
                                         Logged in as Job Seeker:
-                                        
+
                                         {% endif %}
-                                        
+
                               </strong>
 
                               {% if userprofile.get_full_name %}

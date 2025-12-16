@@ -99,16 +99,16 @@
                                    </b>
                               </p>
                               {% endfor %} {% endcomment %}
-                              
-                              
+
+
                               <div id="chat-messages" style="background: #e5eaee;;"  class="card p-2 mb-3">
                                    <!-- Existing chat messages will be displayed here -->
                                    <div id="single-chat">
 
                                    </div>
-                              
+
                               </div>
-                                   
+
                               <br>
                               <form id='myform' method="POST">
                                    {% csrf_token %}
@@ -116,7 +116,7 @@
                                    {{form.content}}
                                    <button class="btn btn-primary my-2" type="submit">Send</button>
                                    {% comment %} <input class="btn btn-primary my-2" type="submit" value="Send"> {% endcomment %}
-                                  
+
                               </form>
                          </div>
 
@@ -167,7 +167,7 @@ $(document).ready(function() {
         .then(data => {
             const chatMessages = data;
             const chatMessagesContainer = document.getElementById("single-chat");
-            
+
             // Clear the chat messages container
             chatMessagesContainer.innerHTML = "";
 
@@ -182,13 +182,13 @@ $(document).ready(function() {
                      messageElement.style.background = "aliceblue";
                      const createdBy = message.created_by;
                      let role;  // Define the role variable outside the if statement
-     
+
                     if (createdBy !== {{ application.user.id }}) {
                     role = 'Employer';
                     } else {
                     role = 'Job Seeker';
                     }
-     
+
                      const createdAt = moment(message.created_at).fromNow();
                     messageElement.innerHTML = `
                          <b>${role} - ${createdAt}</b><br>
@@ -213,7 +213,7 @@ fetchMessages();
 // Optionally, you can use setInterval to periodically fetch and update the chat messages
 setInterval(fetchMessages, 1000);  // Fetch every 5 seconds (adjust as needed)
 
-	// API for get requests 
+	// API for get requests
     //   function fetchMessag(){
        //   const id = {{application.id}}
           //  let fetchRes = fetch(
@@ -223,9 +223,9 @@ setInterval(fetchMessages, 1000);  // Fetch every 5 seconds (adjust as needed)
         //    fetchRes.then(res =>
            //      res.json()).then(d => {
               //      const chatMessages = d ;
-                    
+
                  //     console.log(chatMessages)
-                      
+
              //    })
        //}
 

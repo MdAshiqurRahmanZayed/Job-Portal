@@ -11,9 +11,9 @@
                <h5>
                    Category : {{job.category}}
                </h5>
-               
+
                <h5>
-                   Created by : <a hx-boost="true" href="{% url 'showUserProfile' job.user.id %}">{{job.user.get_full_name}}</a> 
+                   Created by : <a hx-boost="true" href="{% url 'showUserProfile' job.user.id %}">{{job.user.get_full_name}}</a>
                </h5>
                <div class="mt-4">
                     {{job.description|safe}}
@@ -31,7 +31,7 @@
 
           </div>
           <div class="col">
-               
+
                <div class="container card">
                    <p>
                       <b>Website:</b> <a href="{{job.website_url}}">{{job.website_url}}</a>
@@ -56,14 +56,14 @@
                    </p>
                </div>
                {% if request.user.userprofile.role == "jobseeker" %}
-                    
+
                <a hx-boost="true" href="{% url 'createApplication' job.id %}">
                     <div class="mt-4 btn btn-primary">
                          Apply
                     </div>
                </a>
                {% endif %}
-                    
+
           </div>
      </div>
 </div>

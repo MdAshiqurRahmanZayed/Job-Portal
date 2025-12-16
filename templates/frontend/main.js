@@ -10,4 +10,3 @@ $('a[href^="#"]').on('click', function (event) {
     }, 1000);
   }
 });
-

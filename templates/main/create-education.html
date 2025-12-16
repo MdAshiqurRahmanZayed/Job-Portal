@@ -4,12 +4,12 @@
 {% block title %}
 
 {% if '/create-education/' in request.path %}
-     
+
 Create
 {% else %}
 Edit
 {% endif %}
-     
+
  Education
 {% endblock title %}
 
@@ -74,7 +74,7 @@ Edit
 
                                                             {% csrf_token %}
                                                             <div class="row">
-                                                                 {{form.as_p}}                                                                 
+                                                                 {{form.as_p}}
                                                             </div>
                                                             <input type="submit" value="Save"
                                                                  class=" mt-2 btn btn-primary">

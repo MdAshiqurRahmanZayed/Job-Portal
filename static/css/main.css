@@ -7,7 +7,7 @@ a{
 body {
      font-family: Arial, sans-serif;
      margin: 0;
-     padding: 0;     
+     padding: 0;
      background-color: #D2D79F;
 }
 .nav-img{
@@ -284,7 +284,7 @@ footer {
       border: none;
       margin: .1em;
  }
-/* 
+/*
 .card {
      width: 300px;
      border-radius: 10px;
