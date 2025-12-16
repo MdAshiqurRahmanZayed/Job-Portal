@@ -1,0 +1,24 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-yaml
+    - id: check-added-large-files
+    - id: debug-statements
+      language_version: python3
+    - id: no-commit-to-branch
+      args: ['--branch', 'development', '--branch', 'staging', '--branch', 'production']
+
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.14.2
+  hooks:
+    - id: ruff
+      name: ruff
+      entry: ruff check --extend-select I --fix
+    - id: ruff-format
+      name: ruff-format
+      entry: ruff format
+      language: python

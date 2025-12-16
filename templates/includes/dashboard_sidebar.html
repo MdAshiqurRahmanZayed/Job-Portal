@@ -8,10 +8,10 @@
     {% if user.userprofile %}
     <a hx-boost="true" class="list-group-item {% if '/notifications/' in request.path   %} active{% endif %}"
       href="{% url 'notifications' %}"> Notification(
-              
+
         {{notifications_count.count}}
-              
-                
+
+
               )</a>
     <a hx-boost="true" class="list-group-item {% if '/review/' in request.path   %} active{% endif %}"
       href="{% url 'Review_website' %}"> Review</a>
@@ -28,11 +28,11 @@
             <a hx-boost="true" class="list-group-item {% if '/update-education/' in request.path  %}active{% endif %}"
               href="{% url 'updateEducation' %}"> Update Education </a>
             {% else %}
-              
+
             <a hx-boost="true" class="list-group-item {% if '/create-education/' in request.path  %}active{% endif %}"
               href="{% url 'createEducation' %}"> Create Education </a>
             {% endif %}
-              
+
 
         {% endif %}
 

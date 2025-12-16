@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
-from .info import *
 import os
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from pathlib import Path
+
+from decouple import config
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -21,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@%e&+@#h1f4@ca4=s#0&_)!ng-1y--$wa98vu4@)sq^uuel(sz"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost").split(",")
 
 
 # Application definition
@@ -38,19 +39,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
-    #added apps
+    # added apps
     "main",
     "accounts",
-    
-    #3rd party
-    'ckeditor',
-    'taggit',
-    'mptt',
-    'rest_framework',
-    'user_visit',
-    'django_htmx',
-    
+    # 3rd party
+    "ckeditor",
+    "taggit",
+    "mptt",
+    "rest_framework",
+    "user_visit",
+    "django_htmx",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -61,9 +60,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    
-    #3rd party
-    'user_visit.middleware.UserVisitMiddleware',
+    # 3rd party
+    "user_visit.middleware.UserVisitMiddleware",
 ]
 
 ROOT_URLCONF = "jobPortal.urls"
@@ -71,7 +69,7 @@ ROOT_URLCONF = "jobPortal.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['templates'],
+        "DIRS": ["templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,9 +80,9 @@ TEMPLATES = [
                 "main.context_processors.notifications",
                 "main.context_processors.categories",
             ],
-        'libraries': {
-            'custom_filters': 'main.custom_filters',
-        },
+            "libraries": {
+                "custom_filters": "main.custom_filters",
+            },
         },
     },
 ]
@@ -134,17 +132,39 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
+# AWS S3 Settings
+USE_S3 = config("USE_S3", default=False, cast=bool)
 
-STATIC_URL = "static/"
-STATICFILES_DIRS =[os.path.join(BASE_DIR,'static')]
+if USE_S3:
+    AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="us-east-1")
 
+    AWS_S3_CUSTOM_DOMAIN = config(
+        "AWS_S3_CUSTOM_DOMAIN", default=f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    )
 
-#media
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
 
+    AWS_LOCATION = "static"
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+    DEFAULT_FILE_STORAGE = "jobPortal.storage_backends.MediaStorage"
+
+    AWS_DEFAULT_ACL = "public-read"
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_QUERYSTRING_AUTH = False
+
+else:
+    STATIC_URL = "static/"
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # Default primary key field type
@@ -154,79 +174,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Custom accounts
-AUTH_USER_MODEL  ='accounts.Account'
+AUTH_USER_MODEL = "accounts.Account"
 
 
-# SMTP configuration
-EMAIL_HOST = EMAIL_HOST
-EMAIL_PORT = EMAIL_PORT
-EMAIL_HOST_USER = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-EMAIL_USE_TLS = EMAIL_USE_TLS
-
-
-#ckeditor
-CKEDITOR_CONFIGS = {
-    'default': {
-        'skin': 'moono',
-        # 'skin': 'office2013',
-        'toolbar_Basic': [
-            ['-', 'Bold', 'Italic']
-        ],
-        'toolbar_YourCustomToolbarConfig': [
-            {'name': 'document', 'items': [ '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
-            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-            {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
-            {'name': 'forms',
-             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
-                       'HiddenField']},
-            '/',
-            {'name': 'basicstyles',
-             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
-            {'name': 'paragraph',
-             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
-                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
-                       'Language']},
-            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
-            {'name': 'insert',
-             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
-            '/',
-            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
-            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
-            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
-            {'name': 'about', 'items': ['About']},
-            '/',  # put this to force next toolbar on new line
-            {'name': 'yourcustomtools', 'items': [
-                # put the name of your editor.ui.addButton here
-                'Preview',
-                'Maximize',
-
-            ]},
-        ],
-        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
-        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        'height': 350,
-        'width': 'auto',
-        # 'filebrowserWindowHeight': 725,
-        # 'filebrowserWindowWidth': 940,
-        # 'toolbarCanCollapse': True,
-        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
-        'tabSpaces': 4,
-        'extraPlugins': ','.join([
-            'uploadimage', # the upload image feature
-            # your extra plugins here
-            'div',
-            'autolink',
-            'autoembed',
-            'embedsemantic',
-            'autogrow',
-            'devtools',
-            'widget',
-            'lineutils',
-            'clipboard',
-            'dialog',
-            'dialogui',
-            'elementspath'
-        ]),
-    }
-}
+# SMTP configuration from .env
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST", default="smtp.gmail.com")
+EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)

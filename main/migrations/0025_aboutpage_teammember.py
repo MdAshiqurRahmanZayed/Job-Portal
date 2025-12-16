@@ -4,30 +4,45 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0024_notification_application'),
+        ("main", "0024_notification_application"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='AboutPage',
+            name="AboutPage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('title', models.CharField(max_length=50)),
-                ('about', models.TextField()),
-                ('image', models.ImageField(upload_to='about/')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                ("title", models.CharField(max_length=50)),
+                ("about", models.TextField()),
+                ("image", models.ImageField(upload_to="about/")),
             ],
         ),
         migrations.CreateModel(
-            name='teamMember',
+            name="teamMember",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('title', models.CharField(max_length=50)),
-                ('about', models.TextField()),
-                ('image', models.ImageField(upload_to='teamMember/')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                ("title", models.CharField(max_length=50)),
+                ("about", models.TextField()),
+                ("image", models.ImageField(upload_to="teamMember/")),
             ],
         ),
     ]

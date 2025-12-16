@@ -184,3 +184,5 @@ cython_debug/
 
 #Extended
 jobPortal/info.py
+staticfiles/
+static/

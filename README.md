@@ -23,8 +23,8 @@ Then install the dependencies:
 Create info.py in the jobPortal folder just like info-demo.py and fill in the equivalent answer(email,password).<br>
 We have to migrate.
 ```sh
-$ python manage.py makemigrations 
-$ python manage.py migrate 
+$ python manage.py makemigrations
+$ python manage.py migrate
 $ python manage.py createsuperuser
 ```
 

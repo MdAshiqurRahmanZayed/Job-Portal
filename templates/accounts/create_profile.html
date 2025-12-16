@@ -207,7 +207,7 @@
 
                               {% comment %} {{profile_form.as_p}} {% endcomment %}
                               {% if 'update-user-profile' in request.path %}
-                                   
+
                               <div class="container">
 
                                    <h2>
@@ -226,12 +226,12 @@
                                                        <br>
                                                        <a href="{% url 'updateMobileNumber' num.id %}">
                                                             <div class="btn btn-secondary m-2">Edit</div></a>
-                                                       </a> 
+                                                       </a>
                                                        <a href="{% url 'deleteMobileNumber' num.id %}">
 
                                                             <div class="btn btn-danger m-2">Delete</div></a>
                                                        </a>
-                                                       
+
                                              </li>
                                         </h4>
                                         {% endfor %}
@@ -253,7 +253,7 @@
 
                               </div>
                               {% endif %}
-                                   
+
                          </div> <!-- card-body .// -->
 
                     </article> <!-- order-group.// -->

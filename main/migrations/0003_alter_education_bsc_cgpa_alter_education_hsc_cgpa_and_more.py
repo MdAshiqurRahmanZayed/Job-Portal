@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("main", "0002_alter_education_hsc_cgpa_alter_education_hsc_year_and_more"),
     ]
