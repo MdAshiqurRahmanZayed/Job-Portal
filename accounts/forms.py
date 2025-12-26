@@ -72,15 +72,6 @@ class createProfile(forms.models.ModelForm):
 
     birth_date = forms.DateField(widget=DateInput)
 
-
-
-
-
-
-
-
-
-
     def __init__(self, *args, **kwargs):
         super(createProfile, self).__init__(*args, **kwargs)
         for field in self.fields:
