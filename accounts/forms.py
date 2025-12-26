@@ -7,14 +7,15 @@ class RegistrationForm(forms.models.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "placeholder": "Enter Password",
+                "placeholder": "Enter Your Password",
             }
         )
     )
+
     confirm_password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "placeholder": "Confirm Password",
+                "placeholder": "Confirm Your Password",
             }
         )
     )
