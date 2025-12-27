@@ -1,0 +1,21 @@
+name: Deployment to EC2
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Development-Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SECRET }}
+          port: 22
+          script: |
+            export COMMIT_SHORT=${GITHUB_SHA::8}
+            echo $COMMIT_SHORT >> commit-short.txt
+            /bin/bash -e /opt/scripts/development-pipeline.sh
+          envs: GITHUB_SHA,COMMIT_SHORT
