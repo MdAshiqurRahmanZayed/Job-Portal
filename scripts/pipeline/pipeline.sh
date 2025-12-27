@@ -14,6 +14,6 @@ echo -e '\e[1m\e[34mBuilding image...\e[0m\n';
 sudo docker build .;
 
 echo -e '\e[1m\e[34mPushing image to internal hub...\e[0m\n';
-sudo docker-compose -f docker-compose.yml up --build;
+sudo docker compose -f docker-compose.yml up --build;
 
 echo -e '\e[1m\e[34mDeployment Done!\e[0m\n';
