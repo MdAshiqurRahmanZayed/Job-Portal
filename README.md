@@ -31,7 +31,33 @@ $ python manage.py createsuperuser
 ```sh
 (env)$ python manage.py runserver
 ```
-And navigate to `http://127.0.0.1:8000/`<br>
+Navigate to `http://127.0.0.1:8000/`<br>
+
+## Docker Setup
+
+Create your `.env` file:
+```bash
+cp .env.example .env
+```
+
+**Important:** The `.env` file is already configured for Docker. The key settings are:
+- `DB_HOST=host.docker.internal`
+
+
+### Step 2: Build Docker Images
+
+```bash
+docker build .
+```
+
+### Step 3: Start Services
+
+```bash
+docker-compose -f docker-compose.yml up --build
+```
+Navigate to `http://127.0.0.1:9000/`<br>
+
+
 Demo Screenshots:
 ![](screenshot/a.png)
 ![](screenshot/b.png)
