@@ -43,7 +43,7 @@ JOB_TYPE = (
 class Job(models.Model):
     user = models.ForeignKey(UserProfile, related_name="User", on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
-    slug = models.SlugField(allow_unicode=True, max_length=100, unique=True)
+    slug = models.SlugField(allow_unicode=True, max_length=200, unique=True)
     category = models.ForeignKey(
         Category, related_name="Category", on_delete=models.CASCADE
     )
