@@ -9,6 +9,9 @@ echo -e '\e[1m\e[34mEntering into main project directory...\e[0m\n';
 cd /Job-Portal;
 echo $PWD;
 
+echo -e '\e[1m\e[34mConfiguring git safe directory...\e[0m\n';
+git config --global --add safe.directory /Job-Portal;
+
 echo -e '\e[1m\e[34mPulling code from remote...\e[0m\n';
 git pull origin main;
 

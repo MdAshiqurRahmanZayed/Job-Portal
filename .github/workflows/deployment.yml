@@ -17,5 +17,5 @@ jobs:
           script: |
             export COMMIT_SHORT=${GITHUB_SHA::8}
             echo $COMMIT_SHORT >> commit-short.txt
-            /bin/bash -e ./Job-Portal/scripts/pipeline/pipeline.sh
+            /bin/bash -e /Job-Portal/scripts/pipeline/pipeline.sh
           envs: GITHUB_SHA,COMMIT_SHORT
