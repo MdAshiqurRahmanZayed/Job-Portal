@@ -20,19 +20,27 @@ echo -e '\e[1m\e[34mStarting Blue-Green Deployment...\e[0m\n';
 
 # Detect current active container
 CURRENT_COLOR=""
+CURRENT_PORT=""
+NEW_PORT=""
+
 if sudo docker ps --filter "name=job-portal-blue" --format "{{.Names}}" | grep -q "job-portal-blue"; then
     CURRENT_COLOR="blue"
     NEW_COLOR="green"
+    CURRENT_PORT="9000"
+    NEW_PORT="9001"
 elif sudo docker ps --filter "name=job-portal-green" --format "{{.Names}}" | grep -q "job-portal-green"; then
     CURRENT_COLOR="green"
     NEW_COLOR="blue"
+    CURRENT_PORT="9001"
+    NEW_PORT="9000"
 else
-    # First deployment - default to blue
+    # First deployment - default to blue on 9000
     NEW_COLOR="blue"
     CURRENT_COLOR="none"
+    NEW_PORT="9000"
 fi
 
-echo -e "\e[1m\e[33mCurrent active: $CURRENT_COLOR | Deploying: $NEW_COLOR\e[0m\n";
+echo -e "\e[1m\e[33mCurrent active: $CURRENT_COLOR:$CURRENT_PORT | Deploying: $NEW_COLOR:$NEW_PORT\e[0m\n";
 
 # Build new image with color tag
 echo -e '\e[1m\e[34mBuilding new image...\e[0m\n';
@@ -45,12 +53,12 @@ if sudo docker ps -a --filter "name=job-portal-$NEW_COLOR" --format "{{.Names}}"
     sudo docker rm job-portal-$NEW_COLOR || true
 fi
 
-# Start new container
-echo -e '\e[1m\e[34mStarting new '$NEW_COLOR' container...\e[0m\n';
+# Start new container on alternate port
+echo -e '\e[1m\e[34mStarting new '$NEW_COLOR' container on port '$NEW_PORT'...\e[0m\n';
 sudo docker run -d \
     --name job-portal-$NEW_COLOR \
     --env-file .env \
-    -p 9000:9000 \
+    -p $NEW_PORT:9000 \
     -v $(pwd):/app \
     job-portal:$NEW_COLOR \
     python manage.py runserver 0.0.0.0:9000
