@@ -16,9 +16,18 @@ repos:
   rev: v0.14.2
   hooks:
     - id: ruff
-      name: ruff
-      entry: ruff check --extend-select I --fix
+      args: [--fix]
     - id: ruff-format
-      name: ruff-format
-      entry: ruff format
-      language: python
+
+- repo: local
+  hooks:
+    - id: djlint-reformat
+      name: djlint-reformat
+      entry: uv run djlint --reformat
+      language: system
+      types: [html]
+    - id: djlint-check
+      name: djlint-check
+      entry: uv run djlint --check
+      language: system
+      types: [html]

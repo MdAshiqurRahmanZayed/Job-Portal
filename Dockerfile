@@ -14,9 +14,12 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt update && apt install -y nginx gettext libcairo2-dev pkg-config build-essential
 
-COPY requirements.txt /app/
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
+
+COPY pyproject.toml uv.lock /app/
+RUN uv export --frozen --no-hashes --no-emit-project --no-dev -o /tmp/requirements.lock.txt && \
+    uv pip install --system --no-cache -r /tmp/requirements.lock.txt && \
+    rm /tmp/requirements.lock.txt
 
 COPY . /app/
 

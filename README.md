@@ -11,25 +11,20 @@ The first thing is cloning the repository:
 $ git clone https://github.com/MdAshiqurRahmanZayed/Job-Portal.git
 $ cd Job-Portal
 ```
-Create a virtual environment to install dependencies in and activate it:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then sync dependencies (creates a virtual environment automatically):
 ```sh
-$ python -m venv env
-$ source env/bin/activate
-```
-Then install the dependencies:
-```sh
-(env)$ pip install -r requirements.txt
+$ uv sync
 ```
 Create info.py in the jobPortal folder just like info-demo.py and fill in the equivalent answer(email,password).<br>
 We have to migrate.
 ```sh
-$ python manage.py makemigrations
-$ python manage.py migrate
-$ python manage.py createsuperuser
+$ uv run python manage.py makemigrations
+$ uv run python manage.py migrate
+$ uv run python manage.py createsuperuser
 ```
 
 ```sh
-(env)$ python manage.py runserver
+$ uv run python manage.py runserver
 ```
 Navigate to `http://127.0.0.1:8000/`<br>
 
@@ -57,6 +52,20 @@ docker-compose -f docker-compose.yml up --build
 ```
 Navigate to `http://127.0.0.1:9000/`<br>
 
+## PythonAnywhere Deployment
+
+The live deployment on PythonAnywhere no longer uses `pip`/`requirements.txt`.
+In the PythonAnywhere console, one-time setup:
+```sh
+$ curl -LsSf https://astral.sh/uv/install.sh | sh
+$ cd Job-Portal
+$ uv sync
+```
+Each subsequent deploy, instead of `pip install -r requirements.txt`, run:
+```sh
+$ uv sync
+```
+Run management commands the same way, e.g. `uv run python manage.py migrate`.
 
 Demo Screenshots:
 ![](screenshot/a.png)
