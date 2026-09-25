@@ -14,7 +14,7 @@ media/applicant
 media/course
 media/images/profile
 media/images/nid
-media/images/background-profile
+media/images/default/background-profile
 jobPortal/info.py
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
@@ -185,3 +185,9 @@ cython_debug/
 #Extended
 jobPortal/info.py
 staticfiles/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# macOS
+*.DS_Store
