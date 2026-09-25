@@ -21,9 +21,14 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "djlint>=1.46.2",
     "pre-commit==4.5.0",
     "ruff==0.14.2",
 ]
+
+[tool.djlint]
+profile = "django"
+indent = 4
 
 [tool.ruff]
 target-version = "py310"

@@ -1,80 +1,54 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-
 {% block title %}
-{{application}} Application
+    {{ application }} Application
 {% endblock title %}
-
 {% block content %}
-
-
-
-<section class="section-conten padding-y bg">
-     {% include 'includes/alerts.html' %}
-     <div class="container">
-          <div class="row mt-2">
-
-               {% include 'includes/dashboard_sidebar.html' %}
-               <main class="col-md-9">
+    <section class="section-conten padding-y bg">
+        {% include "includes/alerts.html" %}
+        <div class="container">
+            <div class="row mt-2">
+                {% include "includes/dashboard_sidebar.html" %}
+                <main class="col-md-9">
                     <article class="card">
-                         <header class="card-header">
-                              <strong class="d-inline-block mr-3">
-                                   Application:{{application.job}}
-                              </strong>
-
-                         </header>
-                         <div class="card-body" id="reload">
-                              <div class="chat-messages">
-
-                              </div>
-
-
-
-                              <h4>
-                                   <b>
-                                        Job:{{application.job}}
-                                   </b>
-                              </h4>
-                              <h5>Date Added:{{application.created_at|date}}</h5>
-                              <h5>Created by: <a hx-boost="true" href="{% url 'showUserProfile' application.user.id %}">{{application.user.get_full_name}}</a>
-                              </h5>
-                              <h4>
-                                   <b>
-                                        Content:
-                                   </b>
-                              </h4>
-                              {{application.content|safe}}
-
-
-
-                              <h4 class="mt-3">
-                                   <b>
-                                        Resume:
-                                   </b>
-                              </h4>
-                              <a href="{{application.resume.url}}">
-                                   <div class="btn btn-outline-primary">
-                                        Check Resume
-                                   </div>
-                              </a>
-
-                         </div>
-                         {% if  request.user.userprofile.role == "employer" %}
-
-                         {% else %}
-                         <a href="{% url 'deleteApplication' application.id %}">
-                              <div class="btn btn-danger m-3">
-                                   Delete Application
-                              </div>
-                         </a>
-                         {% endif %}
-
-                         <hr>
-                         <div class="container" id="chat-body">
-
-
-
-                              {% comment %} {% for message in application.conversationmessages.all %}
+                        <header class="card-header">
+                            <strong class="d-inline-block mr-3">Application:{{ application.job }}</strong>
+                        </header>
+                        <div class="card-body" id="reload">
+                            <div class="chat-messages"></div>
+                            <h4>
+                                <b>
+                                    Job:{{ application.job }}
+                                </b>
+                            </h4>
+                            <h5>Date Added:{{ application.created_at|date }}</h5>
+                            <h5>Created by: <a hx-boost="true"
+    href="{% url 'showUserProfile' application.user.id %}">{{ application.user.get_full_name }}</a>
+                            </h5>
+                            <h4>
+                                <b>
+                                    Content:
+                                </b>
+                            </h4>
+                            {{ application.content|safe }}
+                            <h4 class="mt-3">
+                                <b>
+                                    Resume:
+                                </b>
+                            </h4>
+                            <a href="{{ application.resume.url }}">
+                                <div class="btn btn-outline-primary">Check Resume</div>
+                            </a>
+                        </div>
+                        {% if request.user.userprofile.role == "employer" %}
+                        {% else %}
+                            <a href="{% url 'deleteApplication' application.id %}">
+                                <div class="btn btn-danger m-3">Delete Application</div>
+                            </a>
+                        {% endif %}
+                        <hr>
+                        <div class="container" id="chat-body">
+                            {% comment %} {% for message in application.conversationmessages.all %}
                               <div style="background: aliceblue;" id="chat-box-sent" class="card p-2 mb-3">
                                    <b>
                                         {% if message.created_by.role == "employer" %}
@@ -98,37 +72,27 @@
                                         No Conversion yet...
                                    </b>
                               </p>
-                              {% endfor %} {% endcomment %}
-
-
-                              <div id="chat-messages" style="background: #e5eaee;;"  class="card p-2 mb-3">
-                                   <!-- Existing chat messages will be displayed here -->
-                                   <div id="single-chat">
-
-                                   </div>
-
-                              </div>
-
-                              <br>
-                              <form id='myform' method="POST">
-                                   {% csrf_token %}
-                                   <h5>Message</h5>
-                                   {{form.content}}
-                                   <button class="btn btn-primary my-2" type="submit">Send</button>
-                                   {% comment %} <input class="btn btn-primary my-2" type="submit" value="Send"> {% endcomment %}
-
-                              </form>
-                         </div>
-
+                            {% endfor %} {% endcomment %}
+                            <div id="chat-messages" style="background: #e5eaee" class="card p-2 mb-3">
+                                <!-- Existing chat messages will be displayed here -->
+                                <div id="single-chat"></div>
+                            </div>
+                            <br>
+                            <form id="myform" method="post">
+                                {% csrf_token %}
+                                <h5>Message</h5>
+                                {{ form.content }}
+                                <button class="btn btn-primary my-2" type="submit">Send</button>
+                                {% comment %} <input class="btn btn-primary my-2" type="submit" value="Send"> {% endcomment %}
+                            </form>
+                        </div>
                     </article> <!-- order-group.// -->
-               </main>
-          </div> <!-- row.// -->
-     </div>
-
-
-</section>
-
-<script>
+                </main>
+            </div>
+            <!-- row.// -->
+        </div>
+    </section>
+    <script>
 $(document).ready(function() {
     // Function to send the form data and update chat messages
     function sendMessage() {
@@ -234,10 +198,8 @@ setInterval(fetchMessages, 1000);  // Fetch every 5 seconds (adjust as needed)
 });
 
 
-</script>
-
-
-{% comment %} <script>
+    </script>
+    {% comment %} <script>
      function getCookie(name) {
           let cookieValue = null;
           if (document.cookie && document.cookie !== '') {
@@ -315,5 +277,5 @@ setInterval(fetchMessages, 1000);  // Fetch every 5 seconds (adjust as needed)
 
      // Set the interval to refresh every 1 second (1000 milliseconds)
      setInterval(reloadPage, 1000);
-</script> {% endcomment %}
+    </script> {% endcomment %}
 {% endblock %}

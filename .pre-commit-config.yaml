@@ -18,3 +18,16 @@ repos:
     - id: ruff
       args: [--fix]
     - id: ruff-format
+
+- repo: local
+  hooks:
+    - id: djlint-reformat
+      name: djlint-reformat
+      entry: uv run djlint --reformat
+      language: system
+      types: [html]
+    - id: djlint-check
+      name: djlint-check
+      entry: uv run djlint --check
+      language: system
+      types: [html]

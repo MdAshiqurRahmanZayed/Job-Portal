@@ -1,82 +1,79 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-
 {% block content %}
-
-<section class="section-conten padding-y bg">
-     {% include 'includes/alerts.html' %}
-     <div class="container">
-          <div class="row mt-2">
-
-               {% include 'includes/dashboard_sidebar.html' %}
-               <main class="col-md-9">
+    <section class="section-conten padding-y bg">
+        {% include "includes/alerts.html" %}
+        <div class="container">
+            <div class="row mt-2">
+                {% include "includes/dashboard_sidebar.html" %}
+                <main class="col-md-9">
                     <article class="card">
-                         <header class="card-header">
-                              <strong class="d-inline-block mr-3">
-
-                                   {% if '/create-user-profile/' in request.path %}
-                                   Create
-                                   {% else %}
-                                   Edit
-                                   {% endif %}
-
-                                   your profile</strong>
-
-                         </header>
-                         <div class="card-body">
-
-                              <div class="text-right">
-                                   {% if request.user.userprofile.profile_picture %}
-                                   <img src="{{request.user.userprofile.profile_picture.url}}" alt="Profile Picture"
-                                        width="100" height="100" style="border-radius:50%;">
-                                   {% else %}
-                                   <img src="{% static 'images/man.png' %}" alt="Profile Picture" width="100"
-                                        height="100" style="border-radius:50%;">
-                                   {% endif %}
-                              </div>
-                              <div class="row ">
-                                   <div class="col-md-12">
-
-                                        {% comment %} <form action="{% url 'createUserProfile' %}" method="POST"
+                        <header class="card-header">
+                            <strong class="d-inline-block mr-3">
+                                {% if "/create-user-profile/" in request.path %}
+                                    Create
+                                {% else %}
+                                    Edit
+                                {% endif %}
+                            your profile</strong>
+                        </header>
+                        <div class="card-body">
+                            <div class="text-right">
+                                {% if request.user.userprofile.profile_picture %}
+                                    <img src="{{ request.user.userprofile.profile_picture.url }}"
+                                         alt="Profile Picture"
+                                         width="100"
+                                         height="100"
+                                         style="border-radius:50%">
+                                {% else %}
+                                    <img src="{% static 'images/man.png' %}"
+                                         alt="Profile Picture"
+                                         width="100"
+                                         height="100"
+                                         style="border-radius:50%">
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% comment %} <form action="{% url 'createUserProfile' %}" method="POST"
                                              enctype="multipart/form-data">
                                              {% csrf_token %}
                                              {{profile_form.as_p}}
                                              <input type="submit" value="Save" class=" mt-2 btn btn-primary">
 
-                                             <form> {% endcomment %}
-
-                                                  {% if '/update-user-profile/' in request.path %}
-
-                                                  <form action="{% url 'updateUserPeofile' %}" method="POST"
-                                                       enctype="multipart/form-data">
-                                                       {% else %}
-                                                       <form action="{% url 'createUserProfile' %}" method="POST"
-                                                            enctype="multipart/form-data">
-                                                            {% endif %}
-
-                                                            {% csrf_token %}
-                                                            <div class="row p-1">
-                                                                 <div class="col-md-6">
-                                                                      <h5>First Name:</h5>
-                                                                      {{profile_form.first_name}}
-                                                                 </div>
-                                                                 <div class="col-md-6">
-                                                                      <h5>Last Name:</h5>
-                                                                      {{profile_form.last_name}}
-                                                                 </div>
-                                                            </div>
-                                                            <div class="row p-1">
-                                                                 <div class="col-md-6">
-                                                                      <h5>Father Name:</h5>
-                                                                      {{profile_form.father_name}}
-                                                                 </div>
-                                                                 <div class="col-md-6">
-                                                                      <h5>Mother Name:</h5>
-                                                                      {{profile_form.mother_name}}
-                                                                 </div>
-                                                            </div>
-
-                                                            {% comment %} <div class="row p-1">
+                                             <form>
+                                    {% endcomment %}
+                                    {% if "/update-user-profile/" in request.path %}
+                                        <form action="{% url 'updateUserPeofile' %}"
+                                              method="post"
+                                              enctype="multipart/form-data">
+                                    {% else %}
+                                        <form action="{% url 'createUserProfile' %}"
+                                              method="post"
+                                              enctype="multipart/form-data">
+                                    {% endif %}
+                                        {% csrf_token %}
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>First Name:</h5>
+                                                {{ profile_form.first_name }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Last Name:</h5>
+                                                {{ profile_form.last_name }}
+                                            </div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>Father Name:</h5>
+                                                {{ profile_form.father_name }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Mother Name:</h5>
+                                                {{ profile_form.mother_name }}
+                                            </div>
+                                        </div>
+                                        {% comment %} <div class="row p-1">
                                                                  <div class="col-md-6">
                                                                       <h5>Phone Number:</h5>
                                                                       {{profile_form.phone_number}}
@@ -98,171 +95,140 @@
                                                                       </div>
 
                                                                  </div>
-                                                            </div> {% endcomment %}
-                                                            <div class="row p-1">
-
-                                                                 <div class="col-md-6">
-                                                                      <h5>Profile Picture:</h5>
-                                                                      {{profile_form.profile_picture}}
-                                                                 </div>
-
-                                                                 <div class="col-md-6">
-                                                                      <h5>Background Profile Picture:</h5>
-                                                                      {{profile_form.background_profile_picture}}
-                                                                 </div>
-                                                            </div>
-
-                                                            <div class="row p-1">
-                                                                 <div class="col-md-6">
-                                                                      <h5>Occupation:</h5>
-                                                                      {{profile_form.occupation}}
-                                                                 </div>
-                                                                 <div class="col-md-6">
-                                                                      <h5>Birthdate:</h5>
-                                                                      {{profile_form.birth_date}}
-                                                                 </div>
-
-                                                            </div>
-                                                            <div class="row p-1">
-                                                                 <div class="col-md-6">
-                                                                      <h5>Nid No:</h5>
-                                                                      {{profile_form.nid_no}}
-                                                                 </div>
-                                                                 <div class="col-md-6">
-                                                                      <h5>Nid image:</h5>
-                                                                      {{profile_form.nid_image}}
-                                                                 </div>
-
-                                                            </div>
-                                                            <div class="row p-1">
-                                                                 <div class="col-md-6">
-                                                                      <h5>Website:</h5>
-                                                                      {{profile_form.website}}
-                                                                 </div>
-                                                                 <div class="col-md-6">
-                                                                      <h5>Linkedin:</h5>
-                                                                      {{profile_form.linkedin}}
-                                                                 </div>
-                                                            </div>
-                                                            <div class="row p-1">
-                                                                 <h5>About:</h5>
-
-                                                                 <div class="col">
-                                                                      {{profile_form.about}}
-                                                                 </div>
-                                                            </div>
-                                                            <div class="row p-1">
-                                                                 <div class="col-md-6">
-                                                                      <h5>Present Addresss:</h5>
-                                                                      {{profile_form.present_address}}
-                                                                 </div>
-                                                                 <div class="col">
-                                                                      <h5>Permanent Address:</h5>
-                                                                      {{profile_form.permanent_address}}
-                                                                 </div>
-                                                            </div>
-
-                                                            <div class="row p-1">
-                                                                 <div class="col-md-6">
-                                                                      <h5>Gender:</h5>
-                                                                      {{profile_form.gender}}
-                                                                 </div>
-                                                                 <div class=" col-md-6">
-                                                                      <h5>Marital status:</h5>
-                                                                      {{profile_form.marital_status}}
-                                                                 </div>
-
-                                                            </div>
-                                                            <div class="row p-1">
-                                                                 <div class=" col-md-6">
-                                                                      <h5>Religion:</h5>
-                                                                      {{profile_form.religion}}
-                                                                 </div>
-                                                                 <div class=" col-md-6">
-                                                                      <h5>Nationality:</h5>
-                                                                      {{profile_form.nationality}}
-                                                                 </div>
-                                                            </div>
-
-                                                            {% if '/create-user-profile/' in request.path %}
-
-                                                            <div class="row p-1">
-                                                                 <div class=" col">
-                                                                      <h5>Role:</h5>
-                                                                      <h6 class="text-info">It will not change,so be
-                                                                           carefull.</h6>
-                                                                      {{profile_form.role}}
-                                                                 </div>
-
-                                                            </div>
-                                                            {% endif %}
-
-
-                                                            <input type="submit" value="Save"
-                                                                 class=" mt-2 btn btn-primary">
-                                                       </form>
-                                   </div>
-
-                              </div> <!-- row.// -->
-
-                              {% comment %} {{profile_form.as_p}} {% endcomment %}
-                              {% if 'update-user-profile' in request.path %}
-
-                              <div class="container">
-
-                                   <h2>
+                                        </div> {% endcomment %}
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>Profile Picture:</h5>
+                                                {{ profile_form.profile_picture }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Background Profile Picture:</h5>
+                                                {{ profile_form.background_profile_picture }}
+                                            </div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>Occupation:</h5>
+                                                {{ profile_form.occupation }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Birthdate:</h5>
+                                                {{ profile_form.birth_date }}
+                                            </div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>Nid No:</h5>
+                                                {{ profile_form.nid_no }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Nid image:</h5>
+                                                {{ profile_form.nid_image }}
+                                            </div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>Website:</h5>
+                                                {{ profile_form.website }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Linkedin:</h5>
+                                                {{ profile_form.linkedin }}
+                                            </div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <h5>About:</h5>
+                                            <div class="col">{{ profile_form.about }}</div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>Present Addresss:</h5>
+                                                {{ profile_form.present_address }}
+                                            </div>
+                                            <div class="col">
+                                                <h5>Permanent Address:</h5>
+                                                {{ profile_form.permanent_address }}
+                                            </div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>Gender:</h5>
+                                                {{ profile_form.gender }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Marital status:</h5>
+                                                {{ profile_form.marital_status }}
+                                            </div>
+                                        </div>
+                                        <div class="row p-1">
+                                            <div class="col-md-6">
+                                                <h5>Religion:</h5>
+                                                {{ profile_form.religion }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Nationality:</h5>
+                                                {{ profile_form.nationality }}
+                                            </div>
+                                        </div>
+                                        {% if "/create-user-profile/" in request.path %}
+                                            <div class="row p-1">
+                                                <div class="col">
+                                                    <h5>Role:</h5>
+                                                    <h6 class="text-info">
+                                                        It will not change,so be
+                                                        carefull.
+                                                    </h6>
+                                                    {{ profile_form.role }}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        <input type="submit" value="Save" class="mt-2 btn btn-primary">
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- row.// -->
+                            {% comment %} {{profile_form.as_p}} {% endcomment %}
+                            {% if "update-user-profile" in request.path %}
+                                <div class="container">
+                                    <h2>
                                         <b>
-                                             Mobile Number
+                                            Mobile Number
                                         </b>
-                                   </h2>
-
-                                   {% if mobile_numbers %}
-
-                                   <ol>
-                                        {% for num in mobile_numbers %}
-                                        <h4>
-                                             <li>
-                                                  {{num.mobile_number}} <a href="">
-                                                       <br>
-                                                       <a href="{% url 'updateMobileNumber' num.id %}">
-                                                            <div class="btn btn-secondary m-2">Edit</div></a>
-                                                       </a>
-                                                       <a href="{% url 'deleteMobileNumber' num.id %}">
-
-                                                            <div class="btn btn-danger m-2">Delete</div></a>
-                                                       </a>
-
-                                             </li>
-                                        </h4>
-                                        {% endfor %}
-                                   </ol>
-
-                                   {% else %}
-                                   <h4>
-                                        You have no mobile number.
-                                   </h4>
-                                   <br>
-                                   {% endif %}
-
-
-                                   <a href="{% url 'createMobileNumber' %}">
+                                    </h2>
+                                    {% if mobile_numbers %}
+                                        <ol>
+                                            {% for num in mobile_numbers %}
+                                                <h4>
+                                                    <li>
+                                                        {{ num.mobile_number }} <a href="">
+                                                        <br>
+                                                        <a href="{% url 'updateMobileNumber' num.id %}">
+                                                            <div class="btn btn-secondary m-2">Edit</div>
+                                                        </a>
+                                                        </a>
+                                                        <a href="{% url 'deleteMobileNumber' num.id %}">
+                                                            <div class="btn btn-danger m-2">Delete</div>
+                                                        </a>
+                                                    </a>
+                                                </li>
+                                                </h4>
+                                            {% endfor %}
+                                        </ol>
+                                    {% else %}
+                                        <h4>You have no mobile number.</h4>
+                                        <br>
+                                    {% endif %}
+                                    <a href="{% url 'createMobileNumber' %}">
                                         <div class="btn btn-info">Add</div>
-                                   </a>
-
-
-
-                              </div>
-                              {% endif %}
-
-                         </div> <!-- card-body .// -->
-
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <!-- card-body .// -->
                     </article> <!-- order-group.// -->
-               </main>
-          </div> <!-- row.// -->
-     </div>
-
-
-
-</section>
-
+                </main>
+            </div>
+            <!-- row.// -->
+        </div>
+    </section>
 {% endblock %}
