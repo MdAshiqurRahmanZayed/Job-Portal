@@ -1,0 +1,44 @@
+[project]
+name = "job-portal"
+version = "0.1.0"
+description = "Online job portal built with Django"
+requires-python = ">=3.10"
+dependencies = [
+    "django==4.2.5",
+    "djangorestframework==3.14.0",
+    "django-ckeditor==6.7.0",
+    "django-htmx==1.27.0",
+    "django-mptt==0.14.0",
+    "django-storages==1.14.6",
+    "django-taggit==4.0.0",
+    "django-user-visit==1.1",
+    "python-decouple==3.8",
+    "pillow==12.0.0",
+    "psycopg2-binary==2.9.11",
+    "boto3==1.42.10",
+    "gunicorn==23.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit==4.5.0",
+    "ruff==0.14.2",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+extend-exclude = [
+    "*/migrations/*",
+    "staticfiles",
+    "media",
+    "env",
+    "venv",
+]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.lint.isort]
+
+[tool.ruff.format]

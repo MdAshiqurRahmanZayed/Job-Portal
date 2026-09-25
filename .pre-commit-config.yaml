@@ -16,9 +16,5 @@ repos:
   rev: v0.14.2
   hooks:
     - id: ruff
-      name: ruff
-      entry: ruff check --extend-select I --fix
+      args: [--fix]
     - id: ruff-format
-      name: ruff-format
-      entry: ruff format
-      language: python
