@@ -6,6 +6,8 @@ from django.test import TestCase
 from accounts.models import Account, UserProfile
 from main.models import Application, Category, Job
 
+TEST_FIXTURE_PASSWORD = "test-fixture-pw-1"  # nosec: not a real credential
+
 SMALL_GIF = (
     b"\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04"
     b"\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02"
@@ -35,7 +37,7 @@ class MainTestCase(TestCase):
         email = email or f"user{_next_unique()}@example.com"
         username = email.split("@")[0]
         account = Account.objects.create_user(
-            email=email, username=username, password="Str0ngPass!"
+            email=email, username=username, password=TEST_FIXTURE_PASSWORD
         )
         account.is_active = True
         account.save()

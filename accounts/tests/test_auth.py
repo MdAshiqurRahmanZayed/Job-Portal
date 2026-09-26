@@ -2,7 +2,7 @@ from django.urls import reverse
 
 from accounts.models import Account
 
-from .base import AccountsTestCase
+from .base import TEST_FIXTURE_PASSWORD, AccountsTestCase
 
 
 class RegistrationTests(AccountsTestCase):
@@ -11,8 +11,8 @@ class RegistrationTests(AccountsTestCase):
             reverse("register"),
             {
                 "email": "newuser@example.com",
-                "password": "Str0ngPass!",
-                "confirm_password": "Str0ngPass!",
+                "password": TEST_FIXTURE_PASSWORD,
+                "confirm_password": TEST_FIXTURE_PASSWORD,
             },
         )
         self.assertTrue(Account.objects.filter(email="newuser@example.com").exists())
@@ -25,8 +25,8 @@ class RegistrationTests(AccountsTestCase):
             reverse("register"),
             {
                 "email": "dup@example.com",
-                "password": "Str0ngPass!",
-                "confirm_password": "Str0ngPass!",
+                "password": TEST_FIXTURE_PASSWORD,
+                "confirm_password": TEST_FIXTURE_PASSWORD,
             },
         )
 
@@ -36,13 +36,13 @@ class RegistrationTests(AccountsTestCase):
 class LoginLogoutTests(AccountsTestCase):
     def setUp(self):
         self.account = self.make_account(
-            email="login@example.com", password="Str0ngPass!"
+            email="login@example.com", password=TEST_FIXTURE_PASSWORD
         )
 
     def test_valid_credentials_log_in(self):
         response = self.client.post(
             reverse("login"),
-            {"email": "login@example.com", "password": "Str0ngPass!"},
+            {"email": "login@example.com", "password": TEST_FIXTURE_PASSWORD},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse("dashboard"))

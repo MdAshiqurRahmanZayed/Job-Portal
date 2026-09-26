@@ -4,6 +4,9 @@ from accounts.models import Education, UserProfile, mobileNumber
 
 from .base import AccountsTestCase, make_test_image
 
+OLD_FIXTURE_PASSWORD = "test-fixture-pw-old"  # nosec: not a real credential
+NEW_FIXTURE_PASSWORD = "test-fixture-pw-new"  # nosec: not a real credential
+
 
 class ProfileTests(AccountsTestCase):
     def setUp(self):
@@ -184,7 +187,7 @@ class MobileNumberTests(AccountsTestCase):
 class ChangePasswordTests(AccountsTestCase):
     def setUp(self):
         self.account = self.make_account(
-            email="pwd@example.com", password="OldPass123!"
+            email="pwd@example.com", password=OLD_FIXTURE_PASSWORD
         )
 
     def test_authenticated_user_can_change_password(self):
@@ -193,9 +196,9 @@ class ChangePasswordTests(AccountsTestCase):
         response = self.client.post(
             reverse("change_password"),
             {
-                "current_password": "OldPass123!",
-                "new_password": "NewPass456!",
-                "confirm_password": "NewPass456!",
+                "current_password": OLD_FIXTURE_PASSWORD,
+                "new_password": NEW_FIXTURE_PASSWORD,
+                "confirm_password": NEW_FIXTURE_PASSWORD,
             },
         )
 
@@ -204,7 +207,7 @@ class ChangePasswordTests(AccountsTestCase):
         self.client.logout()
         login_response = self.client.post(
             reverse("login"),
-            {"email": "pwd@example.com", "password": "NewPass456!"},
+            {"email": "pwd@example.com", "password": NEW_FIXTURE_PASSWORD},
         )
         self.assertIn("_auth_user_id", self.client.session)
         self.assertEqual(login_response.status_code, 302)

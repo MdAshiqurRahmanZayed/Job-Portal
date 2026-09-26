@@ -5,6 +5,8 @@ from django.test import TestCase
 
 from accounts.models import Account, UserProfile
 
+TEST_FIXTURE_PASSWORD = "test-fixture-pw-1"  # nosec: not a real credential
+
 SMALL_GIF = (
     b"\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04"
     b"\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02"
@@ -18,7 +20,7 @@ def make_test_image(name="test.gif"):
 
 class AccountsTestCase(TestCase):
     def make_account(
-        self, email="user@example.com", password="Str0ngPass!", is_active=True
+        self, email="user@example.com", password=TEST_FIXTURE_PASSWORD, is_active=True
     ):
         username = email.split("@")[0]
         account = Account.objects.create_user(
@@ -52,5 +54,5 @@ class AccountsTestCase(TestCase):
         fields.update(overrides)
         return UserProfile.objects.create(**fields)
 
-    def login_as(self, account, password="Str0ngPass!"):
+    def login_as(self, account, password=TEST_FIXTURE_PASSWORD):
         self.client.force_login(account)
