@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from accounts.models import Account
+from apps.accounts.models import Account
 
 from .base import TEST_FIXTURE_PASSWORD, AccountsTestCase
 

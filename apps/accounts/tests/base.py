@@ -3,7 +3,7 @@ from datetime import date
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from accounts.models import Account, UserProfile
+from apps.accounts.models import Account, UserProfile
 
 TEST_FIXTURE_PASSWORD = "test-fixture-pw-1"  # nosec: not a real credential
 

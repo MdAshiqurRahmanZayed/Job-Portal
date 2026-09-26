@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from accounts.models import Education, UserProfile, mobileNumber
+from apps.accounts.models import Education, UserProfile, mobileNumber
 
 from .base import AccountsTestCase, make_test_image
 

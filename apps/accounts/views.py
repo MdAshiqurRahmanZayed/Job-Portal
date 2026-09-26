@@ -11,9 +11,10 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
-from accounts.models import Account, Education, UserProfile, mobileNumber
-from main.models import Application, Job
+from apps.accounts.models import Account, Education, UserProfile, mobileNumber
+from apps.main.models import Application, Job
 
+from . import services
 from .forms import (
     RegistrationForm,
     createProfile,
@@ -128,11 +129,10 @@ def change_password(request):
         user = Account.objects.get(username__exact=request.user.username)
 
         if new_password == confirm_password:
-            success = user.check_password(current_password)
+            success = services.change_user_password(
+                user, current_password, new_password
+            )
             if success:
-                user.set_password(new_password)
-                user.save()
-                # auth.logout(request)
                 messages.success(request, "Password updated successfully.")
                 return redirect("change_password")
             else:
@@ -181,10 +181,7 @@ def createUserProfile(request):
             profile_form = createProfile(request.POST, request.FILES)
             user = request.user
             if profile_form.is_valid():
-                profile = profile_form.save(commit=False)
-                profile.user = user
-                print(profile)
-                profile.save()
+                services.create_profile(user, profile_form)
                 messages.success(request, "Your profile has been created successfully.")
                 return redirect("updateUserPeofile")
         else:
@@ -206,7 +203,7 @@ def updateUserPeofile(request):
                 request.POST, request.FILES, instance=userProfile
             )
             if profile_form.is_valid():
-                profile_form.save()
+                services.update_profile(userProfile, profile_form)
                 messages.success(request, "Your profile has been updated successfully.")
                 return redirect("updateUserPeofile")
         except Exception:
@@ -255,12 +252,7 @@ def createEducation(request):
         try:
             form = educationForm(request.POST)
             if form.is_valid():
-                form = form.save(commit=False)
-                form.user = request.user.userprofile
-                form.save()
-                userprofile = UserProfile.objects.get(user=request.user)
-                userprofile.education = True
-                userprofile.save()
+                services.create_education(request.user.userprofile, form)
                 messages.success(
                     request, "Your Education has been Created successfully."
                 )
@@ -286,8 +278,7 @@ def updateEducation(request):
         form = educationForm(request.POST, request.FILES, instance=education)
         try:
             if form.is_valid():
-                form = form.save(commit=False)
-                form.save()
+                services.update_education(education, form)
                 messages.success(
                     request, "Your Education has been updated successfully."
                 )
@@ -306,11 +297,8 @@ def createMobileNumber(request):
     if request.method == "POST":
         try:
             form = mobileNumberForm(request.POST)
-            print(form)
             if form.is_valid():
-                form = form.save(commit=False)
-                form.userprofile = request.user.userprofile
-                form.save()
+                services.create_mobile_number(request.user.userprofile, form)
                 messages.success(
                     request, "Your Mobile Number has been Created successfully."
                 )
@@ -332,10 +320,8 @@ def updateMobileNumber(request, pk):
     if request.method == "POST":
         try:
             form = mobileNumberForm(request.POST, instance=mobile_number)
-            print(form)
             if form.is_valid():
-                form = form.save(commit=False)
-                form.save()
+                services.update_mobile_number(mobile_number, form)
                 messages.success(
                     request, "Your Mobile Number has been Updated successfully."
                 )
@@ -355,7 +341,7 @@ def updateMobileNumber(request, pk):
 def deleteMobileNumber(request, pk):
     mobile_number = mobileNumber.objects.get(id=pk)
     try:
-        mobile_number.delete()
+        services.delete_mobile_number(mobile_number)
         messages.success(request, "Your Mobile Number has been Deleted successfully.")
         return redirect("updateUserPeofile")
     except Exception:
