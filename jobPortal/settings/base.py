@@ -35,6 +35,7 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost").split(",")
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -90,6 +91,32 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "jobPortal.wsgi.application"
+ASGI_APPLICATION = "jobPortal.asgi.application"
+
+REDIS_HOST = config("REDIS_HOST", default="localhost")
+REDIS_PORT = config("REDIS_PORT", default=6379, cast=int)
+
+# socket_timeout must exceed channels_redis's internal brpop_timeout
+# (5s) or an idle connection's blocking read races the socket-level
+# timeout and gets killed with redis.exceptions.TimeoutError, which
+# channels does not retry - it disconnects the WebSocket. This bit
+# both redis-py 8's new 5s default socket timeout and this project's
+# own default here; keep this margin whenever either changes.
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [
+                {
+                    "host": REDIS_HOST,
+                    "port": REDIS_PORT,
+                    "socket_timeout": 20,
+                    "socket_connect_timeout": 5,
+                }
+            ],
+        },
+    },
+}
 
 
 # Database
@@ -113,6 +140,16 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+    # Django's sqlite test runner always uses an in-memory database unless
+    # TEST.NAME is set explicitly - ChannelsLiveServerTestCase (used for
+    # browser-driven WebSocket tests) refuses to run against an in-memory
+    # database, so this env var lets that one test module opt into a
+    # file-based test DB without changing the default (fast, in-memory)
+    # test run everyone else uses.
+    if config("FILE_TEST_DB", default=False, cast=bool):
+        DATABASES["default"]["TEST"] = {
+            "NAME": str(BASE_DIR / "test_frontend_realtime.sqlite3")
+        }
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [

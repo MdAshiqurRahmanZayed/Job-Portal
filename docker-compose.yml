@@ -1,16 +1,25 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:9000
+    command: daphne -b 0.0.0.0 -p 9000 jobPortal.asgi:application
     volumes:
       - .:/app
     ports:
       - "9000:9000"
     env_file:
       - .env
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
     stdin_open: true
     tty: true
