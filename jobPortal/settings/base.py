@@ -13,9 +13,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+import sentry_sdk
 from decouple import config
+from sentry_sdk.integrations.django import DjangoIntegration
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,8 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # added apps
-    "main",
-    "accounts",
+    "apps.main",
+    "apps.accounts",
     # 3rd party
     "ckeditor",
     "taggit",
@@ -77,11 +79,11 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "main.context_processors.notifications",
-                "main.context_processors.categories",
+                "apps.main.context_processors.notifications",
+                "apps.main.context_processors.categories",
             ],
             "libraries": {
-                "custom_filters": "main.custom_filters",
+                "custom_filters": "apps.main.custom_filters",
             },
         },
     },
@@ -185,6 +187,30 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom accounts
 AUTH_USER_MODEL = "accounts.Account"
+
+
+SENTRY_DSN = config("SENTRY_DSN", default="")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        send_default_pii=False,
+    )
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+}
 
 
 # SMTP configuration from .env
