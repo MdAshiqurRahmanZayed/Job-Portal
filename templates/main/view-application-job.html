@@ -125,7 +125,7 @@ $(document).ready(function() {
     });
     function fetchMessages() {
     const id = {{application.id}};
-    let fetchRes = fetch("http://127.0.0.1:8000/api/chat-messages/" + id + "/");
+    let fetchRes = fetch("/api/v1/chat-messages/" + id + "/");
     fetchRes
         .then(res => res.json())
         .then(data => {
@@ -232,7 +232,7 @@ setInterval(fetchMessages, 1000);  // Fetch every 5 seconds (adjust as needed)
           console.log(data.application)
           async function postJSON(data) {
                try {
-                    const response = await fetch("http://127.0.0.1:8000/api/conversion/", {
+                    const response = await fetch("/api/v1/conversion/", {
                          method: "POST", // or 'PUT'
                          headers: {
                               "Content-Type": "application/json",

@@ -3,8 +3,8 @@ from datetime import date, timedelta
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from accounts.models import Account, UserProfile
-from main.models import Application, Category, Job
+from apps.accounts.models import Account, UserProfile
+from apps.main.models import Application, Category, Job
 
 TEST_FIXTURE_PASSWORD = "test-fixture-pw-1"  # nosec: not a real credential
 

@@ -1,17 +1,13 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from rest_framework import viewsets
 
-# from .models import ChatMessage
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from main.utilities import create_notification
-
+from . import services
 from .forms import ConversationMessagesForm, applicationForm, jobForms
 from .models import (
     AboutPage,
@@ -24,7 +20,8 @@ from .models import (
     Review,
     teamMember,
 )
-from .serializers import ChatMessageSerializer
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -129,12 +126,11 @@ def createJob(request):
         form = jobForms(request.POST, request.FILES)
         try:
             if form.is_valid():
-                form = form.save(commit=False)
-                form.user = request.user.userprofile
-                form.save()
+                services.create_job(request.user.userprofile, form)
                 messages.success(request, "Your job has been created successfully.")
                 return redirect("myCreatedJobs")
         except Exception:
+            logger.exception("Failed to create job")
             messages.warning(request, "Your job has been not created.")
             return redirect("dashboard")
     else:
@@ -157,11 +153,11 @@ def updateJob(request, pk):
         form = jobForms(request.POST, request.FILES, instance=job)
         try:
             if form.is_valid():
-                form = form.save(commit=False)
-                form.save()
+                services.update_job(job, form)
                 messages.success(request, "Your job has been updated successfully.")
                 return redirect("myCreatedJobs")
         except Exception:
+            logger.exception("Failed to update job %s", pk)
             messages.warning(request, "Your job has been not updated.")
             return redirect("dashboard")
     else:
@@ -176,7 +172,7 @@ def deleteJob(request, pk):
     job = Job.objects.get(id=pk)
     if request.user.userprofile == job.user:
         if request.method == "POST":
-            job.delete()
+            services.delete_job(job)
             messages.success(request, "Your job is deleted.")
             return redirect("myCreatedJobs")
     else:
@@ -196,20 +192,11 @@ def createApplication(request, pk):
             form = applicationForm(request.POST, request.FILES)
             try:
                 if form.is_valid():
-                    form = form.save(commit=False)
-                    form.job = job
-                    form.user = request.user.userprofile
-                    form.save()
-                    create_notification(
-                        request,
-                        job.user,
-                        "application",
-                        application=form,
-                        extra_id=form.id,
-                    )
+                    services.submit_application(request.user.userprofile, job, form)
                     messages.success(request, "Your Applications is completed.")
                     return redirect("dashboard")
             except Exception:
+                logger.exception("Failed to submit application for job %s", pk)
                 messages.success(
                     request, "Your Applications is not completed.Please try again"
                 )
@@ -250,29 +237,9 @@ def viewApplication(request, pk):
     if request.method == "POST":
         form = ConversationMessagesForm(request.POST or None)
         if form.is_valid():
-            form = form.save(commit=False)
-            form.created_by = request.user.userprofile
-            form.application = application
-            form.save()
-            # print(application.user)
-            if request.user.userprofile.role == "employer":
-                create_notification(
-                    request,
-                    application.user,
-                    "message",
-                    application=application,
-                    extra_id=application.id,
-                )
-            else:
-                create_notification(
-                    request,
-                    application.job.user,
-                    "message",
-                    application=application,
-                    extra_id=application.id,
-                )
-            # create_notification(request, application.created_by, 'message', extra_id=application.id)
-            # messages.success(request, 'Your Applications is not completed.Please try again')
+            services.post_conversation_message(
+                request.user.userprofile, application, form
+            )
             return redirect("viewApplication", pk)
     else:
         form = ConversationMessagesForm()
@@ -291,7 +258,7 @@ def deleteApplication(request, pk):
     Notification.objects.filter(extra_id=application.id).delete()
     if request.user.userprofile == application.user:
         if request.method == "POST":
-            application.delete()
+            services.delete_application(application)
 
             messages.success(request, "Your Application is deleted.")
             return redirect("allApplication")
@@ -359,32 +326,6 @@ def notifications_count_other(request, id):
 def sendMessages(request, pk):
     print("scfds")
     return JsonResponse("it is working", safe=False)
-
-
-class ChatMessageAPIView(APIView):
-    def get(self, request, application_id):
-        messages = ConversationMessages.objects.filter(application__id=application_id)
-        serializer = ChatMessageSerializer(messages, many=True)
-        related_notifications = Notification.objects.filter(
-            to_user=request.user.userprofile, application__id=application_id
-        )
-        related_notifications.update(is_seen=True)
-        return Response(serializer.data)
-
-    def post(self, request, application_id):
-        data = request.data.copy()
-        data["application"] = application_id
-        serializer = ChatMessageSerializer(data=data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
-
-
-class apiConversion(viewsets.ModelViewSet):
-    queryset = ConversationMessages.objects.all().order_by("-id")
-    serializer_class = ChatMessageSerializer
 
 
 def contactUs(request):

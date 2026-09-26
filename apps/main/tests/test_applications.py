@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from main.models import Application
+from apps.main.models import Application
 
 from .base import MainTestCase, make_test_file
 

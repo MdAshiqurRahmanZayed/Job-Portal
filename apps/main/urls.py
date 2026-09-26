@@ -1,14 +1,13 @@
 from django.urls import include, path
 from rest_framework import routers
 
+from .api.v1.views import ChatMessageAPIView, apiConversion
 from .views import (
     About_page,
-    ChatMessageAPIView,
     Review_website,
     allApplicant,
     allApplication,
     allJobs,
-    apiConversion,
     categoriesJobs,
     contactUs,
     createApplication,
@@ -32,7 +31,7 @@ router.register("", apiConversion, "post")
 
 urlpatterns = [
     path("", home, name="home"),
-    path("api/conversion/", include(router.urls)),
+    path("api/v1/conversion/", include(router.urls)),
     path("all-jobs/", allJobs, name="allJobs"),
     path("category-jobs/<str:slug>/", categoriesJobs, name="categoriesJobs"),
     path("search/", searchJobs, name="searchJobs"),
@@ -61,11 +60,11 @@ urlpatterns = [
     ),
     path("send-messages/<int:pk>/", sendMessages, name="sendMessages"),
     path(
-        "api/chat-messages/<int:application_id>/",
+        "api/v1/chat-messages/<int:application_id>/",
         ChatMessageAPIView.as_view(),
         name="chat-api",
     ),
-    path("api/chat/", ChatMessageAPIView.as_view(), name="chat"),
+    path("api/v1/chat/", ChatMessageAPIView.as_view(), name="chat"),
     path("contact-us/", contactUs, name="contactUs"),
     path("review/", Review_website, name="Review_website"),
     # About page

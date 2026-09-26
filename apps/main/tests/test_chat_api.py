@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from main.models import ConversationMessages
+from apps.main.models import ConversationMessages
 
 from .base import MainTestCase
 
@@ -76,7 +76,7 @@ class ApiConversionViewSetTests(MainTestCase):
         )
 
     def test_list_returns_existing_messages(self):
-        response = self.client.get("/api/conversion/")
+        response = self.client.get("/api/v1/conversion/")
 
         self.assertEqual(response.status_code, 200)
         contents = [item["content"] for item in response.data]
@@ -84,7 +84,7 @@ class ApiConversionViewSetTests(MainTestCase):
 
     def test_create_persists_message(self):
         response = self.client.post(
-            "/api/conversion/",
+            "/api/v1/conversion/",
             {
                 "application": self.application.pk,
                 "content": "Created via viewset",

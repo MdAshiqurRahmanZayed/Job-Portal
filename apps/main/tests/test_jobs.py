@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from main.models import Job
+from apps.main.models import Job
 
 from .base import MainTestCase
 
