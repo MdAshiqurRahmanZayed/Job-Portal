@@ -171,11 +171,48 @@ $(document).ready(function() {
         });
 }
 
+// Appends a single message straight from a WebSocket push payload -
+// no HTTP re-fetch needed, the payload already has everything fetchMessages()
+// would have fetched.
+function appendChatMessage(message) {
+    const chatMessagesContainer = document.getElementById("single-chat");
+    if (chatMessagesContainer.textContent.trim() === "No Conversion yet...") {
+        chatMessagesContainer.innerHTML = "";
+    }
+
+    const messageElement = document.createElement("div");
+    messageElement.className = "card p-2 mb-3";
+    messageElement.style.background = "aliceblue";
+
+    const role = message.created_by_id !== {{ application.user.id }} ? "Employer" : "Job Seeker";
+    const createdAt = moment(message.created_at).fromNow();
+    messageElement.innerHTML = `
+        <b>${role} - ${createdAt}</b><br>
+        <div class="chat">${message.content}</div>
+    `;
+    chatMessagesContainer.appendChild(messageElement);
+}
+
 // Call the fetchMessages function
 fetchMessages();
 
-// Optionally, you can use setInterval to periodically fetch and update the chat messages
-setInterval(fetchMessages, 1000);  // Fetch every 5 seconds (adjust as needed)
+// Real-time: use the pushed payload directly instead of polling on an
+// interval or re-fetching over HTTP on every push.
+// Reuses the single page-wide WebSocket (see static/js/main.js's
+// ensureRealtimeSocket()) instead of opening a second one - main.js runs
+// right after this block (script order: this content block, then
+// main.js near </body>) and reads these two globals to join this
+// application's chat group on that same connection.
+window.__onRealtimeChatMessage = appendChatMessage;
+window.__realtimeApplicationId = {{ application.id }};
+// Script tags are expected to run in document order (this block before
+// main.js, per base.html), but don't rely solely on that - if
+// ensureRealtimeSocket is already defined (main.js ran first for any
+// reason), call it directly so this application's chat group is joined
+// immediately rather than waiting on an assumption that didn't hold.
+if (window.ensureRealtimeSocket) {
+    window.ensureRealtimeSocket({{ application.id }});
+}
 
 	// API for get requests
     //   function fetchMessag(){

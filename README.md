@@ -28,6 +28,16 @@ $ uv run python manage.py runserver
 ```
 Navigate to `http://127.0.0.1:8000/`<br>
 
+**Real-time notifications/chat:** this project uses Django Channels
+over a Redis channel layer. `uv run python manage.py runserver` still
+works for plain HTTP (installing `channels`/`daphne` makes
+`runserver` itself ASGI/WebSocket-capable), but a local Redis instance
+is required for real-time push to work — run `docker compose up redis`
+to start just that service, or point `REDIS_HOST`/`REDIS_PORT` at an
+existing one. Without Redis reachable, notifications/chat still work
+via their normal HTTP paths; only the real-time push silently no-ops
+(logged, not a hard failure).
+
 ## Docker Setup
 
 Create your `.env` file:

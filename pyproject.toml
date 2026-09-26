@@ -17,11 +17,15 @@ dependencies = [
     "psycopg2-binary==2.9.11",
     "boto3==1.42.10",
     "sentry-sdk>=2.70.0",
+    "channels>=4.3.2",
+    "channels-redis>=4.3.0",
+    "daphne>=4.2.3",
 ]
 
 [dependency-groups]
 dev = [
     "djlint>=1.46.2",
+    "playwright>=1.63.0",
     "pre-commit==4.5.0",
     "ruff==0.14.2",
 ]
