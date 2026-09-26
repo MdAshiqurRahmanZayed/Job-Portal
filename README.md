@@ -52,6 +52,18 @@ docker-compose -f docker-compose.yml up --build
 ```
 Navigate to `http://127.0.0.1:9000/`<br>
 
+## Running Tests
+
+Locally, using `uv`:
+```sh
+$ uv run python manage.py test
+```
+
+Inside the Docker container (with `docker compose up` already running):
+```sh
+$ docker compose exec web python manage.py test
+```
+
 ## PythonAnywhere Deployment
 
 The live deployment on PythonAnywhere no longer uses `pip`/`requirements.txt`.

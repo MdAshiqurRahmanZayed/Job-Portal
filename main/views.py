@@ -150,6 +150,9 @@ def updateJob(request, pk):
         messages.warning(request, "You are not allowed.")
         return redirect("myCreatedJobs")
     job = Job.objects.get(id=pk)
+    if request.user.userprofile != job.user:
+        messages.warning(request, "You are not allowed to update this job.")
+        return redirect("myCreatedJobs")
     if request.method == "POST":
         form = jobForms(request.POST, request.FILES, instance=job)
         try:
@@ -198,7 +201,11 @@ def createApplication(request, pk):
                     form.user = request.user.userprofile
                     form.save()
                     create_notification(
-                        request, job.user, "application", extra_id=form.id
+                        request,
+                        job.user,
+                        "application",
+                        application=form,
+                        extra_id=form.id,
                     )
                     messages.success(request, "Your Applications is completed.")
                     return redirect("dashboard")
@@ -365,9 +372,9 @@ class ChatMessageAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request, application_id):
-        serializer = ChatMessageSerializer(
-            data=request.data, application__id=application_id
-        )
+        data = request.data.copy()
+        data["application"] = application_id
+        serializer = ChatMessageSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
